@@ -5,3 +5,7 @@ bin/*
 *.layout
 *.exe
 *.o
+*.depend
+*.txt
+*.exe
+*.layout
