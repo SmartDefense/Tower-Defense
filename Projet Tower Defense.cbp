@@ -53,7 +53,7 @@
 		<Unit filename="include/Chateau.h" />
 		<Unit filename="include/Chemin.h" />
 		<Unit filename="include/Constantes.h" />
-		<Unit filename="include/ENNEMI.H" />
+		<Unit filename="include/Ennemi.h" />
 		<Unit filename="include/EnnemiClassique.h" />
 		<Unit filename="include/EnnemiRapide.h" />
 		<Unit filename="include/EnnemiTank.h" />
@@ -69,15 +69,15 @@
 		<Unit filename="include/Variables.h" />
 		<Unit filename="include/VariablesSDL.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/CHATEAU.CPP" />
 		<Unit filename="src/Case.cpp" />
+		<Unit filename="src/Chateau.cpp" />
 		<Unit filename="src/Chemin.cpp" />
-		<Unit filename="src/ENNEMI.CPP" />
+		<Unit filename="src/Ennemi.cpp" />
 		<Unit filename="src/EnnemiClassique.cpp" />
 		<Unit filename="src/EnnemiRapide.cpp" />
 		<Unit filename="src/EnnemiTank.cpp" />
 		<Unit filename="src/EnnemiVolant.cpp" />
-		<Unit filename="src/Tir.cpp" />
+		<Unit filename="src/TIR.CPP" />
 		<Unit filename="src/TirClassique.cpp" />
 		<Unit filename="src/TirPoison.cpp" />
 		<Unit filename="src/TirSniper.cpp" />

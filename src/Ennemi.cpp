@@ -7,7 +7,7 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     textureEnnemi(textureEnnemi),
     dest({ x, y, TAILLE_ENNEMI, TAILLE_ENNEMI }),
     direction(0),
-    vitesse(VITESSE_BASE_ENNEMI * multiplicateurVitesse),
+    vitesse(VITESSEBASEENNEMI * multiplicateurVitesse),
     destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
     destVie({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
     multiplicateurArgentMort(multiplicateurArgentMort),
@@ -28,7 +28,35 @@ Ennemi::~Ennemi()
         }
     }
 }
+int Ennemi::getPrediction()
+{
+    int prediction=0;
 
+    if(direction==0){
+        prediction=multiplicateurVitesse;
+    }else if(direction==1){
+        prediction=multiplicateurVitesse+100;
+    }else if(direction==2){
+        prediction=multiplicateurVitesse+200;
+    }else{
+        prediction=multiplicateurVitesse+300;
+    }
+    return prediction;
+}
+
+int Ennemi::getType()
+{
+    int type=0;
+
+    if(textureEnnemi==textureEnnemiClassique){
+        type=1;
+    }else if(textureEnnemi==textureEnnemiRapide){
+        type=2;
+    }else if (textureEnnemi==textureEnnemiTank){
+        type=3;
+    }
+    return type;
+}
 void Ennemi::affiche()
 {
     destVieFond.x=destVie.x=dest.x;
@@ -49,6 +77,10 @@ void Ennemi::affiche()
     }
     SDL_RenderFillRect(renderer, &destVie);
 
+}
+void Ennemi::enregistrerPoss(int yCase, int xCase)
+{
+    listePoss.push_back(pair<int, int>(xCase,yCase));
 }
 
 void Ennemi::action()
@@ -76,6 +108,12 @@ void Ennemi::prendDegat(int degat)
     else
     {
         destVie.w=destVieFond.w*(((double)vie)/vieMax);
+    }
+}
+void Ennemi::ajouteCaseParcours()
+{
+    for(int i=0;i<listePoss.size();i++){
+        listeCases[listePoss[i].second][listePoss[i].first]->ajouteNbPassage();
     }
 }
 
@@ -131,6 +169,7 @@ void Ennemi::avance()
     {
         //std::cout <<dest.x + TAILLE_ENNEMI/2 << SDL_GetError() << std::endl;
         // std::cout <<listeCases[yCase][xCase]->getXcentre()<< SDL_GetError() << std::endl;
+        enregistrerPoss(yCase,xCase);
         string droite,
                gauche,
                dessus,
@@ -395,10 +434,21 @@ void Ennemi::avance()
         }
         else if(nbPoss==2)
         {
-            //int proba1 = (Chemin*)listeCases[poss[0][0]][poss[0][1]]->getNbPassage();
-            //int proba2 = (Chemin*)listeCases[poss[1][0]][poss[1][1]]->getNbPassage();
+            int proba1 = listeCases[poss[0][0]][poss[0][1]]->getNbPassage();
+            int proba2 = listeCases[poss[1][0]][poss[1][1]]->getNbPassage();
 
-            int nbAlea = rand()%(2);
+            vector<int> tableauProba;
+            for (int i= 0 ; i<proba1 ; i++){
+                tableauProba.push_back(0);
+            }
+            for (int i= 0 ; i<proba2 ; i++){
+                tableauProba.push_back(1);
+            }
+
+
+            int nbAlea = tableauProba[rand()%(tableauProba.size())];
+
+
             int deplaX = poss[nbAlea][1]-xCase;
             int deplaY = poss[nbAlea][0]-yCase;
 
@@ -434,10 +484,28 @@ void Ennemi::avance()
         }
         else if(nbPoss==3)
         {
-            int nbAlea = rand()%(3);
+            int proba1 = listeCases[poss[0][0]][poss[0][1]]->getNbPassage();
+            int proba2 = listeCases[poss[1][0]][poss[1][1]]->getNbPassage();
+            int proba3 = listeCases[poss[2][0]][poss[2][1]]->getNbPassage();
+
+            vector<int> tableauProba;
+            for (int i= 0 ; i<proba1 ; i++){
+                tableauProba.push_back(0);
+            }
+            for (int i= 0 ; i<proba2 ; i++){
+                tableauProba.push_back(1);
+            }
+            for (int i= 0 ; i<proba3 ; i++){
+                tableauProba.push_back(2);
+            }
+
+            int nbAlea = tableauProba[rand()%(tableauProba.size())];
+
 
             int deplaX = poss[nbAlea][1]-xCase;
             int deplaY = poss[nbAlea][0]-yCase;
+
+
             if(deplaX!=0)
             {
                 recentrage(xCase,yCase);

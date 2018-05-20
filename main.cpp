@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <list>
+#include <algorithm>
+#include <cmath>
 
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
@@ -60,20 +62,22 @@ TTF_Font *font;
 #include "Constantes.h"
 #include "Variables.h"
 #include "VariablesSDL.h"
-
-int TAILLE_X_PLATEAU = 20;
-int TAILLE_Y_PLATEAU = 15;
-
+vector<int> vague;
 Case*** listeCases;
 vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
-int argent;
 
-int numVague=0;
+string messageCrypte="";
+string messageDecrypte="";
+int nbVagues=2;
+int depart=0;
+int occurences=10;
+int argent;
 int num=1;
 int continuer=1;
 int nbParties=0;
-
+int TAILLE_X_PLATEAU = 20;
+int TAILLE_Y_PLATEAU = 15;
 string pseudo ="";
 int compteurEnnemiVague=0,
     compteurImage=0;
@@ -95,6 +99,14 @@ void quitListeCase()
         delete[] listeCases[y];
     }
     delete[] listeCases;
+}
+
+void remplissageVague(){
+for (int i=0; i<occurences; i++){
+    vague.push_back(rand()%3);
+    cout<<vague[i]<<endl;
+}
+depart=1;
 }
 
 void infos()
@@ -157,6 +169,55 @@ void affichageTexture(SDL_Texture* texture, int x, int y)
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
+void cryptAffine(){
+
+std::string majuscule = pseudo;
+std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper);
+pseudo=majuscule;
+int nblettres=pseudo.size();
+int a=17;
+int b=23;
+vector<int> tableau;
+
+
+for (int i=0; i<nblettres; i++){
+    tableau.push_back(int (pseudo.at(i))-65);
+    tableau[i]=((tableau[i]*a+b)%26);
+    messageCrypte+=char(tableau[i]+65);
+}
+cout<<messageCrypte<<endl;
+}
+
+int bezout(int p, int q){
+    if (p==0){
+        return (q,0,1);}
+    else{
+        int g,y,x=bezout(q%p,p);
+        return (g,x-((int)floor(q/(double)p))*y,y);}
+}
+
+int invmod(int a,int q){
+    int g,x,y=bezout(a,q);
+    if (g!=1){
+        cout<<"pas inversible"<<endl;}
+    else{
+        return (x%q);}}
+
+
+void decryptAffine(){
+int a=17;
+int b=23;
+int nblettres=messageCrypte.size();
+vector<int> tableau;
+
+for (int i=0; i<nblettres; i++){
+    tableau.push_back(int (messageCrypte.at(i))-65);
+    tableau[i]=(invmod(a,26))*(tableau[i]-b)%26;
+    messageDecrypte+=char(tableau[i]+65);
+}
+cout<<messageDecrypte<<endl;
+}
+
 void inputPseudo()
 {
     SDL_StartTextInput();
@@ -212,11 +273,14 @@ void inputPseudo()
             affichageTexture(textureLogo,200,12);
             Ecrire("CollegiateInsideFLF",42,"Entrez un pseudo :",255,255,255,320,150);
             Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,300,250);
+            int longueurPseudo=pseudo.length()+1;
+            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*11)),250);
             changement=false;
         }
         SDL_RenderPresent(renderer);
     }
+cryptAffine();
+decryptAffine();
 }
 
 int jeu()
@@ -230,20 +294,22 @@ int jeu()
     argent=200;
 
     infos();
-
+    remplissageVague();
     //int SDL_RenderCopyEx(renderer,textureAccueil,NULL,NULL,90,NULL,NULL);
     //infos();
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1;
 
+
+    /*
     // Boucle principale
     xVague=yVague=-1;
     while(!terminer && continuer==1)
     {
-        if(compteurEnnemiVague<20)
+        if(compteurEnnemiVague<20000)
         {
-            if(xVague!=-1 && yVague!=-1 && compteurImage%15==0)
+            if(xVague!=-1 && yVague!=-1 && compteurImage%1==0)
             {
-                listeEnnemis.push_back(new EnnemiClassique(listeCases[yVague][xVague]->getXcentre()-TAILLE_ENNEMI/2,
+                listeEnnemis.push_back(new EnnemiRapide(listeCases[yVague][xVague]->getXcentre()-TAILLE_ENNEMI/2,
                                        listeCases[yVague][xVague]->getYcentre()-TAILLE_ENNEMI/2));
                 compteurEnnemiVague++;
             }
@@ -252,7 +318,52 @@ int jeu()
         {
             compteurEnnemiVague=0;
             xVague=yVague=-1;
+        }*/
+    int itterations=0;
+    int creation=0;
+    int numeroEnnemi=0;
+    while(!terminer && continuer==1)
+    {
+
+
+            if(compteurImage%10==0 && depart==1)
+            {
+                if (vague[numeroEnnemi]==0){
+                    listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+                }
+                else if (vague[numeroEnnemi]==1){
+                    listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+                }
+                else if (vague[numeroEnnemi]==2){
+                    listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+                }
+                numeroEnnemi++;
+                creation=1;
+
+            }
+
+        if (numeroEnnemi==occurences){
+            numeroEnnemi=0;
+            depart=0;
         }
+
+
+         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){
+         creation=0;
+         vague.clear();
+         occurences+=5;
+         remplissageVague();
+         itterations++;
+
+         }
+
+
+
 
         //listeEnnemis.push_back(new Ennemi(10,10, textureEnnemiClassique, -1,-1,-1));
         while(SDL_PollEvent(&events))
@@ -546,7 +657,7 @@ int jeu()
         }
         else
         {
-            affichageTexture(textureLogo,150,12);
+            affichageTexture(textureLogo,250,12);
             //Ecrire("CollegiateInsideFLF",50,"TOWER DEFENSE",0,49,192,330,27);
         }
 
@@ -804,7 +915,7 @@ void menu()
     string ligne;
     getline(document, ligne);
     nbParties=stoi(ligne);
-
+    Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
     Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
     Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
@@ -852,7 +963,7 @@ void debut()
     inputPseudo();
     int longueurPseudo=pseudo.length()+8;
     affichageTexture(textureAccueil,0,0);
-    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
     SDL_RenderPresent(renderer);
     SDL_Event events;
     int continuerDebut=1;
@@ -895,7 +1006,7 @@ void debut()
                     //std::cout << "menu" << SDL_GetError() << std::endl;
                     menu();
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
                     SDL_RenderPresent(renderer);
                 }
                 else if (x>45 && x<428 && y>670 && y<763)
@@ -904,7 +1015,7 @@ void debut()
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
                     SDL_RenderPresent(renderer);
                 }
                 else if (x>807 && x<990 && y>669 && y<763)
@@ -912,7 +1023,7 @@ void debut()
                     //AIDE
                     aide();
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
                     SDL_RenderPresent(renderer);
                 }
                 break;

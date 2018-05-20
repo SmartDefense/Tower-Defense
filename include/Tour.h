@@ -10,7 +10,7 @@ class Tour : public Case
         virtual ~Tour();
         virtual void affiche();
         void affichePortee();
-        virtual int action();
+        int action();
         virtual void tir(double dX, double dY, double angle);
         virtual void amelioration(const int typeAmelioration);
         int moduloPositif(int nombre, int modulo);

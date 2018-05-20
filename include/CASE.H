@@ -20,12 +20,14 @@ class Case
         string getType();
         int getXcentre();
         int getBlock();
+        void ajouteNbPassage();
+        int getNbPassage();
         int getYcentre();
         virtual void amelioration(const int typeAmelioration);
 
     protected:
         double distanceDepuisCentre(int x, int y);
-
+        int nbPassage;
         int x,
             y,
             block,
@@ -35,5 +37,7 @@ class Case
         string type;
         SDL_Rect dest;
         SDL_Texture* textureCase;
+
 };
+
 #endif // CASE_H

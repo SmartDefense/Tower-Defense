@@ -28,5 +28,5 @@ const int EFFET_POISON = 1000;
 
 const string CHEMIN_IMAGES="images/";
 const string CHEMIN_LEVELS="levels/";
-const int  VITESSE_BASE_ENNEMI = 2;
+const int  VITESSEBASEENNEMI = 2;
 #endif // CONSTANTES_H

@@ -1,7 +1,7 @@
 #include "TourClassique.h"
 
 TourClassique::TourClassique(int x, int y, int priorite):
-    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 30, priorite, 6, 25, 5, 3)
+    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 30, priorite, 5, 12, 5, 3)
 {
 	Case::type="TourClassique";
     //cout<<"Creation :\t TourClassique ("<<x<<","<<y<<")"<<endl;

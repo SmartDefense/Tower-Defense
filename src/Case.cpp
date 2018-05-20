@@ -1,10 +1,12 @@
 #include "Case.h"
 #include <math.h>
 
+
 Case::Case(int x, int y, int block):
     x(x),
     y(y),
     block(block),
+    nbPassage(1),
     xCentre(x*TAILLE_CASE + TAILLE_CASE/2 + MARGE_GAUCHE),
     yCentre(y*TAILLE_CASE + TAILLE_CASE/2 + MARGE_HAUT),
     textureCase(::textureCase),
@@ -14,37 +16,57 @@ Case::Case(int x, int y, int block):
     //cout<<"Creation :\t Case ("<<x<<","<<y<<")"<<endl;
 }
 
-Case::~Case(){}
+Case::~Case(){
+    //cout<<"Destruction :\t Case ("<<x<<","<<y<<")"<<endl;
+}
 
-void Case::affiche(){
+void Case::ajouteNbPassage()
+{
+   //cout<<nbPassage<<"  ";
+   nbPassage++;
+   //cout<<nbPassage<<endl;
+}
+int Case::getNbPassage()
+{
+    return nbPassage;
+}
+
+void Case::affiche()
+{
     SDL_RenderCopy(renderer, textureCase, NULL, &dest);
 }
 
-void Case::affichePortee(){}
+void Case::affichePortee(){
 
-
-int Case::getBlock(){
+}
+int Case::getBlock()
+{
     return block;
 }
 
-int Case::action(){
+int Case::action()
+{
     return 0;
 }
 
-void Case::amelioration(const int typeAmelioration){}
+void Case::amelioration(const int typeAmelioration)
+{}
 
-double Case::distanceDepuisCentre(int x2, int y2){
+double Case::distanceDepuisCentre(int x2, int y2)
+{
     return sqrt(pow(x2-xCentre , 2) + pow(y2-yCentre, 2));
 }
 
-string Case::getType(){
+string Case::getType()
+{
     return type;
 }
-
-int Case::getXcentre(){
+int Case::getXcentre()
+{
     return xCentre;
 }
-
-int Case::getYcentre(){
+int Case::getYcentre()
+{
     return yCentre;
 }
+

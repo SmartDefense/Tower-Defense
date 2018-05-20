@@ -21,6 +21,10 @@ class Ennemi
         void appliquerEffet(const int effet, int intensite, int duree);
         int getXCentre();
         int getYCentre();
+        int getPrediction();
+        int getType();
+        void ajouteCaseParcours();
+
 
     protected:
         virtual void avance();
@@ -30,6 +34,7 @@ class Ennemi
         virtual void direction2;
         virtual void direction3;*/
         void ajouteArgent();
+        void enregistrerPoss(int yCase, int xCase);
         int vie,
             direction,
             vitesse,
@@ -42,6 +47,7 @@ class Ennemi
         double multiplicateurVitesse,
             multiplicateurArgentMort;
         int poison, intensitePoison;
+        vector<pair<int,int>> listePoss;
         void remplissagePoss(int yCase ,int xCase, int poss[][2]);
 
 

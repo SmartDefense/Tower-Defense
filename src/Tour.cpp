@@ -62,9 +62,35 @@ void Tour::affichePortee(){
 int Tour::action()
 {
     //on parcours la liste d'ennemis ...
-    for(int i=0, xEnnemi, yEnnemi; i<listeEnnemis.size();i++){
+    for(int i=0, xEnnemi, yEnnemi ,prediction,predictionX,predictionY; i<listeEnnemis.size();i++){
+        //if(this->type=="TourPoison")cout<<"lol"<<endl;
+        int nombreImage=1;
+
+        if(listeEnnemis[i]->getType()==1){
+            nombreImage=2;
+        }else if(listeEnnemis[i]->getType()==2){
+            nombreImage=4;
+        }else if(listeEnnemis[i]->getType()==3){
+            nombreImage=1;
+        }
+
         xEnnemi = listeEnnemis[i]->getXCentre();
         yEnnemi = listeEnnemis[i]->getYCentre();
+        prediction = listeEnnemis[i]->getPrediction();
+
+        if(prediction<100){
+            predictionX=prediction;
+            predictionY=0;
+        }else if(prediction<200){
+            predictionY=-(prediction-100);
+            predictionX=0;
+        }else if(prediction<300){
+            predictionX=-(prediction-200);
+            predictionY=0;
+        }else{
+            predictionY=prediction-300;
+            predictionX=0;
+        }
 
         //on calcul la distance entre le centre de l'ennemi et celui de la tour...
         double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
@@ -75,7 +101,7 @@ int Tour::action()
             int angle = atan2((yEnnemi-yCentre), (xEnnemi-xCentre)) *180/M_PI;
             if(angle<0){angle+=360;}
 
-            //si l'angle du canon est diffÃ©rent de celui du tir, on tourne la tour
+            //si l'angle du canon est différent de celui du tir, on tourne la tour
             if(moduloPositif(angle-angleCanon, 360)<180){
                 angleCanon+=vitesseCanon;
                 if(angleCanon>360) angleCanon-=360;
@@ -89,10 +115,10 @@ int Tour::action()
 
             //si on est presque aligne et qu'on peut tirer ...
             if(compteurRechargement==0 && angle==angleCanon){
-                //on calcul les deplacements cartÃ©siens du tir et on lance le tir
+                //on calcul les deplacements cartésiens du tir et on lance le tir
                 double dX=((xEnnemi-xCentre)*vitesseTir)/distance;
                 double dY=((yEnnemi-yCentre)*vitesseTir)/distance;
-                tir(dX, dY, angle);
+                tir(nombreImage*(dX+predictionX),nombreImage*(dY+predictionY), angle);
             }
             break;
         }

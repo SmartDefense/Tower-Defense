@@ -10,11 +10,11 @@ class TourPoison : public Tour
     public:
         TourPoison(int x, int y, int priorite);
         ~TourPoison();
-        virtual int action();
         virtual void amelioration(const int typeAmelioration);
         static const int multiplicateurCout = 2;
 
     protected:
+        virtual void tir(double dX, double dY, double angle);
         int duree;
 };
 

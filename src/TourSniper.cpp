@@ -1,7 +1,7 @@
 #include "TourSniper.h"
 
 TourSniper::TourSniper(int x, int y, int priorite):
-    Tour(x, y, ::textureTourSniperBase, ::textureTourSniperCanon, 90, priorite, 40, 30, 2, 6.5)
+    Tour(x, y, ::textureTourSniperBase, ::textureTourSniperCanon, 90, priorite, 10, 30, 2, 6.5)
 {
     Case::type="TourSniper";
 	//cout<<"Creation :\t TourSniper ("<<x<<","<<y<<")"<<endl;

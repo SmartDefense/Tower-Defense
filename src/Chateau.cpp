@@ -36,6 +36,7 @@ int Chateau::action()
         if(distanceDepuisCentre(listeEnnemis[i]->getXCentre(), listeEnnemis[i]->getYCentre())<TAILLE_CASE/8){
             listeEnnemis.erase(listeEnnemis.begin()+i);
             vie--;
+            listeEnnemis[i]->ajouteCaseParcours();
         }
     }
     destVie.w=destVieFond.w*(((double)vie)/vieMax);

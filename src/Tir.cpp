@@ -18,7 +18,6 @@ Tir::~Tir(){
     for(int i=0;i<listeTirs.size();i++){
         if(listeTirs[i]==this){
             listeTirs.erase(listeTirs.begin()+i);
-            break;
         }
     }
 }
