@@ -40,7 +40,10 @@ void Tir::action()
             break;
         }
     }
-    if(x<MARGE_GAUCHE || x>MARGE_GAUCHE+TAILLE_CASE*TAILLE_X_PLATEAU || y<MARGE_HAUT || y>MARGE_HAUT+TAILLE_CASE*TAILLE_Y_PLATEAU){
+    if(x<MARGE_GAUCHE
+       || x>MARGE_GAUCHE+TAILLE_CASE*TAILLE_X_PLATEAU
+       || y<MARGE_HAUT
+       || y>MARGE_HAUT+TAILLE_CASE*TAILLE_Y_PLATEAU){
         delete this;
     }
 }
