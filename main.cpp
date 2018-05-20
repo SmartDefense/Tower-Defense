@@ -122,7 +122,10 @@ void infos()
         ++nbParties;
         fichier<<(nbParties); //incrémente puis écrit dans le fihier (automatiquement converti en string)
         fichier<<("\n");
-        fichier<<(pseudo);
+        fichier<<(messageCrypte);
+        fichier<<("\n");
+        fichier<<(argent);
+        fichier<<("\n");
     }
 }
 
@@ -185,36 +188,18 @@ void cryptAffine(){
     }
 }
 
-int bezout(int p, int q){
-    if (p==0){
-        return (q,0,1);}
-    else{
-        int g,y,x=bezout(q%p,p);
-        return (g,x-((int)floor(q/(double)p))*y,y);}
-}
-
-int invmod(int a,int q){
-    int g,x,y=bezout(a,q);
-    if (g!=1){
-        cout<<"pas inversible"<<endl;}
-    else{
-        return (x%q);
-    }
-}
-
-
 void decryptAffine(){
-    int a=17;
-    int b=23;
-    int nblettres=messageCrypte.size();
-    vector<int> tableau;
+int a=17;
+int b=3;
+int nblettres=messageCrypte.size();
+vector<int> tableau;
 
-    for (int i=0; i<nblettres; i++){
-        tableau.push_back(int (messageCrypte.at(i))-65);
-        tableau[i]=(invmod(a,26))*(tableau[i]-b)%26;
-        messageDecrypte+=char(tableau[i]+65);
-    }
-    cout<<messageDecrypte<<endl;
+for (int i=0; i<nblettres; i++){
+    tableau.push_back(int (messageCrypte.at(i))-65);
+    tableau[i]=(tableau[i]*9+15)%26;
+    messageDecrypte+=char(tableau[i]+65);
+}
+cout<<messageDecrypte<<endl;
 }
 
 void inputPseudo()
@@ -279,84 +264,58 @@ void inputPseudo()
         SDL_RenderPresent(renderer);
     }
 cryptAffine();
-decryptAffine();
+
 }
 
 int jeu()
 {
-
     SDL_Event events;
     bool terminer = false;
 
-
-
     argent=200;
-
-    infos();
-    //int SDL_RenderCopyEx(renderer,textureAccueil,NULL,NULL,90,NULL,NULL);
-    //infos();
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1;
-
-
-    /*
-    // Boucle principale
-    xVague=yVague=-1;
-    while(!terminer && continuer==1)
-    {
-        if(compteurEnnemiVague<20000)
-        {
-            if(xVague!=-1 && yVague!=-1 && compteurImage%1==0)
-            {
-                listeEnnemis.push_back(new EnnemiRapide(listeCases[yVague][xVague]->getXcentre()-TAILLE_ENNEMI/2,
-                                       listeCases[yVague][xVague]->getYcentre()-TAILLE_ENNEMI/2));
-                compteurEnnemiVague++;
-            }
-        }
-        else
-        {
-            compteurEnnemiVague=0;
-            xVague=yVague=-1;
-        }*/
+    remplissageVague();
     int itterations=0;
-    int creation=1;
+    int creation=0;
     int numeroEnnemi=0;
     while(!terminer && continuer==1)
     {
-        if(compteurImage%10==0 && depart==1)
-        {
-            if (vague[numeroEnnemi]==0){
-                listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
-            }
-            else if (vague[numeroEnnemi]==1){
-                listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+            if(compteurImage%10==0 && depart==1 && compteurImage>150)
+            {
+                if (vague[numeroEnnemi]==0){
+                    listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+                }
+                else if (vague[numeroEnnemi]==1){
+                    listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+                }
+                else if (vague[numeroEnnemi]==2){
+                    listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+                }
+                numeroEnnemi++;
+                creation=1;
 
             }
-            else if (vague[numeroEnnemi]==2){
-                listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
-
-            }
-            numeroEnnemi++;
-            creation=1;
-        }
 
         if (numeroEnnemi==occurences){
             numeroEnnemi=0;
             depart=0;
         }
 
-         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1 && compteurImage>150){
-             creation=0;
-             vague.clear();
-             occurences+=5;
-             remplissageVague();
-             itterations++;
+
+         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){
+         creation=0;
+         vague.clear();
+         occurences+=5;
+         remplissageVague();
+         itterations++;
+
          }
-
-
-
 
         //listeEnnemis.push_back(new Ennemi(10,10, textureEnnemiClassique, -1,-1,-1));
         while(SDL_PollEvent(&events))
@@ -643,7 +602,19 @@ int jeu()
             }
             else
             {
-                Ecrire("CollegiateInsideFLF",25,listeCases[yCaseTour][xCaseTour]->getType()+" :",0,0,0,200,15);
+
+                if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
+                    Ecrire("CollegiateInsideFLF",25,"Tour Classique :",0,0,0,180,15);
+                }
+
+                else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"){
+                    Ecrire("CollegiateInsideFLF",25,"Tour Sniper :",0,0,0,180,15);
+                }
+
+                else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"){
+                    Ecrire("CollegiateInsideFLF",25,"Tour Poison :",0,0,0,180,15);
+                }
+
                 affichageTexture(textureBpEffacer,400,10);
                 affichageTexture(textureBpAnnuler,500,10);
             }
@@ -656,10 +627,25 @@ int jeu()
 
         Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
         Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
+        if (listeCases[13][16]->action()==1){
+            compteurImage=0;
+
+            while (compteurImage<150){
+                SDL_SetRenderDrawColor(renderer, 0,127,127,255);
+                SDL_RenderClear(renderer);
+                Ecrire("CollegiateBlackFLF",42,"GAME OVER",255,255,255,440,300);
+                SDL_RenderPresent(renderer);
+                SDL_Delay(30);
+                compteurImage++;
+            }
+            terminer=true;
+        }
 
         SDL_RenderPresent(renderer);
         SDL_Delay(30);
         compteurImage++;
+
+
     }
 
 
@@ -1165,12 +1151,10 @@ int initSDL()
 
 int main(int argc, char **argv)
 {
-
     initSDL();
     initListeCase();
-
     debut();
-
+    infos();
     quitListeCase();
     SDL_DestroyWindow(fenetre);
     TTF_Quit();
