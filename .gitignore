@@ -1,6 +1,7 @@
 obj/*
 bin/*
-
+*.txt
+*.depend
+*.layout
 *.exe
-
 *.o
