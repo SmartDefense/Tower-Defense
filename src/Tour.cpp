@@ -76,6 +76,8 @@ int Tour::action()
 
         xEnnemi = listeEnnemis[i]->getXCentre();
         yEnnemi = listeEnnemis[i]->getYCentre();
+
+
         prediction = listeEnnemis[i]->getPrediction();
 
         if(prediction<100){

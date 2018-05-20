@@ -33,13 +33,13 @@ int Ennemi::getPrediction()
     int prediction=0;
 
     if(direction==0){
-        prediction=multiplicateurVitesse;
+        prediction=vitesse*multiplicateurVitesse;
     }else if(direction==1){
-        prediction=multiplicateurVitesse+100;
+        prediction=vitesse*multiplicateurVitesse+100;
     }else if(direction==2){
-        prediction=multiplicateurVitesse+200;
+        prediction=vitesse*multiplicateurVitesse+200;
     }else{
-        prediction=multiplicateurVitesse+300;
+        prediction=vitesse*multiplicateurVitesse+300;
     }
     return prediction;
 }
@@ -210,34 +210,23 @@ void Ennemi::avance()
         int nbPoss = 0 ;
         int poss[3][2]= {0,0,0,0,0,0};
 
-        //xCase <TAILLE_X_PLATEAU &&
-        //
-        //
         if(direction==0)
         {
             //cout <<droite << endl;
             if(dessus!="Vide" && (yCase >0 && (dessus=="Chemin" || dessus=="Chateau")))
             {
                 nbPoss++;
-
                 remplissagePoss(yCase-1,
                                 xCase,
                                 poss);
-
-
             }
             if(droite!="Vide" && (xCase <TAILLE_X_PLATEAU && (droite=="Chemin" || droite=="Chateau")))
             {
                 //cout <<droite << endl;
                 nbPoss++;
-
                 remplissagePoss(yCase,
                                 xCase+1,
                                 poss);
-
-
-
-
             }
             if(dessous!="Vide" && (yCase<TAILLE_Y_PLATEAU &&(dessous=="Chemin" || dessous=="Chateau")))
             {
@@ -246,9 +235,6 @@ void Ennemi::avance()
                                 xCase,
                                 poss);
             }
-
-
-
         }
         else if(direction==1)
         {
@@ -259,9 +245,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase,
                                 xCase+1,
                                 poss);
-
-
-
             }
             if( yCase <TAILLE_Y_PLATEAU && (dessus=="Chemin" || dessus=="Chateau"))
             {
@@ -270,8 +253,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase-1,
                                 xCase,
                                 poss);
-
-
             }
             if(yCase>0 && (gauche=="Chemin" || gauche=="Chateau"))
             {
@@ -280,7 +261,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase,
                                 xCase-1,
                                 poss);
-
             }
         }
         else if (direction==2)
@@ -292,8 +272,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase+1,
                                 xCase,
                                 poss);
-
-
             }
             if( yCase <TAILLE_Y_PLATEAU && (dessus=="Chemin" || dessus=="Chateau"))
             {
@@ -302,8 +280,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase-1,
                                 xCase,
                                 poss);
-
-
             }
             if(yCase>0 && (gauche=="Chemin" || gauche=="Chateau"))
             {
@@ -312,8 +288,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase,
                                 xCase-1,
                                 poss);
-
-
             }
         }
         else
@@ -326,8 +300,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase+1,
                                 xCase,
                                 poss);
-
-
             }
             if( yCase <TAILLE_Y_PLATEAU && (gauche=="Chemin" || gauche=="Chateau"))
             {
@@ -338,8 +310,6 @@ void Ennemi::avance()
                 remplissagePoss(yCase,
                                 xCase-1,
                                 poss);
-
-
             }
             if(yCase>0 && (droite=="Chemin" || droite=="Chateau"))
             {
@@ -348,16 +318,13 @@ void Ennemi::avance()
                 remplissagePoss(yCase,
                                 xCase+1,
                                 poss);
-
-
             }
 
         }
+
         for(int i =0 ; i<nbPoss ; i++)
         {
-
             int block = listeCases[poss[i][0]][poss[i][1]]->getBlock();
-
             if(block==1 && nbPoss!=1)
             {
                 poss[i][0]=0;
@@ -373,11 +340,9 @@ void Ennemi::avance()
                 poss[i][1]=poss[i+1][1];
             }
         }
-
         int NbPossi=-42;
         for(int i=0 ; i<3 ; i++)
         {
-
             if(poss[i][0]==0 && poss[i][1]==0)
             {
                 NbPossi=i;
@@ -387,27 +352,21 @@ void Ennemi::avance()
         if(NbPossi==-42)
         {
             nbPoss=3;
-
         }
         else
         {
             nbPoss=NbPossi;
         }
 
-
         if (nbPoss==1)
         {
-
             int deplaX = poss[0][1]-xCase;
-
             int deplaY = poss[0][0]-yCase;
 
             if(deplaX!=0)
             {
-
                 recentrage(xCase,yCase);
                 dest.x=dest.x+deplaX*vitesse;
-
                 if(deplaX==1)
                 {
                     direction=0;

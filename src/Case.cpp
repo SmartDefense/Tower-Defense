@@ -22,9 +22,7 @@ Case::~Case(){
 
 void Case::ajouteNbPassage()
 {
-   //cout<<nbPassage<<"  ";
    nbPassage++;
-   //cout<<nbPassage<<endl;
 }
 int Case::getNbPassage()
 {
