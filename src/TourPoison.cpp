@@ -1,7 +1,7 @@
 #include "TourPoison.h"
 
 TourPoison::TourPoison(int x, int y, int priorite):
-    Tour(x, y, ::textureTourPoisonBase, ::textureTourPoisonCanon, 30, priorite, 1, 12, 5, 3),
+    Tour(x, y, ::textureTourPoisonBase, /*::textureTourPoisonCanon*/ NULL, 30, priorite, 1, 25, 5, 3),
     duree(10)
 {
 	Case::type="TourPoison";
@@ -12,10 +12,20 @@ TourPoison::~TourPoison(){
     argent+=0.5*ARGENT_TOUR*multiplicateurCout;
 }
 
-void TourPoison::tir(double dX, double dY, double angle)
-{
-    listeTirs.push_back(new TirPoison(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat, duree));
-    compteurRechargement=rechargement;
+int TourPoison::action(){
+    for(int i=listeEnnemis.size()-1, xEnnemi, yEnnemi; i>=0;i--){
+        //if(this->type=="TourPoison")cout<<"lol"<<endl;
+        xEnnemi = listeEnnemis[i]->getXCentre();
+        yEnnemi = listeEnnemis[i]->getYCentre();
+
+        //on calcul la distance entre le centre de l'ennemi et celui de la tour...
+        double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
+
+        //...pour savoir s'il est a portee
+        if(distance<portee){
+            listeEnnemis[i]->appliquerEffet(EFFET_POISON, degat, duree);
+        }
+    }
 }
 
 void TourPoison::amelioration(const int typeAmelioration)
