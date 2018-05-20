@@ -10,7 +10,7 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
-
+//tghrtgr
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
 SDL_Texture  *textureCase,
