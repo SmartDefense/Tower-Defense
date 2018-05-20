@@ -293,7 +293,6 @@ int jeu()
     argent=200;
 
     infos();
-    remplissageVague();
     //int SDL_RenderCopyEx(renderer,textureAccueil,NULL,NULL,90,NULL,NULL);
     //infos();
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1;
@@ -319,46 +318,41 @@ int jeu()
             xVague=yVague=-1;
         }*/
     int itterations=0;
-    int creation=0;
+    int creation=1;
     int numeroEnnemi=0;
     while(!terminer && continuer==1)
     {
-
-
-            if(compteurImage%10==0 && depart==1)
-            {
-                if (vague[numeroEnnemi]==0){
-                    listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
-                }
-                else if (vague[numeroEnnemi]==1){
-                    listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
-
-                }
-                else if (vague[numeroEnnemi]==2){
-                    listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
-
-                }
-                numeroEnnemi++;
-                creation=1;
+        if(compteurImage%10==0 && depart==1)
+        {
+            if (vague[numeroEnnemi]==0){
+                listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+            }
+            else if (vague[numeroEnnemi]==1){
+                listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
 
             }
+            else if (vague[numeroEnnemi]==2){
+                listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
+                   listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+
+            }
+            numeroEnnemi++;
+            creation=1;
+        }
 
         if (numeroEnnemi==occurences){
             numeroEnnemi=0;
             depart=0;
         }
 
-
-         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){
-         creation=0;
-         vague.clear();
-         occurences+=5;
-         remplissageVague();
-         itterations++;
-
+         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1 && compteurImage>150){
+             creation=0;
+             vague.clear();
+             occurences+=5;
+             remplissageVague();
+             itterations++;
          }
 
 
