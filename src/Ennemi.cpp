@@ -33,13 +33,13 @@ int Ennemi::getPrediction()
     int prediction=0;
 
     if(direction==0){
-        prediction=vitesse*multiplicateurVitesse;
+        prediction=multiplicateurVitesse;
     }else if(direction==1){
-        prediction=vitesse*multiplicateurVitesse+100;
+        prediction=multiplicateurVitesse+100;
     }else if(direction==2){
-        prediction=vitesse*multiplicateurVitesse+200;
+        prediction=multiplicateurVitesse+200;
     }else{
-        prediction=vitesse*multiplicateurVitesse+300;
+        prediction=multiplicateurVitesse+300;
     }
     return prediction;
 }

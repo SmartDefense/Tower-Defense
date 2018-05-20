@@ -69,7 +69,7 @@ vector<Tir*> listeTirs;
 
 string messageCrypte="";
 string messageDecrypte="";
-int nbVagues=2;
+int nbVagues=10;
 int depart=0;
 int occurences=10;
 int argent;
