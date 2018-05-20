@@ -62,11 +62,10 @@ void Tour::affichePortee(){
 int Tour::action()
 {
     //on parcours la liste d'ennemis ...
-    for(int i=0, xEnnemi, yEnnemi ,prediction,predictionX,predictionY; i<listeEnnemis.size();i++){
-
-
+    for(int i=0, xEnnemi, yEnnemi; i<listeEnnemis.size();i++){
         xEnnemi=listeEnnemis[i]->getXCentre();
         yEnnemi=listeEnnemis[i]->getYCentre();
+
         //on calcul la distance entre le centre de l'ennemi et celui de la tour...
         double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
 
