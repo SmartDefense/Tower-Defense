@@ -102,11 +102,10 @@ void quitListeCase()
 }
 
 void remplissageVague(){
-for (int i=0; i<occurences; i++){
-    vague.push_back(rand()%3);
-    cout<<vague[i]<<endl;
-}
-depart=1;
+    for (int i=0; i<occurences; i++){
+        vague.push_back(rand()%3);
+    }
+    depart=1;
 }
 
 void infos()
@@ -170,22 +169,20 @@ void affichageTexture(SDL_Texture* texture, int x, int y)
 }
 
 void cryptAffine(){
+    std::string majuscule = pseudo;
+    std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper);
+    pseudo=majuscule;
+    int nblettres=pseudo.size();
+    int a=17;
+    int b=23;
+    vector<int> tableau;
 
-std::string majuscule = pseudo;
-std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper);
-pseudo=majuscule;
-int nblettres=pseudo.size();
-int a=17;
-int b=23;
-vector<int> tableau;
 
-
-for (int i=0; i<nblettres; i++){
-    tableau.push_back(int (pseudo.at(i))-65);
-    tableau[i]=((tableau[i]*a+b)%26);
-    messageCrypte+=char(tableau[i]+65);
-}
-cout<<messageCrypte<<endl;
+    for (int i=0; i<nblettres; i++){
+        tableau.push_back(int (pseudo.at(i))-65);
+        tableau[i]=((tableau[i]*a+b)%26);
+        messageCrypte+=char(tableau[i]+65);
+    }
 }
 
 int bezout(int p, int q){
@@ -201,21 +198,23 @@ int invmod(int a,int q){
     if (g!=1){
         cout<<"pas inversible"<<endl;}
     else{
-        return (x%q);}}
+        return (x%q);
+    }
+}
 
 
 void decryptAffine(){
-int a=17;
-int b=23;
-int nblettres=messageCrypte.size();
-vector<int> tableau;
+    int a=17;
+    int b=23;
+    int nblettres=messageCrypte.size();
+    vector<int> tableau;
 
-for (int i=0; i<nblettres; i++){
-    tableau.push_back(int (messageCrypte.at(i))-65);
-    tableau[i]=(invmod(a,26))*(tableau[i]-b)%26;
-    messageDecrypte+=char(tableau[i]+65);
-}
-cout<<messageDecrypte<<endl;
+    for (int i=0; i<nblettres; i++){
+        tableau.push_back(int (messageCrypte.at(i))-65);
+        tableau[i]=(invmod(a,26))*(tableau[i]-b)%26;
+        messageDecrypte+=char(tableau[i]+65);
+    }
+    cout<<messageDecrypte<<endl;
 }
 
 void inputPseudo()
@@ -481,7 +480,7 @@ int jeu()
                 else if(xCaseTour!=-1 && listeCases[yCaseTour][xCaseTour]->getType()=="Case")
                 {
                     if (x>303 && x<377 && y>10 && y<86
-                            && argent>=ARGENT_TOUR*TourClassique::multiplicateurCout)
+                        && argent>=ARGENT_TOUR*TourClassique::multiplicateurCout)
                     {
                         //TOUR CLASSIQUE
                         if(listeCases[yCaseTour][xCaseTour]!=NULL)

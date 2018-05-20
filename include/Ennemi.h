@@ -21,6 +21,8 @@ class Ennemi
         void appliquerEffet(const int effet, int intensite, int duree);
         int getXCentre();
         int getYCentre();
+        int getXCentreFutur(int images);
+        int getYCentreFutur(int images);
         int getPrediction();
         int getType();
         void ajouteCaseParcours();

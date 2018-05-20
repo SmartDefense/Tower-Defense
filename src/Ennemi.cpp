@@ -28,21 +28,7 @@ Ennemi::~Ennemi()
         }
     }
 }
-int Ennemi::getPrediction()
-{
-    int prediction=0;
 
-    if(direction==0){
-        prediction=multiplicateurVitesse;
-    }else if(direction==1){
-        prediction=multiplicateurVitesse+100;
-    }else if(direction==2){
-        prediction=multiplicateurVitesse+200;
-    }else{
-        prediction=multiplicateurVitesse+300;
-    }
-    return prediction;
-}
 
 int Ennemi::getType()
 {
@@ -134,6 +120,26 @@ int Ennemi::getXCentre()
 int Ennemi::getYCentre()
 {
     return dest.y + TAILLE_ENNEMI/2;
+}
+
+int Ennemi::getXCentreFutur(int images)
+{
+    switch(direction){
+    case 0: return getXCentre()+ images*vitesse;
+    case 1: return getXCentre();
+    case 2: return getXCentre()- images*vitesse;
+    case 3: return getXCentre();
+    }
+}
+
+int Ennemi::getYCentreFutur(int images)
+{
+    switch(direction){
+    case 0: return getYCentre();
+    case 1: return getYCentre()- images*vitesse;
+    case 2: return getYCentre();
+    case 3: return getYCentre()+ images*vitesse;
+    }
 }
 
 
