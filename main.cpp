@@ -630,7 +630,7 @@ int jeu()
         if (listeCases[13][16]->action()==1){
             compteurImage=0;
 
-            while (compteurImage<150){
+            while (compteurImage<150){                                      // Affichage du fond Game Over pendant 5s
                 SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                 SDL_RenderClear(renderer);
                 Ecrire("CollegiateBlackFLF",42,"GAME OVER",255,255,255,440,300);
