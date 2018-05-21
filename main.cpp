@@ -58,34 +58,36 @@ TTF_Font *font;
 #include "TirSniper.h"
 #include "TirPoison.h"
 
-
 #include "Constantes.h"
 #include "Variables.h"
 #include "VariablesSDL.h"
-vector<int> vague;
+
+vector<int> vague;                  // Tableau permettant d'ajouter le type d'ennemi et de l'afficher pendant la vague
 Case*** listeCases;
 vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
 
-string messageCrypte="";
-string messageDecrypte="";
-int nbVagues=10;
-int depart=0;
-int occurences=10;
-int argent;
-int num=1;
-int continuer=1;
-int nbParties=0;
+
+string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
+string pseudoCrypte="";
+string pseudoDecrypte="";
+int nbVagues=10;                    // Nombre de vague totale dans chaque partie
+int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
+int occurences=10;                  // Nombre d'ennemis dans la première vague
+int argent;                         // Argent du joueur
+int numLevel=1;                     // Numero du level
+int continuer=1;                    // Variable d'état pour quitter la boucle principale et fermer la fenêtre de jeu
+int nbParties=0;                    // Nombre de parties du joueur
 int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
-string pseudo ="";
-int compteurEnnemiVague=0,
-    compteurImage=0;
-int xVague=-1,
+
+int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
+
+int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
     yVague=-1;
 
 
-void quitListeCase()
+void quitListeCase()                // Fonction de suppression de la listeCases à la fin de la partie
 {
     for(int y=0; y<TAILLE_Y_PLATEAU; y++)
     {
@@ -101,52 +103,55 @@ void quitListeCase()
     delete[] listeCases;
 }
 
-void remplissageVague(){
+void remplissageVague(){                // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
     for (int i=0; i<occurences; i++){
-        vague.push_back(rand()%3);
+        vague.push_back(rand()%3);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
     }
-    depart=1;
+    depart=1;                           // Affichage de la vague à la prochaine condition
 }
 
-void infos()
+void infos()                            // Fonction d'enregistrement des données liées au joueur (argent, pseudo crypté, nb de parties ...)
 {
     nbParties=-42;
-    string nomfichier= "infos.txt";
-    fstream fichier(nomfichier.c_str(), ios::in);
-    if (fichier)
+    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
+    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
+    if (fichier)                                       // Si le fichier existe ...
     {
         fichier>>nbParties;
         fichier.close();
         fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
-        //récupere le nombre de partie (automatiquement converti en int (car nbPartie est iun int))
+        //récupere le nombre de parties (automatiquement converties en int (car nbPartie est un int))
+
         ++nbParties;
-        fichier<<(nbParties); //incrémente puis écrit dans le fihier (automatiquement converti en string)
+        fichier<<(nbParties);
+        //incrémente puis écrit dans le fichier (automatiquement converti en string)
+
+        fichier<<("\n");            // Saut de ligne
+        fichier<<(pseudoCrypte);    // Ajout du pseudo crypté
         fichier<<("\n");
-        fichier<<(messageCrypte);
-        fichier<<("\n");
-        fichier<<(argent);
+        fichier<<(argent);          // Ajout de la somme d'argent
         fichier<<("\n");
     }
 }
 
-void Ecrire(string police, int taille, string texte, int r, int v, int b, int x, int y)
+void Ecrire(string police, int taille, string texte, int r, int v, int b, int x, int y) // Fonction d'écriture
 {
-    font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille);
-    SDL_Color color = { r, v, b };
-    SDL_Surface * surface = TTF_RenderText_Blended(font,texte.c_str(), color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
+    font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille);                  // Ouverture de la police
+    SDL_Color color = { r, v, b };                                                      // Couleur de police envoyée à la fonction type r,g,b
+    SDL_Surface * surface = TTF_RenderText_Blended(font,texte.c_str(), color);          // Rendu de la police sur le fond
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);            // Création de la texture à partir du fond
 
-    int texW = 0;
-    int texH = 200;
-    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { x, y, texW, texH };
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+    int texW = 0;                                                                       // Largeur de la texture en pixels
+    int texH = 200;                                                                     // Hauteur de la texture en pixels
+    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);                                // Appel de la texture
+    SDL_Rect dstrect = { x, y, texW, texH };                                            // Position de la zone d'écriture à partir de x et y, position du premier caractère
+    SDL_RenderCopy(renderer, texture, NULL, &dstrect);                                  // Copie de la texture dans le renderer
 
-    SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
+    SDL_DestroyTexture(texture);                                                        // Suppression de la texture
+    TTF_CloseFont(font);                                                                // Fermeture de la police
 }
 
-void EcrireArgent(){
+void EcrireArgent(){                                                                    // Fonction d'écriture paramétrée pour afficher l'argent
     font = TTF_OpenFont("fonts/CollegiateFLF.ttf", 40);
     SDL_Color color = { 0,0,0 };
     SDL_Surface * surface = TTF_RenderText_Blended(font,(to_string(argent)+"$").c_str(), color);
@@ -162,7 +167,7 @@ void EcrireArgent(){
     TTF_CloseFont(font);
 }
 
-void affichageTexture(SDL_Texture* texture, int x, int y)
+void affichageTexture(SDL_Texture* texture, int x, int y)                               // Fonction d'affichage de chaque texture à la position x,y
 {
     SDL_Rect position;
     position.x = x;
@@ -171,35 +176,36 @@ void affichageTexture(SDL_Texture* texture, int x, int y)
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
-void cryptAffine(){
+void cryptAffine(){                                                                   // Fonction de cryptage du pseudo
     std::string majuscule = pseudo;
-    std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper);
+    std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper); // On met le string en majuscules
     pseudo=majuscule;
-    int nblettres=pseudo.size();
+    int nblettres=pseudo.size();                                                      // La variable nblettres contient le nb de lettres du pseudo
     int a=17;
     int b=23;
-    vector<int> tableau;
+    // Coeffs a et b de la fct affine du type y=ax+b
+
+    vector<int> tableau;                                                             // On crée un tableau vide
 
 
     for (int i=0; i<nblettres; i++){
-        tableau.push_back(int (pseudo.at(i))-65);
-        tableau[i]=((tableau[i]*a+b)%26);
-        messageCrypte+=char(tableau[i]+65);
+        tableau.push_back(int (pseudo.at(i))-65);                                   // On ajoute le nombre relatif au caractère ASCII avec a=0 jusqu'à z=25
+        tableau[i]=((tableau[i]*a+b)%26);                                           // On applique la fct affine au nombre que l'on met modulo 26 pour obtenir un nombre correspondant à un caractère de l'alphabet
+        pseudoCrypte+=char(tableau[i]+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
     }
 }
 
-void decryptAffine(){
+void decryptAffine(){                                                               // Fonction de décryptage du pseudo
 int a=17;
 int b=3;
-int nblettres=messageCrypte.size();
+int nblettres=pseudoCrypte.size();
 vector<int> tableau;
 
 for (int i=0; i<nblettres; i++){
-    tableau.push_back(int (messageCrypte.at(i))-65);
-    tableau[i]=(tableau[i]*9+15)%26;
-    messageDecrypte+=char(tableau[i]+65);
-}
-cout<<messageDecrypte<<endl;
+    tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
+    tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
+    pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en string
+    }
 }
 
 void inputPseudo()
@@ -738,7 +744,7 @@ void initLevel(int numLevel)
 
 void choixLevel()
 {
-    num=1;
+    numLevel=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
     Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
@@ -785,10 +791,10 @@ void choixLevel()
 
                 if (x>638 && x<678 && y>250 && y<285)
                 {
-					num++;
-					ifstream fichier(CHEMIN_LEVELS+"level"+to_string(num)+".txt");
+					numLevel++;
+					ifstream fichier(CHEMIN_LEVELS+"level"+to_string(numLevel)+".txt");
 					if(!fichier.is_open()){
-						num--;
+						numLevel--;
 					}
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
@@ -799,13 +805,13 @@ void choixLevel()
                     Ecrire("Arial",65,"+",255,255,255,640,232);
                     Ecrire("Arial",65,"-",255,255,255,610,226);
                     Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(num),255,255,255,350,250);
+                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
                     SDL_RenderPresent(renderer);
                 }
 
-                if (num>1 && x>607 && x<633 && y>260 && y<278)
+                if (numLevel>1 && x>607 && x<633 && y>260 && y<278)
                 {
-                    num--;
+                    numLevel--;
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
 
@@ -815,14 +821,14 @@ void choixLevel()
                     Ecrire("Arial",65,"+",255,255,255,640,232);
                     Ecrire("Arial",65,"-",255,255,255,610,226);
                     Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(num),255,255,255,350,250);
+                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
                     SDL_RenderPresent(renderer);
                 }
 
                 else if (x>437 && x<585 && y>370 && y<410)
                 {
                     continuerLevel=0;
-                    initLevel(num);
+                    initLevel(numLevel);
                 }
 
                 else if (x>24 && x<124 && y>21 && y<87)
