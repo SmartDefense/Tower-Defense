@@ -211,6 +211,7 @@ void cryptAffineLettres()  // Fonction de cryptage du pseudo
         pseudoCrypte+=char(tableau[i]+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
     }
 }
+
 void decryptAffineLettres() // Fonction de décryptage du pseudo
 {
 
@@ -294,7 +295,6 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
     bool terminer = false;
 
     argent=200;   // On met 200 d'argent au début de la partie
-    infos();
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquée
     remplissageVague();
 
@@ -690,6 +690,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
 
 
     }
+    infos();
 
     // Suppression des listes ennemis et tirs
     for(int i=listeEnnemis.size()-1; i>=0; i--)
@@ -942,20 +943,24 @@ void menu()
     int continuerMenu=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-
+    int nbPartiesDecrypte=0;
     // Récupération du nombre de parties dans le fichier infos.txt
-    string nomfichier= "infos.txt";
-    ifstream document(nomfichier.c_str(), ios::in);
-    string ligne;
-    getline(document, ligne);
-    nbParties=stoi(ligne);
+    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
+    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
+    if (fichier)                                       // Si le fichier existe ...
+    {
+        fichier>>nbParties;
+        nbPartiesDecrypte=decryptNombres(nbParties);
+
+    }
+
 
     // Affichage des éléments graphiques
     Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
     Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
     Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,30,150);
+    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbPartiesDecrypte),255,255,255,30,150);
     SDL_RenderPresent(renderer);
 
     while (continuerMenu==1 && continuer==1)
@@ -1214,7 +1219,6 @@ int main(int argc, char **argv) // Boucle principale avec appel de chaque foncti
     initSDL();
     initListeCase();
     debut();
-    //infos();
     quitListeCase();
     SDL_DestroyWindow(fenetre);
     TTF_Quit();
