@@ -93,7 +93,7 @@ int Tour::action()
 
             //si on est presque aligne et qu'on peut tirer ...
             if(compteurRechargement==0 && angle==angleCanon){
-                //on calcul les depla<ements cartésiens du tir et on lance le tir
+                //on calcul les deplacements cartésiens du tir et on lance le tir
                 double dX=((xEnnemi-xCentre)*vitesseTir)/distance;
                 double dY=((yEnnemi-yCentre)*vitesseTir)/distance;
                 tir(dX,dY, angle);
