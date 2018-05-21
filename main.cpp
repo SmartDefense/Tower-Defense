@@ -10,7 +10,7 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
- // Test
+
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
 SDL_Texture  *textureCase,
