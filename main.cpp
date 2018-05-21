@@ -73,14 +73,14 @@ string pseudoCrypte="";
 string pseudoDecrypte="";
 int nbVagues=10;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
-int occurences=10;                  // Nombre d'ennemis dans la première vague
+int occurences=10;       // Nombre d'ennemis dans la première vague
 int argent;                         // Argent du joueur
 int numLevel=1;                     // Numero du level
 int continuer=1;                    // Variable d'état pour quitter la boucle principale et fermer la fenêtre de jeu
-int nbParties=0;                    // Nombre de parties du joueur
+char nbParties;                    // Nombre de parties du joueur
 int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
-
+int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vague
 int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
 
 int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
@@ -105,15 +105,25 @@ void quitListeCase()                // Fonction de suppression de la listeCases 
 
 void remplissageVague()                 // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
 {
-    for (int i=0; i<occurences; i++){
+    for (int i=0; i<(occurences); i++){
         vague.push_back(rand()%3);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
     }
     depart=1;                           // Affichage de la vague à la prochaine condition
 }
 
+char cryptNombres(int nombre)  // Fonction de cryptage du nb de parties avec le code ASCII
+{
+return (char(nombre));
+}
+
+int decryptNombres(char lettre) // Fonction de décryptage du nb de parties
+{
+return (int(lettre));
+}
+
 void infos()                            // Fonction d'enregistrement des données liées au joueur (argent, pseudo crypté, nb de parties ...)
 {
-    nbParties=-42;
+
     string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
     fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
     if (fichier)                                       // Si le fichier existe ...
@@ -121,10 +131,12 @@ void infos()                            // Fonction d'enregistrement des données
         fichier>>nbParties;
         fichier.close();
         fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
-        //récupere le nombre de parties (automatiquement converties en int (car nbPartie est un int))
+        //récupere le nombre de parties
 
-        ++nbParties;
-        fichier<<(nbParties);
+        int nbPartiesDecrypte=decryptNombres(nbParties);
+        ++nbPartiesDecrypte;
+        char nbPartiesCrypte=cryptNombres(nbPartiesDecrypte);
+        fichier<<(nbPartiesCrypte);
         //incrémente puis écrit dans le fichier (automatiquement converti en string)
 
         fichier<<("\n");            // Saut de ligne
@@ -184,12 +196,11 @@ void cryptAffineLettres()  // Fonction de cryptage du pseudo
     std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper); // On met le string en majuscules
     pseudo=majuscule;
     int nblettres=pseudo.size();                                                      // La variable nblettres contient le nb de lettres du pseudo
-    int a=17;
-    int b=23;
+    int a=3;
+    int b=7;
     // Coeffs a et b de la fct affine du type y=ax+b
 
     vector<int> tableau;                                                             // On crée un tableau vide
-
 
     for (int i=0; i<nblettres; i++){
         tableau.push_back(int (pseudo.at(i))-65);                                   // On ajoute le nombre relatif au caractère ASCII avec a=0 jusqu'à z=25
@@ -197,18 +208,16 @@ void cryptAffineLettres()  // Fonction de cryptage du pseudo
         pseudoCrypte+=char(tableau[i]+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
     }
 }
-
 void decryptAffineLettres() // Fonction de décryptage du pseudo
 {
-int a=17;
-int b=3;
+
 int nblettres=pseudoCrypte.size();
 vector<int> tableau;
 
 for (int i=0; i<nblettres; i++){
     tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
     tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
-    pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en string
+    pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en char
     }
 }
 
@@ -282,6 +291,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
     bool terminer = false;
 
     argent=200;   // On met 200 d'argent au début de la partie
+    infos();
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquée
     remplissageVague();
 
@@ -320,7 +330,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
          if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){      // S'il n'y a plus d'ennemi dans la partie, on déchenche la vague suivante
          creation=0;
          vague.clear();
-         occurences+=5;             // La vague suivante contient 5 ennemis en plus
+         occurences+=nbEnnemisSupplementaires*2*numLevel;             // La vague suivante contient 4 ennemis en plus
          remplissageVague();
          itterations++;
 
@@ -1195,7 +1205,7 @@ int main(int argc, char **argv) // Boucle principale avec appel de chaque foncti
     initSDL();
     initListeCase();
     debut();
-    infos();
+    //infos();
     quitListeCase();
     SDL_DestroyWindow(fenetre);
     TTF_Quit();
