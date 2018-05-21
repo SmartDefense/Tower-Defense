@@ -31,6 +31,12 @@ void Tour::affiche()
     Case::affiche();
     SDL_RenderCopy(renderer, textureTourBase, NULL, &dest);
     SDL_RenderCopyEx(renderer, textureTourCanon, NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
+
+    int tempsDepuisTir=abs(rechargement-compteurRechargement);
+    if(tempsDepuisTir<TEMPS_ANIM_TIR){
+            SDL_RenderCopyEx(renderer, textureExplosion[tempsDepuisTir], NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
+
+    }
 }
 
 void Tour::affichePortee(){

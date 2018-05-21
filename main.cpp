@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cmath>
  // Test
+#include "Constantes.h"
+
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
 SDL_Texture  *textureCase,
@@ -33,6 +35,8 @@ SDL_Texture  *textureCase,
              *textureTirClassique,
              *textureTirPoison,
              *textureTirSniper,
+
+             *textureExplosion[TEMPS_ANIM_TIR],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -58,7 +62,6 @@ TTF_Font *font;
 #include "TirSniper.h"
 #include "TirPoison.h"
 
-#include "Constantes.h"
 #include "Variables.h"
 #include "VariablesSDL.h"
 
@@ -1186,6 +1189,12 @@ int initSDL()
     surface=IMG_Load((CHEMIN_IMAGES+"tirPoison.png").c_str());
     textureTirPoison= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+
+    for(int i=0;i<TEMPS_ANIM_TIR;i++){
+        surface=IMG_Load((CHEMIN_IMAGES+"explosion"+to_string(i)+".png").c_str());
+        textureExplosion[i]= SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+    }
 
     return 1;
 }

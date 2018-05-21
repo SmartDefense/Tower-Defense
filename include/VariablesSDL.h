@@ -22,6 +22,8 @@ extern SDL_Texture  *textureCase,
 
                     *textureTirClassique,
                     *textureTirPoison,
-                    *textureTirSniper;
+                    *textureTirSniper,
+
+                    *textureExplosion[TEMPS_ANIM_TIR];
 
 #endif // VARIABLES2_H
