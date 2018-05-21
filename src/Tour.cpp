@@ -40,7 +40,7 @@ void Tour::affiche()
 void Tour::affichePortee(){
     SDL_SetRenderDrawColor(renderer, 127,0,0, 50);
     int xDessin=0,
-        yDessin=portee,
+        yDessin=portee;
 
     while(yDessin>xDessin){
         SDL_RenderDrawPoint(renderer, xDessin  + xCentre,  yDessin  + yCentre);
