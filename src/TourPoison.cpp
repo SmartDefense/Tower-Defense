@@ -26,6 +26,7 @@ int TourPoison::action(){
             listeEnnemis[i]->appliquerEffet(EFFET_POISON, degat, duree);
         }
     }
+    return 1;
 }
 
 void TourPoison::amelioration(const int typeAmelioration)

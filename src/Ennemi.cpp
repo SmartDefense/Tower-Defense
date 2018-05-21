@@ -509,7 +509,7 @@ void Ennemi::avance()
             {
                 direction=3;
             }
-            else if(direction=2)
+            else if(direction==2)
             {
                 direction=0;
             }

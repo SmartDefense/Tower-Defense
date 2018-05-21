@@ -18,6 +18,8 @@ const int TAILLE_Y_TIR = 6;
 const int ARGENT_ENNEMI = 10;
 const int ARGENT_TOUR = 25;
 
+const int TEMPS_ANIM_TIR = 5;
+
 const int AMELIORATION_VITESSE_TIR = 0;
 const int AMELIORATION_CADENCE = 1;
 const int AMELIORATION_DEGAT_TIR = 2;

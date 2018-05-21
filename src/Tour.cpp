@@ -15,11 +15,9 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     compteurRechargement(0)
 {
     Case::type="Tour";
-    //cout<<"Creation :\t Tour ("<<x<<","<<y<<")"<<endl;
 }
 
 Tour::~Tour(){
-    //cout<<"Destruction :\t Tour ("<<x<<","<<y<<")"<<endl;
 }
 
 Tour::moduloPositif(int nombre, int modulo){
@@ -31,13 +29,18 @@ void Tour::affiche()
     Case::affiche();
     SDL_RenderCopy(renderer, textureTourBase, NULL, &dest);
     SDL_RenderCopyEx(renderer, textureTourCanon, NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
+
+    int tempsDepuisTir=abs(rechargement-compteurRechargement);
+    if(tempsDepuisTir<TEMPS_ANIM_TIR){
+            SDL_RenderCopyEx(renderer, textureExplosion[tempsDepuisTir], NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
+
+    }
 }
 
 void Tour::affichePortee(){
     SDL_SetRenderDrawColor(renderer, 127,0,0, 50);
     int xDessin=0,
-        yDessin=portee,
-        d=1-portee;
+        yDessin=portee;
 
     while(yDessin>xDessin){
         SDL_RenderDrawPoint(renderer, xDessin  + xCentre,  yDessin  + yCentre);
@@ -55,9 +58,6 @@ void Tour::affichePortee(){
         }
     }
 }
-
-
-
 
 int Tour::action()
 {
