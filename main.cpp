@@ -602,8 +602,9 @@ int jeu()
             }
             else
             {
-
-                if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
+                string type=listeCases[yCaseTour][xCaseTour]->getType();  //C'est plus simple
+                Ecrire("CollegiateInsideFLF",25,type.substr(0,4)+" "+type.substr(4),0,0,0,180,15);
+                /*if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
                     Ecrire("CollegiateInsideFLF",25,"Tour Classique :",0,0,0,180,15);
                 }
 
@@ -613,7 +614,7 @@ int jeu()
 
                 else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"){
                     Ecrire("CollegiateInsideFLF",25,"Tour Poison :",0,0,0,180,15);
-                }
+                }*/
 
                 affichageTexture(textureBpEffacer,400,10);
                 affichageTexture(textureBpAnnuler,500,10);
