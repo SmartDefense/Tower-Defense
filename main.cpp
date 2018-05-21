@@ -10,7 +10,7 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
- // Test
+
 #include "Constantes.h"
 
 SDL_Window *fenetre;
