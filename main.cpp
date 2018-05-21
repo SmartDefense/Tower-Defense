@@ -103,7 +103,8 @@ void quitListeCase()                // Fonction de suppression de la listeCases 
     delete[] listeCases;
 }
 
-void remplissageVague(){                // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
+void remplissageVague()                 // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
+{
     for (int i=0; i<occurences; i++){
         vague.push_back(rand()%3);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
     }
@@ -151,7 +152,8 @@ void Ecrire(string police, int taille, string texte, int r, int v, int b, int x,
     TTF_CloseFont(font);                                                                // Fermeture de la police
 }
 
-void EcrireArgent(){                                                                    // Fonction d'écriture paramétrée pour afficher l'argent
+void EcrireArgent()                 // Fonction d'écriture paramétrée pour afficher l'argent
+{
     font = TTF_OpenFont("fonts/CollegiateFLF.ttf", 40);
     SDL_Color color = { 0,0,0 };
     SDL_Surface * surface = TTF_RenderText_Blended(font,(to_string(argent)+"$").c_str(), color);
@@ -176,7 +178,8 @@ void affichageTexture(SDL_Texture* texture, int x, int y)                       
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
-void cryptAffine(){                                                                   // Fonction de cryptage du pseudo
+void cryptAffineLettres()  // Fonction de cryptage du pseudo
+{
     std::string majuscule = pseudo;
     std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper); // On met le string en majuscules
     pseudo=majuscule;
@@ -195,7 +198,8 @@ void cryptAffine(){                                                             
     }
 }
 
-void decryptAffine(){                                                               // Fonction de décryptage du pseudo
+void decryptAffineLettres() // Fonction de décryptage du pseudo
+{
 int a=17;
 int b=3;
 int nblettres=pseudoCrypte.size();
@@ -208,34 +212,34 @@ for (int i=0; i<nblettres; i++){
     }
 }
 
-void inputPseudo()
+void inputPseudo()                                                                  // Fonction de saisie du pseudo
 {
     SDL_StartTextInput();
     SDL_Event events;
     int continuerPseudo=1;
     bool changement=true;
 
-    while(continuerPseudo==1 && continuer==1)
+    while(continuerPseudo==1 && continuer==1)                                       // Tant que l'on ne quitte pas ou clique sur retour
     {
 
-        while(SDL_PollEvent(&events))
+        while(SDL_PollEvent(&events))                                               // Récupération des évènements
         {
             switch(events.type)
             {
-            case SDL_QUIT :
+            case SDL_QUIT :                                                         // Fermeture de la fenêtre
                 continuer=0;
                 break;
-            case SDL_TEXTINPUT :
+            case SDL_TEXTINPUT :                                                    // Saisie du texte dans la variable pseudo
                 pseudo += events.text.text;
                 changement=true;
                 break;
             case SDL_KEYDOWN:
-                if(events.key.keysym.scancode==SDL_SCANCODE_BACKSPACE && pseudo.length() > 0)
+                if(events.key.keysym.scancode==SDL_SCANCODE_BACKSPACE && pseudo.length() > 0)   // Suppression du dernier caractère
                 {
                     pseudo.pop_back();
                     changement=true;
                 }
-                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN)
+                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN)                             // Validation par la touche entrée
                 {
                     continuerPseudo=0;
                 }
@@ -243,20 +247,20 @@ void inputPseudo()
             case SDL_MOUSEBUTTONUP:
                 int x = events.button.x;
                 int y = events.button.y;
-                if (x>437 && x<591 && y>370 && y<410 && pseudo.length()>2)
+                if (x>437 && x<591 && y>370 && y<410 && pseudo.length()>2)                  // Si le pseudo contient 3 caractères ou plus, on peut valider
                 {
                     continuerPseudo=0;
                 }
                 break;
             }
         }
-        while (pseudo.length()>=17)
+        while (pseudo.length()>=17)                                                        // Si le pseudo contient plus de 16 caractères, on efface le 17ème saisi
         {
-            Ecrire("CollegiateInsideFLF",42,"Trop de caracteres",255,255,255,300,500);
+            //Ecrire("CollegiateInsideFLF",42,"Trop de caracteres",255,255,255,300,500);
             pseudo.pop_back();
 
         }
-        if(changement)
+        if(changement)                                                                    // S'il y a changement, on l'écrit et l'affiche
         {
             SDL_SetRenderDrawColor(renderer, 0,127,127,255);
             SDL_RenderClear(renderer);
@@ -264,30 +268,30 @@ void inputPseudo()
             Ecrire("CollegiateInsideFLF",42,"Entrez un pseudo :",255,255,255,320,150);
             Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
             int longueurPseudo=pseudo.length()+1;
-            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*11)),250);
+            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*11)),250); // Placement du pseudo de manière centrée en fonction de sa longueur
             changement=false;
         }
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer);        // On rafraichit
     }
-cryptAffine();
-
+cryptAffineLettres();
 }
 
-int jeu()
+int jeu()  // Fonction de gestion et d'affichage de la partie
 {
     SDL_Event events;
     bool terminer = false;
 
-    argent=200;
-    int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1;
+    argent=200;   // On met 200 d'argent au début de la partie
+    int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquée
     remplissageVague();
-    int itterations=0;
+
+    int itterations=0;      // Variable permettant d'arreter l'affichage des vagues au bout du nombre de vagues voulu
     int creation=0;
     int numeroEnnemi=0;
+
     while(!terminer && continuer==1)
     {
-
-            if(compteurImage%10==0 && depart==1 && compteurImage>150)
+            if(compteurImage%10==0 && depart==1 && compteurImage>150)               // Affichage des vagues en fct de la valeur du tableau vague
             {
                 if (vague[numeroEnnemi]==0){
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
@@ -304,27 +308,25 @@ int jeu()
 
                 }
                 numeroEnnemi++;
-                creation=1;
+                creation=1;             // Variable de création du premier ennemi pour éviter de remplir à nouveau le tableau vague lorsque aucun ennemi n'est affiché
 
             }
 
-        if (numeroEnnemi==occurences){
+        if (numeroEnnemi==occurences){      // Si tous les ennemis sont affichés, on met à 0 la variable de départ
             numeroEnnemi=0;
             depart=0;
         }
 
-
-         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){
+         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){      // S'il n'y a plus d'ennemi dans la partie, on déchenche la vague suivante
          creation=0;
          vague.clear();
-         occurences+=5;
+         occurences+=5;             // La vague suivante contient 5 ennemis en plus
          remplissageVague();
          itterations++;
 
          }
 
-        //listeEnnemis.push_back(new Ennemi(10,10, textureEnnemiClassique, -1,-1,-1));
-        while(SDL_PollEvent(&events))
+        while(SDL_PollEvent(&events))       // Récupération des évènements
         {
             switch(events.type)
             {
@@ -339,13 +341,13 @@ int jeu()
                 break;
 
             case SDL_KEYUP:
-                SDL_GetMouseState(&xSouris, &ySouris);
-                xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;
+                SDL_GetMouseState(&xSouris, &ySouris);         // Récupération de la position de la souris
+                xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;   // On définit la case sur laquelle se trouve la souris
                 yCase = (ySouris-MARGE_HAUT)/ TAILLE_CASE;
 
+                // Création manuelle des 3 types d'ennemis pour le débogage
                 if(events.key.keysym.scancode==SDL_SCANCODE_T)
                 {
-                    //listeEnnemis.push_back(new Ennemi(xSouris-TAILLE_ENNEMI/2, ySouris-TAILLE_ENNEMI/2, textureEnnemiClassique, -1,-1,-1));
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
                 }
@@ -359,11 +361,14 @@ int jeu()
                     listeEnnemis.push_back(new EnnemiTank(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
                 }
+                /*
                 else if(events.key.keysym.scancode==SDL_SCANCODE_V)
                 {
                     xVague=xCase;
                     yVague=yCase;
-                }
+                }*/
+
+                // Suppression manuelle de tous les ennemis
                 else if(events.key.keysym.scancode==SDL_SCANCODE_R)
                 {
                     for(int i=0; i<listeEnnemis.size(); i++)
@@ -372,11 +377,12 @@ int jeu()
                     }
                     listeEnnemis.clear();
                 }
+                // Touche Echap permettant de quitter la partie
                 else if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
                 {
                     terminer=true;
                 }
-
+                // Création manuelle des cases / tours pour le débogage
                 else if(SDL_SCANCODE_KP_1<=events.key.keysym.scancode && events.key.keysym.scancode<=SDL_SCANCODE_KP_9)
                 {
                     if(listeCases[yCase][xCase]!=NULL)
@@ -413,6 +419,7 @@ int jeu()
 
             case SDL_MOUSEBUTTONUP:
 
+                // Récupération de la position de la souris
                 int x = events.button.x;
                 int y = events.button.y;
 
@@ -420,38 +427,39 @@ int jeu()
                 {
                     xCase=(x-MARGE_GAUCHE)/ TAILLE_CASE;
                     yCase=(y-MARGE_HAUT)/ TAILLE_CASE;
-                    if(listeCases[yCase][xCase]!=NULL)
+                    if(listeCases[yCase][xCase]!=NULL)                                      // Si la case contient qqch
                     {
                         if(listeCases[yCase][xCase]->getType()=="Case"
                                 || listeCases[yCase][xCase]->getType()=="TourClassique"
                                 || listeCases[yCase][xCase]->getType()=="TourSniper"
                                 || listeCases[yCase][xCase]->getType()=="TourPoison")
                         {
+                            // On enregistre la position de la case cliquée comme une tour
                             xCaseTour = xCase;
                             yCaseTour = yCase;
                         }
                     }
                 }
-                else if (x>24 && x<124 && y>21 && y<87)
+                else if (x>24 && x<124 && y>21 && y<87)         // On quitte la partie avec le bp retour
                 {
                     terminer=true;
                 }
                 else if(xCaseTour!=-1 && listeCases[yCaseTour][xCaseTour]->getType()=="Case")
                 {
-                    if (x>303 && x<377 && y>10 && y<86
+                    if (x>303 && x<377 && y>10 && y<86                                                  // S'il on clique sur le bp Tour Classique
                         && argent>=ARGENT_TOUR*TourClassique::multiplicateurCout)
                     {
                         //TOUR CLASSIQUE
                         if(listeCases[yCaseTour][xCaseTour]!=NULL)
                         {
-                            delete listeCases[yCaseTour][xCaseTour];
+                            delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquée
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,-1);
+                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,-1);    // On crée la tour voulue
                         argent-= ARGENT_TOUR*TourClassique::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>503 && x<577 && y>10 && y<86
+                    else if (x>503 && x<577 && y>10 && y<86                                             // S'il on clique sur le bp Tour Sniper
                              && argent>=ARGENT_TOUR*TourSniper::multiplicateurCout)
                     {
                         //TOUR SNIPER
@@ -464,7 +472,7 @@ int jeu()
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>703 && x<777 && y>10 && y<86
+                    else if (x>703 && x<777 && y>10 && y<86                                             // S'il on clique sur le bp Tour Poison
                              && argent>=ARGENT_TOUR*TourPoison::multiplicateurCout)
                     {
                         //TOUR POISON
@@ -477,13 +485,15 @@ int jeu()
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>200 && x<280 && y>10 && y<90)
+                    else if (x>200 && x<280 && y>10 && y<90)                                            // Bp annuler pour pouvoir sélectionner une autre tour
                     {
                         //ANNULER CASE
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
                 }
+
+                // Si la case est l'une des 3 tours, on peut effectuer des actions sur ces tours
                 else if(xCaseTour!=-1 && (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"))
@@ -506,7 +516,7 @@ int jeu()
             }
         }
 
-        //actions
+        // ACTIONS // Placement des tours en direction des ennemis et tirs pour les détruire
         for(int y=0 ; y<TAILLE_Y_PLATEAU ; y++)
         {
             for(int x=0 ; x<TAILLE_X_PLATEAU ; x++)
@@ -527,22 +537,26 @@ int jeu()
             listeTirs[i]->action();
         }
 
-        //affichage;
+        // AFFICHAGE //
 
-        SDL_SetRenderDrawColor(renderer, 0,127,127,255);
+        SDL_SetRenderDrawColor(renderer, 0,127,127,255);    // Couleur de fond du plateau
         SDL_RenderClear(renderer);
 
+        // Création de la zone contenant les boutons
         SDL_SetRenderDrawColor(renderer, 0, 127, 147, 255);
         SDL_Rect rect = {150,5,860,90};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
 
+        // On trace le rectangle
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderDrawLine(renderer,150,5,1010,5);
         SDL_RenderDrawLine(renderer,150,95,1010,95);
         SDL_RenderDrawLine(renderer,150,5,150,95);
         SDL_RenderDrawLine(renderer,1010,5,1010,95);
 
+
+        // Affichage des cases (tours, chemin, chateau ...)
         for(int y=0 ; y<TAILLE_Y_PLATEAU ; y++)
         {
             for(int x=0 ; x<TAILLE_X_PLATEAU ; x++)
@@ -553,6 +567,8 @@ int jeu()
                 }
             }
         }
+
+        // Affichage des ennemis et des tirs
         for(int i=0; i<listeEnnemis.size(); i++)
         {
             listeEnnemis[i]->affiche();
@@ -561,9 +577,12 @@ int jeu()
         {
             listeTirs[i]->affiche();
         }
-        EcrireArgent();
+
+        EcrireArgent(); // Ecriture et affichage de l'argent
 
         SDL_GetMouseState(&xSouris, &ySouris);
+
+        // Affichage de la portée par un cercle lorsque le pointeur est sur une tour
         if (xSouris>MARGE_GAUCHE && ySouris > MARGE_HAUT)
         {
             xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;
@@ -575,6 +594,7 @@ int jeu()
             }
         }
 
+        // Si l'on sélectionne une case, elle est encadrée en rouge
         if (xCaseTour!=-1)
         {
             SDL_SetRenderDrawColor(renderer, 255,0,0,100);
@@ -596,6 +616,8 @@ int jeu()
                 };
                 SDL_RenderDrawLines(renderer, points, 5);
             }
+
+            // Affichage du prix de chaque tour
             if(listeCases[yCaseTour][xCaseTour]->getType()=="Case")
             {
                 affichageTexture(textureBpAnnuler,200,10);
@@ -609,6 +631,7 @@ int jeu()
             else
             {
 
+                // Affichage du nom de la tour
                 if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
                     Ecrire("CollegiateInsideFLF",25,"Tour Classique :",0,0,0,180,15);
                 }
@@ -627,13 +650,14 @@ int jeu()
         }
         else
         {
-            affichageTexture(textureLogo,250,12);
-            //Ecrire("CollegiateInsideFLF",50,"TOWER DEFENSE",0,49,192,330,27);
+            affichageTexture(textureLogo,250,12); // Affichage du logo Tower Defense
         }
 
+        // Affichage du bp retour
         Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
         Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-        if (listeCases[13][16]->action()==1){
+
+        if (listeCases[13][16]->action()==1){                               // Si le chateau n'a plus de vie
             compteurImage=0;
 
             while (compteurImage<150){                                      // Affichage du fond Game Over pendant 5s
@@ -644,9 +668,9 @@ int jeu()
                 SDL_Delay(30);
                 compteurImage++;
             }
-            terminer=true;
+            terminer=true;      // On quitte la partie
         }
-
+        // Rafraichissement de l'écran toutes les 30 ms
         SDL_RenderPresent(renderer);
         SDL_Delay(30);
         compteurImage++;
@@ -654,7 +678,7 @@ int jeu()
 
     }
 
-
+    // Suppression des listes ennemis et tirs
     for(int i=listeEnnemis.size()-1; i>=0; i--)
     {
         delete listeEnnemis[i];
@@ -668,7 +692,7 @@ int jeu()
 
 }
 
-void initListeCase()
+void initListeCase()  // Initialisation des cases vides
 {
     listeCases = new Case**[TAILLE_Y_PLATEAU];
     for(int y=0; y<TAILLE_Y_PLATEAU; y++)
@@ -684,24 +708,27 @@ void initListeCase()
     }
 }
 
-void initLevel(int numLevel)
+void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres du fichier level.txt
 {
-
     quitListeCase();
 
+    // On ouvre le fichier level.txt
     string nomLvl= CHEMIN_LEVELS + "level" + to_string(numLevel) + ".txt";
     ifstream level(nomLvl.c_str(), ios::in);
-    int y=0;
     string ligne;
+    int y=0;
 
+    // On récupère la taille du plateau
     getline(level, ligne);
     TAILLE_X_PLATEAU=stoi(ligne);
     getline(level, ligne);
     TAILLE_Y_PLATEAU=stoi(ligne);
     initListeCase();
 
+    // La taille de la fenêtre est adaptée à la taille du plateau
     SDL_SetWindowSize(fenetre,TAILLE_X_PLATEAU*TAILLE_CASE + MARGE_GAUCHE, TAILLE_Y_PLATEAU*TAILLE_CASE + MARGE_HAUT);
 
+    // Chaque case est crée en fonction de son type
     while(getline(level, ligne))
     {
         for(int x=0; x<ligne.length(); x++)
@@ -739,11 +766,12 @@ void initLevel(int numLevel)
         }
         y++;
     }
-    jeu();
+    jeu(); // Le jeu débute
 }
 
-void choixLevel()
+void choixLevel() // Fonction de choix du niveau
 {
+    // Affichage des éléments graphiques sur la fenêtre
     numLevel=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
@@ -762,7 +790,7 @@ void choixLevel()
     while(continuerLevel==1 && continuer==1)
     {
 
-        while(SDL_PollEvent(&events))
+        while(SDL_PollEvent(&events))  // Récupération des évènements
         {
             switch(events.type)
             {
@@ -772,23 +800,26 @@ void choixLevel()
                 continue;
                 break;
             case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
+                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)   // Revenir en arrière avec le bp Echap
                 {
                     continuerLevel=0;
                 }
                 break;
 
-            case SDL_QUIT :
+            case SDL_QUIT :                                          // Quitter le jeu
                 continuer=0;
                 break;
 
             case SDL_MOUSEBUTTONUP:
 
+                // Récupération du clic
                 int x = events.button.x;
                 int y = events.button.y;
                 //std::cout << x << SDL_GetError() << std::endl;
                 //std::cout << y << SDL_GetError() << std::endl;
 
+
+                // Si le joueur sélectionne le niveau suivant
                 if (x>638 && x<678 && y>250 && y<285)
                 {
 					numLevel++;
@@ -809,6 +840,7 @@ void choixLevel()
                     SDL_RenderPresent(renderer);
                 }
 
+                // Si le joueur sélectionne le niveau précédent
                 if (numLevel>1 && x>607 && x<633 && y>260 && y<278)
                 {
                     numLevel--;
@@ -825,12 +857,14 @@ void choixLevel()
                     SDL_RenderPresent(renderer);
                 }
 
+                // Validation du choix
                 else if (x>437 && x<585 && y>370 && y<410)
                 {
                     continuerLevel=0;
                     initLevel(numLevel);
                 }
 
+                // Clic sur le bp retour
                 else if (x>24 && x<124 && y>21 && y<87)
                 {
                     continuerLevel=0;
@@ -843,6 +877,7 @@ void choixLevel()
 
 void aide()
 {
+    // Affichage des éléments graphiques
     SDL_Event events;
     int continuerAide=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
@@ -895,17 +930,21 @@ void menu()
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
 
+    // Récupération du nombre de parties dans le fichier infos.txt
     string nomfichier= "infos.txt";
     ifstream document(nomfichier.c_str(), ios::in);
     string ligne;
     getline(document, ligne);
     nbParties=stoi(ligne);
+
+    // Affichage des éléments graphiques
     Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
     Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
     Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
     Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,30,150);
     SDL_RenderPresent(renderer);
+
     while (continuerMenu==1 && continuer==1)
     {
         while(SDL_PollEvent(&events))
@@ -933,6 +972,7 @@ void menu()
                 int x = events.button.x;
                 int y = events.button.y;
 
+                // Clic sur le bp retour
                 if (x>24 && x<124 && y>21 && y<87)
                 {
                     continuerMenu=0;
@@ -943,20 +983,18 @@ void menu()
     }
 }
 
-void debut()
+void debut() // Affichage de l'écran initial
 {
-    inputPseudo();
+    inputPseudo();  // Saisie du pseudo
     int longueurPseudo=pseudo.length()+8;
-    affichageTexture(textureAccueil,0,0);
-    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+    affichageTexture(textureAccueil,0,0); // Affichage de l'image d'accueil
+    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0); // Affichage du pseudo du joueur
     SDL_RenderPresent(renderer);
     SDL_Event events;
     int continuerDebut=1;
 
-
     while(continuerDebut==1 && continuer==1)
     {
-
         while(SDL_PollEvent(&events))
         {
             switch(events.type)
@@ -980,15 +1018,13 @@ void debut()
 
             case SDL_MOUSEBUTTONUP:
 
+                // Récupération des clics et affichage du menu suivant en conséquence //
                 int x = events.button.x;
                 int y = events.button.y;
 
-                // std::cout << events.button.x << SDL_GetError() << std::endl;
-                // std::cout << events.button.y << SDL_GetError() << std::endl;
                 if (x>507 && x<726 && y>669 && y<763)
                 {
-                    //MENU
-                    //std::cout << "menu" << SDL_GetError() << std::endl;
+                    // MENU //
                     menu();
                     affichageTexture(textureAccueil,0,0);
                     Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
@@ -996,7 +1032,7 @@ void debut()
                 }
                 else if (x>45 && x<428 && y>670 && y<763)
                 {
-                    //COMMENCER
+                    // COMMENCER //
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
                     affichageTexture(textureAccueil,0,0);
@@ -1005,7 +1041,7 @@ void debut()
                 }
                 else if (x>807 && x<990 && y>669 && y<763)
                 {
-                    //AIDE
+                    // AIDE //
                     aide();
                     affichageTexture(textureAccueil,0,0);
                     Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
@@ -1151,11 +1187,10 @@ int initSDL()
     textureTirPoison= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
-
     return 1;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'à la fermeture du jeu
 {
     initSDL();
     initListeCase();
