@@ -81,7 +81,6 @@
 		<Unit filename="src/TOUR.CPP" />
 		<Unit filename="src/Tir.cpp" />
 		<Unit filename="src/TirClassique.cpp" />
-		<Unit filename="src/TirPoison.cpp" />
 		<Unit filename="src/TirSniper.cpp" />
 		<Unit filename="src/TourClassique.cpp" />
 		<Unit filename="src/TourPoison.cpp" />
