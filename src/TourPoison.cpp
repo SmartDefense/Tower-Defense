@@ -1,7 +1,7 @@
 #include "TourPoison.h"
 
 TourPoison::TourPoison(int x, int y, int priorite):
-    Tour(x, y, ::textureTourPoisonBase, /*::textureTourPoisonCanon*/ NULL, 30, priorite, 1, 25, 5, 3),
+    Tour(x, y, ::textureTourPoisonBase, NULL, 30, priorite, 1, 25, 5, 3),
     duree(10)
 {
 	Case::type="TourPoison";
@@ -14,7 +14,6 @@ TourPoison::~TourPoison(){
 
 int TourPoison::action(){
     for(int i=listeEnnemis.size()-1, xEnnemi, yEnnemi; i>=0;i--){
-        //if(this->type=="TourPoison")cout<<"lol"<<endl;
         xEnnemi = listeEnnemis[i]->getXCentre();
         yEnnemi = listeEnnemis[i]->getYCentre();
 

@@ -2,7 +2,6 @@
 #define TOURPOISON_H
 
 #include <Tour.h>
-#include <TirPoison.h>
 
 
 class TourPoison : public Tour

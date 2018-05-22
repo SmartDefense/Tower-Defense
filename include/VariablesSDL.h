@@ -12,7 +12,6 @@ extern SDL_Texture  *textureCase,
                     *textureTourSniperBase,
 
                     *textureTourClassiqueCanon,
-                    *textureTourPoisonCanon,
                     *textureTourSniperCanon,
 
                     *textureEnnemiClassique,
@@ -21,7 +20,6 @@ extern SDL_Texture  *textureCase,
                     *textureEnnemiVolant,
 
                     *textureTirClassique,
-                    *textureTirPoison,
                     *textureTirSniper,
 
                     *textureExplosion[TEMPS_ANIM_TIR];

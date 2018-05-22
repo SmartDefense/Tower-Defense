@@ -24,7 +24,6 @@ SDL_Texture  *textureCase,
              *textureTourSniperBase,
 
              *textureTourClassiqueCanon,
-             *textureTourPoisonCanon,
              *textureTourSniperCanon,
 
              *textureEnnemiClassique,
@@ -33,7 +32,6 @@ SDL_Texture  *textureCase,
              *textureEnnemiVolant,
 
              *textureTirClassique,
-             *textureTirPoison,
              *textureTirSniper,
 
              *textureExplosion[TEMPS_ANIM_TIR],
@@ -60,7 +58,6 @@ TTF_Font *font;
 #include "EnnemiVolant.h"
 #include "TirClassique.h"
 #include "TirSniper.h"
-#include "TirPoison.h"
 
 #include "Variables.h"
 #include "VariablesSDL.h"
@@ -1177,10 +1174,6 @@ int initSDL()
     textureTourSniperCanon= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
-    surface=IMG_Load((CHEMIN_IMAGES+"tourPoisonCanon.png").c_str());
-    textureTourPoisonCanon= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
     surface=IMG_Load((CHEMIN_IMAGES+"ennemiClassique.png").c_str());
     textureEnnemiClassique= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
@@ -1199,10 +1192,6 @@ int initSDL()
 
     surface=IMG_Load((CHEMIN_IMAGES+"tirSniper.png").c_str());
     textureTirSniper= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tirPoison.png").c_str());
-    textureTirPoison= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     for(int i=0;i<TEMPS_ANIM_TIR;i++){
