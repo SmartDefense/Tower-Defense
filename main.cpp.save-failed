@@ -73,11 +73,11 @@ string pseudoCrypte="";
 string pseudoDecrypte="";
 int nbVagues=10;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
-int occurences=10;                  // Nombre d'ennemis dans la première vague
-int argent=200;                         // Argent du joueur
+int occurences=10;       // Nombre d'ennemis dans la première vague
+int argent;                         // Argent du joueur
 int numLevel=1;                     // Numero du level
 int continuer=1;                    // Variable d'état pour quitter la boucle principale et fermer la fenêtre de jeu
-string nbParties="";                     // Nombre de parties du joueur
+char nbParties;                    // Nombre de parties du joueur
 int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
 int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vague
@@ -121,76 +121,9 @@ int decryptNombres(char lettre) // Fonction de décryptage du nb de parties
 return (int(lettre));
 }
 
-string cryptShadock(int nombre)             // Fonction de cryptage du nb de parties
-{
-    string shadockCrypte="";
-    string nbShadock="";
-    int n=0;
-    int diviseur=4;
-
-    while (nombre!=0){                       // Tant qu'il extiste un reste dans la division du nombre par 4
-
-        n = nombre%4;                   // On stocke le reste de la division euclidienne par 4 dans n
-        nbShadock+=to_string(n);
-        nombre=nombre/diviseur;         // On effectue le quotient du nombre par 4
-    }
-
-    for (int i=(nbShadock.size())-1; i>=0; i--){         // Les chiffres sont remplacés par les lettres correspondantes
-
-        if (nbShadock.at(i)=='0'){
-            shadockCrypte+="GA";
-        }
-        else if (nbShadock.at(i)=='1'){
-            shadockCrypte+="BU";
-        }
-        else if (nbShadock.at(i)=='2'){
-            shadockCrypte+="ZO";
-        }
-        else {
-            shadockCrypte+="MEU";
-        }
-    }
-    return shadockCrypte;               // Le message est renvoyé
-}
-
-int decryptShadock(string shadock)          //Fonction de décryptage du nb de parties
-{
-
-    int a=0;
-    int nombre=0;
-    int longueurChaine=0;
-    vector<int> tableau;
-    for (int i=0; i<shadock.size(); i++){   // On remplace chaque mot par le chiffre correspondant
-
-        if (shadock.at(i)=='G'){
-            tableau.push_back(0);
-            longueurChaine++;
-        }
-        else if (shadock.at(i)=='B'){
-            tableau.push_back(1);
-            longueurChaine++;
-        }
-        else if (shadock.at(i)=='Z'){
-            tableau.push_back(2);
-            longueurChaine++;
-        }
-        else if (shadock.at(i)=='M'){
-            tableau.push_back(3);
-            longueurChaine++;
-        }
-    }
-
-
-    for (int i=longueurChaine-1; i>=0; i--){      // Pour chaque nombre du dernier au premier, on le multiplie par 4**a avec a un entier initialisé à 0 et incrémenté à chaque tour de boucle
-
-         nombre+=(tableau[i]*pow(4,a));
-         a++;
-    }
-    return (nombre);
-}
-
 void infos()                            // Fonction d'enregistrement des données liées au joueur (argent, pseudo crypté, nb de parties ...)
 {
+
     string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
     fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
     if (fichier)                                       // Si le fichier existe ...
@@ -200,17 +133,16 @@ void infos()                            // Fonction d'enregistrement des données
         fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
         //récupere le nombre de parties
 
-        int nbPartiesDecrypte=decryptShadock(nbParties);
+        int nbPartiesDecrypte=decryptNombres(nbParties);
         ++nbPartiesDecrypte;
-        string nbPartiesCrypte=cryptShadock(nbPartiesDecrypte);
-        string argentCrypte=cryptShadock(argent);
-
-        //incrémente puis écrit dans le fichier (automatiquement converti en string)
+        char nbPartiesCrypte=cryptNombres(nbPartiesDecrypte);
         fichier<<(nbPartiesCrypte);
+        //incrémente puis écrit dans le fichier (automatiquement converti en string)
+
         fichier<<("\n");            // Saut de ligne
         fichier<<(pseudoCrypte);    // Ajout du pseudo crypté
         fichier<<("\n");
-        fichier<<(argentCrypte);          // Ajout de la somme d'argent
+        fichier<<(argent);          // Ajout de la somme d'argent
         fichier<<("\n");
     }
 }
@@ -258,6 +190,22 @@ void affichageTexture(SDL_Texture* texture, int x, int y)                       
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
+string cryptShadock(int nombre)
+{
+    string shadock="";
+    int n=42;
+    int i=0;
+    while (n>0){
+
+        int n = nombre%4;
+        i++;
+        nombre=nombre%4;
+        shadock+=to_string(n);
+    }
+}
+
+
+
 void cryptAffineLettres()  // Fonction de cryptage du pseudo
 {
     std::string majuscule = pseudo;
@@ -279,6 +227,7 @@ void cryptAffineLettres()  // Fonction de cryptage du pseudo
 
 void decryptAffineLettres() // Fonction de décryptage du pseudo
 {
+
 int nblettres=pseudoCrypte.size();
 vector<int> tableau;
 
@@ -358,6 +307,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
     SDL_Event events;
     bool terminer = false;
 
+    argent=200;   // On met 200 d'argent au début de la partie
     int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquée
     remplissageVague();
 
@@ -753,6 +703,8 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
 
 
     }
+    infos();
+
     // Suppression des listes ennemis et tirs
     for(int i=listeEnnemis.size()-1; i>=0; i--)
     {
@@ -961,24 +913,6 @@ void aide()
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
     Ecrire("CollegiateInsideFLF",50,"AIDE",255,255,255,450,50);
     SDL_RenderPresent(renderer);
-
-    string nomfichier= "regles.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier regles
-    string ligne;
-    int saut=0;
-    if (fichier)                                       // Si le fichier existe ...
-    {
-
-    while(getline(fichier, ligne))
-    {
-     Ecrire("BKANT",28,ligne,255,255,255,50,(137+saut));
-     saut+=30;
-    }
-
-    SDL_RenderPresent(renderer);
-    fichier.close();
-    }
-
     while (continuerAide==1 && continuer==1)
     {
         while(SDL_PollEvent(&events))
@@ -1022,22 +956,17 @@ void menu()
     int continuerMenu=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
+    int nbPartiesDecrypte=0;
     // Récupération du nombre de parties dans le fichier infos.txt
     string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
     fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
-    int nbPartiesDecrypte=0;
-    int argentDecrypte=0;
-    string ligne;
-    string argentCrypte="";
     if (fichier)                                       // Si le fichier existe ...
     {
         fichier>>nbParties;
-        nbPartiesDecrypte=decryptShadock(nbParties);
-        fichier>>ligne;
-        fichier>>argentCrypte;
-        argentDecrypte=decryptShadock(argentCrypte);
-        fichier.close();
+        nbPartiesDecrypte=decryptNombres(nbParties);
+
     }
+
 
     // Affichage des éléments graphiques
     Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
@@ -1045,7 +974,6 @@ void menu()
     Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
     Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbPartiesDecrypte),255,255,255,30,150);
-    Ecrire("CollegiateInsideFLF",25,"Argent : " + to_string(argentDecrypte)+" $",255,255,255,30,250);
     SDL_RenderPresent(renderer);
 
     while (continuerMenu==1 && continuer==1)
@@ -1297,7 +1225,6 @@ int main(int argc, char **argv) // Boucle principale avec appel de chaque foncti
     initListeCase();
     debut();
     quitListeCase();
-    infos();
     SDL_DestroyWindow(fenetre);
     TTF_Quit();
     SDL_Quit();
