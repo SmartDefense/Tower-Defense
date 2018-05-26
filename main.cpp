@@ -969,7 +969,7 @@ void aide()
     if (fichier)                                       // Si le fichier existe ...
     {
 
-    while(getline(fichier, ligne))
+    while(getline(fichier, ligne))                      // Affichage des règles du jeu
     {
      Ecrire("BKANT",28,ligne,255,255,255,50,(137+saut));
      saut+=30;
