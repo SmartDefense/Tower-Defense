@@ -6,6 +6,6 @@ infos.txt
 *.exe
 *.o
 *.depend
-*.txt
+infos.txt
 *.exe
 *.layout
