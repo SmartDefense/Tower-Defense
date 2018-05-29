@@ -437,6 +437,22 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                     listeEnnemis.push_back(new EnnemiTank(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
                 }
+                else if(events.key.keysym.scancode==SDL_SCANCODE_1)
+                {
+                    listeCases[yCase][xCase]->amelioration(AMELIORATION_CADENCE);
+                }
+                else if(events.key.keysym.scancode==SDL_SCANCODE_2)
+                {
+                    listeCases[yCase][xCase]->amelioration(AMELIORATION_DEGAT_TIR);
+                }
+                else if(events.key.keysym.scancode==SDL_SCANCODE_3)
+                {
+                    listeCases[yCase][xCase]->amelioration(AMELIORATION_PORTEE_TOUR);
+                }
+                else if(events.key.keysym.scancode==SDL_SCANCODE_4)
+                {
+                    listeCases[yCase][xCase]->amelioration(AMELIORATION_VITESSE_TIR);
+                }
                 /*
                 else if(events.key.keysym.scancode==SDL_SCANCODE_V)
                 {

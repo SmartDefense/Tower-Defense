@@ -1,7 +1,7 @@
 #include "TourSniper.h"
 
 TourSniper::TourSniper(int x, int y, int priorite):
-    Tour(x, y, ::textureTourSniperBase, ::textureTourSniperCanon, 90, priorite, 10, 30, 2, 6.5)
+    Tour(x, y, ::textureTourSniperBase, ::textureTourSniperCanon, 90, priorite, 200, 30, 2, 6.5)
 {
     Case::type="TourSniper";
 	//cout<<"Creation :\t TourSniper ("<<x<<","<<y<<")"<<endl;
@@ -22,5 +22,18 @@ void TourSniper::tir(double dX, double dY, double angle)
 
 void TourSniper::amelioration(const int typeAmelioration)
 {
-
+    switch(typeAmelioration){
+    case AMELIORATION_CADENCE:
+        if(rechargement>5) rechargement-=10;
+        break;
+    case AMELIORATION_DEGAT_TIR:
+        degat+=50;
+        break;
+    case AMELIORATION_PORTEE_TOUR:
+        portee+=TAILLE_CASE;
+        break;
+    case AMELIORATION_VITESSE_TIR:
+        vitesseTir+=2;
+        break;
+    }
 }

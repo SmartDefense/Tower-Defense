@@ -1,7 +1,7 @@
 #include "TourPoison.h"
 
 TourPoison::TourPoison(int x, int y, int priorite):
-    Tour(x, y, ::textureTourPoisonBase, NULL, 30, priorite, 1, 25, 5, 3),
+    Tour(x, y, ::textureTourPoisonBase, NULL, 30, priorite, 10, 25, 5, 3),
     duree(10)
 {
 	Case::type="TourPoison";
@@ -30,5 +30,15 @@ int TourPoison::action(){
 
 void TourPoison::amelioration(const int typeAmelioration)
 {
-
+    switch(typeAmelioration){
+    case AMELIORATION_CADENCE:
+        if(rechargement>5) rechargement-=5;
+        break;
+    case AMELIORATION_DEGAT_TIR:
+        degat+=5;
+        break;
+    case AMELIORATION_PORTEE_TOUR:
+        portee+=TAILLE_CASE*0.5;
+        break;
+    }
 }

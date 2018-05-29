@@ -111,5 +111,4 @@ void Tour::tir(double dX, double dY, double angle)
 
 void Tour::amelioration(const int typeAmelioration)
 {
-
 }
