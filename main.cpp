@@ -41,6 +41,11 @@ SDL_Texture  *textureCase,
              *textureBpTourPoison,
              *textureBpEffacer,
              *textureBpAnnuler,
+             *textureCadence,
+             *textureDegatTir,
+             *texturePorteeTour,
+             *textureVitesseTir,
+
 
              *textureAccueil,
              *textureLogo;
@@ -67,7 +72,7 @@ Case*** listeCases;
 vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
 
-
+string nbParties="";                // Nombre de parties du joueur
 string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
 string pseudoCrypte="";
 string pseudoDecrypte="";
@@ -77,11 +82,13 @@ int occurences=10;                  // Nombre d'ennemis dans la première vague
 int argent=200;                         // Argent du joueur
 int numLevel=1;                     // Numero du level
 int continuer=1;                    // Variable d'état pour quitter la boucle principale et fermer la fenêtre de jeu
-string nbParties="";                     // Nombre de parties du joueur
+int affichageArgent=1;
+
 int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
 int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vague
 int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
+int rafraichissement=30;
 
 int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
     yVague=-1;
@@ -585,16 +592,19 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                     }
                 }
 
+
                 // Si la case est l'une des 3 tours, on peut effectuer des actions sur ces tours
                 else if(xCaseTour!=-1 && (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"))
                 {
+
                     if (x>500 && x<580 && y>10 && y<90)
                     {
                         //ANNULER TOUR
                         xCaseTour = -1;
                         yCaseTour = -1;
+                        affichageArgent=1;
                     }
                     else if (x>400 && x<480 && y>10 && y<90)
                     {
@@ -603,6 +613,36 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                         listeCases[yCaseTour][xCaseTour]=new Case(xCaseTour, yCaseTour, 0);
                         xCaseTour = -1;
                         yCaseTour = -1;
+                        affichageArgent=1;
+                    }
+                    ///// AMELIORATIONS /////
+                    else if(x>600 && x<680 && y>10 && y<90)
+                    {
+                        listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_CADENCE);
+                        xCaseTour = -1;
+                        yCaseTour = -1;
+                        affichageArgent=1;
+                    }
+                    else if(x>700 && x<780 && y>10 && y<90)
+                    {
+                        listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_DEGAT_TIR);
+                        xCaseTour = -1;
+                        yCaseTour = -1;
+                        affichageArgent=1;
+                    }
+                    else if(x>800 && x<880 && y>10 && y<90)
+                    {
+                        listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_PORTEE_TOUR);
+                        xCaseTour = -1;
+                        yCaseTour = -1;
+                        affichageArgent=1;
+                    }
+                    else if(x>900 && x<980 && y>10 && y<90)
+                    {
+                        listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_VITESSE_TIR);
+                        xCaseTour = -1;
+                        yCaseTour = -1;
+                        affichageArgent=1;
                     }
                 }
             }
@@ -670,7 +710,8 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
             listeTirs[i]->affiche();
         }
 
-        EcrireArgent(); // Ecriture et affichage de l'argent
+        if (affichageArgent==1){
+        EcrireArgent(); }// Ecriture et affichage de l'argent
 
         SDL_GetMouseState(&xSouris, &ySouris);
 
@@ -709,9 +750,10 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 SDL_RenderDrawLines(renderer, points, 5);
             }
 
-            // Affichage du prix de chaque tour
+            // Affichage du prix de chaque tour + texture des tours
             if(listeCases[yCaseTour][xCaseTour]->getType()=="Case")
             {
+                affichageArgent=1;
                 affichageTexture(textureBpAnnuler,200,10);
                 affichageTexture(textureBpTourClassique,300,10);
                 Ecrire("CollegiateInsideFLF",20,to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$",0,0,0,380,40);
@@ -722,6 +764,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
             }
             else
             {
+                affichageArgent=0;
 
                 // Affichage du nom de la tour
                 if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
@@ -738,6 +781,10 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
 
                 affichageTexture(textureBpEffacer,400,10);
                 affichageTexture(textureBpAnnuler,500,10);
+                affichageTexture(textureCadence,600,10);
+                affichageTexture(textureDegatTir,700,10);
+                affichageTexture(texturePorteeTour,800,10);
+                affichageTexture(textureVitesseTir,900,10);
             }
         }
         else
@@ -764,7 +811,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
         }
         // Rafraichissement de l'écran toutes les 30 ms
         SDL_RenderPresent(renderer);
-        SDL_Delay(30);
+        SDL_Delay(rafraichissement);
         compteurImage++;
 
 
@@ -1217,6 +1264,22 @@ int initSDL()
 
     //Surface pour charger toutes les textures
     SDL_Surface* surface;
+
+    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationCadence.png").c_str());
+    textureCadence= SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationDegatTir.png").c_str());
+    textureDegatTir= SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationPorteeTour.png").c_str());
+    texturePorteeTour= SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationVitesseTir.png").c_str());
+    textureVitesseTir= SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"bpTourClassique.png").c_str());
     textureBpTourClassique= SDL_CreateTextureFromSurface(renderer, surface);
