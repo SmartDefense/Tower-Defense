@@ -1,2 +1,19 @@
-Pierre est une merde.
-Salut nouvelle ligne
+Voici les règles du jeu :
+
+
+- Le joueur dispose d'un solde de 200 $ à chaque début de partie.
+
+- En tuant des ennemis, il gagne de l'argent en fonction du type d'ennemi tué.
+
+- Lorsque tous les ennemis ont disparu du plateau, une vague
+  supplémentaire se déclenche.
+
+- Le but est d'arriver à maintenir le château en vie jusqu'à la fin des vagues.
+
+
+A chaque niveau correspond une difficulté supplémentaire :
+
+- Le nombre de vague augmente.
+
+- Les points de vie des ennemis aussi.
+
