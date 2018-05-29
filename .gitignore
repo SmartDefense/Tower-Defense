@@ -1,6 +1,6 @@
 obj/*
 bin/*
-*.txt
+infos.txt
 *.depend
 *.layout
 *.exe
