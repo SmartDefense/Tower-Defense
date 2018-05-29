@@ -121,60 +121,60 @@ int decryptNombres(char lettre) // Fonction de décryptage du nb de parties
 return (int(lettre));
 }
 
-string cryptShadock(int nombre)             // Fonction de cryptage du nb de parties
+string cryptShadok(int nombre)             // Fonction de cryptage du nb de parties
 {
-    string shadockCrypte="";
-    string nbShadock="";
+    string shadokCrypte="";
+    string nbShadok="";
     int n=0;
     int diviseur=4;
 
     while (nombre!=0){                       // Tant qu'il extiste un reste dans la division du nombre par 4
 
         n = nombre%4;                   // On stocke le reste de la division euclidienne par 4 dans n
-        nbShadock+=to_string(n);
+        nbShadok+=to_string(n);
         nombre=nombre/diviseur;         // On effectue le quotient du nombre par 4
     }
 
-    for (int i=(nbShadock.size())-1; i>=0; i--){         // Les chiffres sont remplacés par les lettres correspondantes
+    for (int i=(nbShadok.size())-1; i>=0; i--){         // Les chiffres sont remplacés par les lettres correspondantes
 
-        if (nbShadock.at(i)=='0'){
-            shadockCrypte+="GA";
+        if (nbShadok.at(i)=='0'){
+            shadokCrypte+="GA";
         }
-        else if (nbShadock.at(i)=='1'){
-            shadockCrypte+="BU";
+        else if (nbShadok.at(i)=='1'){
+            shadokCrypte+="BU";
         }
-        else if (nbShadock.at(i)=='2'){
-            shadockCrypte+="ZO";
+        else if (nbShadok.at(i)=='2'){
+            shadokCrypte+="ZO";
         }
         else {
-            shadockCrypte+="MEU";
+            shadokCrypte+="MEU";
         }
     }
-    return shadockCrypte;               // Le message est renvoyé
+    return shadokCrypte;               // Le message est renvoyé
 }
 
-int decryptShadock(string shadock)          //Fonction de décryptage du nb de parties
+int decryptShadok(string shadok)          //Fonction de décryptage du nb de parties
 {
 
     int a=0;
     int nombre=0;
     int longueurChaine=0;
     vector<int> tableau;
-    for (int i=0; i<shadock.size(); i++){   // On remplace chaque mot par le chiffre correspondant
+    for (int i=0; i<shadok.size(); i++){   // On remplace chaque mot par le chiffre correspondant
 
-        if (shadock.at(i)=='G'){
+        if (shadok.at(i)=='G'){
             tableau.push_back(0);
             longueurChaine++;
         }
-        else if (shadock.at(i)=='B'){
+        else if (shadok.at(i)=='B'){
             tableau.push_back(1);
             longueurChaine++;
         }
-        else if (shadock.at(i)=='Z'){
+        else if (shadok.at(i)=='Z'){
             tableau.push_back(2);
             longueurChaine++;
         }
-        else if (shadock.at(i)=='M'){
+        else if (shadok.at(i)=='M'){
             tableau.push_back(3);
             longueurChaine++;
         }
@@ -200,10 +200,10 @@ void infos()                            // Fonction d'enregistrement des données
         fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
         //récupere le nombre de parties
 
-        int nbPartiesDecrypte=decryptShadock(nbParties);
+        int nbPartiesDecrypte=decryptShadok(nbParties);
         ++nbPartiesDecrypte;
-        string nbPartiesCrypte=cryptShadock(nbPartiesDecrypte);
-        string argentCrypte=cryptShadock(argent);
+        string nbPartiesCrypte=cryptShadok(nbPartiesDecrypte);
+        string argentCrypte=cryptShadok(argent);
 
         //incrémente puis écrit dans le fichier (automatiquement converti en string)
         fichier<<(nbPartiesCrypte);
@@ -316,7 +316,7 @@ void inputPseudo()                                                              
                     pseudo.pop_back();
                     changement=true;
                 }
-                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN)                             // Validation par la touche entrée
+                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN && pseudo.length() > 0)                             // Validation par la touche entrée
                 {
                     continuerPseudo=0;
                 }
@@ -1048,10 +1048,10 @@ void menu()
     if (fichier)                                       // Si le fichier existe ...
     {
         fichier>>nbParties;
-        nbPartiesDecrypte=decryptShadock(nbParties);
+        nbPartiesDecrypte=decryptShadok(nbParties);
         fichier>>ligne;
         fichier>>argentCrypte;
-        argentDecrypte=decryptShadock(argentCrypte);
+        argentDecrypte=decryptShadok(argentCrypte);
         fichier.close();
     }
 
