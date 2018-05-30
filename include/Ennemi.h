@@ -37,21 +37,22 @@ class Ennemi
         virtual void direction3;*/
         void ajouteArgent();
         void enregistrerPoss(int yCase, int xCase);
+        void remplissagePoss(int yCase ,int xCase, int poss[][2]);
+
         int vie,
+            vieMax,
             direction,
             vitesse,
-            vieMax;
+            poison,
+            intensitePoison;
         SDL_Rect destVie,
                  destVieFond;
-        bool estAerien;
-
-        SDL_Texture* textureEnnemi;
-        SDL_Rect dest;
         double multiplicateurVitesse,
             multiplicateurArgentMort;
-        int poison, intensitePoison;
+        bool estAerien;
+        SDL_Texture* textureEnnemi;
+        SDL_Rect dest;
         vector<pair<int,int>> listePoss;
-        void remplissagePoss(int yCase ,int xCase, int poss[][2]);
 
 
 };

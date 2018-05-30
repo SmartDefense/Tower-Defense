@@ -9,9 +9,9 @@ Case::Case(int x, int y, int block):
     nbPassage(1),
     xCentre(x*TAILLE_CASE + TAILLE_CASE/2 + MARGE_GAUCHE),
     yCentre(y*TAILLE_CASE + TAILLE_CASE/2 + MARGE_HAUT),
-    textureCase(::textureCase),
+    type("Case"),
     dest({x*TAILLE_CASE+MARGE_GAUCHE, y*TAILLE_CASE+MARGE_HAUT, TAILLE_CASE, TAILLE_CASE}),
-    type("Case")
+    textureCase(::textureCase)
 {
     //cout<<"Creation :\t Case ("<<x<<","<<y<<")"<<endl;
 }

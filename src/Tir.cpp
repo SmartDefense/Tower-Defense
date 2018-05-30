@@ -6,9 +6,9 @@ Tir::Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle,
     y(y),
     dX(dX),
     dY(dY),
-    textureTir(textureTir),
+    degat(degat),
     angle(angle),
-    degat(degat)
+    textureTir(textureTir)
 {
     //cout<<"Creation :\t Tir ("<<x<<","<<y<<")"<<endl;
 }

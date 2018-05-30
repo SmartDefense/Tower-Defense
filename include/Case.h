@@ -27,13 +27,12 @@ class Case
 
     protected:
         double distanceDepuisCentre(int x, int y);
-        int nbPassage;
         int x,
             y,
             block,
+            nbPassage,
             xCentre,
             yCentre;
-
         string type;
         SDL_Rect dest;
         SDL_Texture* textureCase;

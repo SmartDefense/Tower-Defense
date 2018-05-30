@@ -1,18 +1,19 @@
 #include "Ennemi.h"
 
 Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estAerien):
-    poison(false),
     vie(vie+(vie*20*(vague+1)/100)),
     vieMax(this->vie),
-    textureEnnemi(textureEnnemi),
-    dest({ x, y, TAILLE_ENNEMI, TAILLE_ENNEMI }),
     direction(0),
     vitesse(VITESSEBASEENNEMI * multiplicateurVitesse),
-    destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
+    poison(false),
+    intensitePoison(0),
     destVie({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
-    multiplicateurArgentMort(multiplicateurArgentMort),
+    destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
     multiplicateurVitesse(multiplicateurVitesse),
-    estAerien(estAerien)
+    multiplicateurArgentMort(multiplicateurArgentMort),
+    estAerien(estAerien),
+    textureEnnemi(textureEnnemi),
+    dest({ x, y, TAILLE_ENNEMI, TAILLE_ENNEMI })
 {
     //cout<<"Creation :\t Ennemi ("<<dest.x<<","<<dest.y<<")"<<endl;
 }

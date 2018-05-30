@@ -2,11 +2,11 @@
 
 Chateau::Chateau(int x, int y, int vie):
     Chemin(x, y, 0),
-    textureChateau(::textureChateau),
     vie(vie),
     vieMax(vie),
+    destVie({x*TAILLE_CASE+TAILLE_CASE/8+MARGE_GAUCHE, (y+1)*TAILLE_CASE-2*TAILLE_CASE/6+MARGE_HAUT, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
     destVieFond({x*TAILLE_CASE+TAILLE_CASE/8+MARGE_GAUCHE, (y+1)*TAILLE_CASE-2*TAILLE_CASE/6+MARGE_HAUT, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
-    destVie({x*TAILLE_CASE+TAILLE_CASE/8+MARGE_GAUCHE, (y+1)*TAILLE_CASE-2*TAILLE_CASE/6+MARGE_HAUT, 3*TAILLE_CASE/4, TAILLE_CASE/6})
+    textureChateau(::textureChateau)
 {
     Case::type="Chateau";
     //cout<<"Creation :\t Chateau ("<<x<<","<<y<<")"<<endl;

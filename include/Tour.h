@@ -23,11 +23,11 @@ class Tour : public Case
             vitesseTir,
             vitesseCanon,
             angleCanon;
+        double portee;
         bool peutToucherAerien,
              peutToucherTerrestre;
         SDL_Texture *textureTourBase,
                      *textureTourCanon;
-        double portee;
 
 };
 

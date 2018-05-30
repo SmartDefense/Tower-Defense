@@ -20,15 +20,13 @@ class Tir
         virtual void degatEnnemi(int idEnnemi);
 
     protected:
-        SDL_Texture* textureTir;
-        int degat,
-            angle;
         double x,
             y,
             dX,
             dY;
-
-
+        int degat,
+            angle;
+        SDL_Texture* textureTir;
 };
 
 #endif // TIR_H

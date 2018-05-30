@@ -3,18 +3,18 @@
 
 Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourCanon, int rechargement, int priorite, int degat, int vitesseTir, int vitesseCanon, double portee, bool peutToucherTerrestre, bool peutToucherAerien):
     Case(x, y , 0),
-    textureTourBase(textureTourBase),
-    textureTourCanon(textureTourCanon),
     rechargement(rechargement),
+    compteurRechargement(0),
     priorite(priorite),
     degat(degat),
     vitesseTir(vitesseTir),
     vitesseCanon(vitesseCanon),
-    portee(portee*TAILLE_CASE),
     angleCanon(0),
-    compteurRechargement(0),
+    portee(portee*TAILLE_CASE),
     peutToucherAerien(peutToucherAerien),
-    peutToucherTerrestre(peutToucherTerrestre)
+    peutToucherTerrestre(peutToucherTerrestre),
+    textureTourBase(textureTourBase),
+    textureTourCanon(textureTourCanon)
 {
     Case::type="Tour";
 }
