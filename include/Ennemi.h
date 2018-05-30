@@ -13,7 +13,7 @@ class Ennemi;
 class Ennemi
 {
     public:
-        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort);
+        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague);
         virtual ~Ennemi();
         void affiche();
         void action();

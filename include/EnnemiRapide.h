@@ -7,7 +7,7 @@
 class EnnemiRapide : public Ennemi
 {
     public:
-        EnnemiRapide(int x, int y);
+        EnnemiRapide(int x, int y, int vague);
 };
 
 #endif // ENNEMIRAPIDE_H

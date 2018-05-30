@@ -1,9 +1,9 @@
 #include "Ennemi.h"
 
-Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort):
+Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague):
     poison(false),
-    vie(vie),
-    vieMax(vie),
+    vie(vie+(vie*20*(vague+1)/100)),
+    vieMax(this->vie),
     textureEnnemi(textureEnnemi),
     dest({ x, y, TAILLE_ENNEMI, TAILLE_ENNEMI }),
     direction(0),

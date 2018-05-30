@@ -76,7 +76,7 @@ string nbParties="";                // Nombre de parties du joueur
 string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
 string pseudoCrypte="";
 string pseudoDecrypte="";
-int nbVagues=10;                    // Nombre de vague totale dans chaque partie
+int nbVagues=30;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
 int argent=200;                         // Argent du joueur
@@ -378,16 +378,19 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
             {
                 if (vague[numeroEnnemi]==0){
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+                                                            listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
+                                                            itterations));
                 }
                 else if (vague[numeroEnnemi]==1){
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+                                                               listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
+                                                               itterations));
 
                 }
                 else if (vague[numeroEnnemi]==2){
                     listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
-                       listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2));
+                                                          listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
+                                                          itterations));
 
                 }
                 numeroEnnemi++;
@@ -432,17 +435,20 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 if(events.key.keysym.scancode==SDL_SCANCODE_T)
                 {
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
-                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
+                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
+                                           itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_E)
                 {
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
-                                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
+                                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
+                                                            itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_Y)
                 {
                     listeEnnemis.push_back(new EnnemiTank(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
-                                                          listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2));
+                                                          listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
+                                                          itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_1)
                 {
