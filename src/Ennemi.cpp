@@ -30,21 +30,6 @@ Ennemi::~Ennemi()
     }
 }
 
-
-int Ennemi::getType()
-{
-    int type=0;
-
-    if(textureEnnemi==textureEnnemiClassique){
-        type=1;
-    }else if(textureEnnemi==textureEnnemiRapide){
-        type=2;
-    }else if (textureEnnemi==textureEnnemiTank){
-        type=3;
-    }
-    return type;
-}
-
 bool Ennemi::getAerien()
 {
     return estAerien;
