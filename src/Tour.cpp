@@ -82,7 +82,7 @@ int Tour::action()
             if(angle<0){angle+=360;}
 
             //si l'angle du canon est différent de celui du tir, on tourne la tour
-            if(moduloPositif(angle-angleCanon, 360)<180){
+            if(moduloPositif(angle-angleCanon, 360)<=180){
                 angleCanon+=vitesseCanon;
                 if(angleCanon>360) angleCanon-=360;
                 if(moduloPositif(angle-angleCanon, 360)>180) angleCanon=angle;
