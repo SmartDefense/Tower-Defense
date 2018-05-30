@@ -19,8 +19,7 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     Case::type="Tour";
 }
 
-Tour::~Tour(){
-}
+Tour::~Tour(){}
 
 Tour::moduloPositif(int nombre, int modulo){
     return (nombre % modulo + modulo) % modulo;
@@ -35,7 +34,6 @@ void Tour::affiche()
     int tempsDepuisTir=abs(rechargement-compteurRechargement);
     if(tempsDepuisTir<TEMPS_ANIM_TIR){
             SDL_RenderCopyEx(renderer, textureExplosion[tempsDepuisTir], NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
-
     }
 }
 

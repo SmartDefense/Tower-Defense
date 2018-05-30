@@ -17,13 +17,13 @@ class Case
         virtual void affiche();
         virtual void affichePortee();
         virtual int action();
+        void ajouteNbPassage();
+        virtual void amelioration(const int typeAmelioration);
         string getType();
         int getXcentre();
         int getBlock();
-        void ajouteNbPassage();
         int getNbPassage();
         int getYcentre();
-        virtual void amelioration(const int typeAmelioration);
 
     protected:
         double distanceDepuisCentre(int x, int y);
