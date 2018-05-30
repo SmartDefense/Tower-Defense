@@ -1,7 +1,7 @@
 #include "Tour.h"
 #include <math.h>
 
-Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourCanon, int rechargement, int priorite, int degat, int vitesseTir, int vitesseCanon, double portee):
+Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourCanon, int rechargement, int priorite, int degat, int vitesseTir, int vitesseCanon, double portee, bool peutToucherTerrestre, bool peutToucherAerien):
     Case(x, y , 0),
     textureTourBase(textureTourBase),
     textureTourCanon(textureTourCanon),
@@ -12,7 +12,9 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     vitesseCanon(vitesseCanon),
     portee(portee*TAILLE_CASE),
     angleCanon(0),
-    compteurRechargement(0)
+    compteurRechargement(0),
+    peutToucherAerien(peutToucherAerien),
+    peutToucherTerrestre(peutToucherTerrestre)
 {
     Case::type="Tour";
 }
@@ -70,7 +72,7 @@ int Tour::action()
         double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
 
         //...pour savoir s'il est a portee
-        if(distance<portee){
+        if(distance<portee && ((!listeEnnemis[i]->getAerien() && peutToucherTerrestre) || (listeEnnemis[i]->getAerien() && peutToucherAerien))){
             int temps=distance/vitesseTir;
             xEnnemi=listeEnnemis[i]->getXCentreFutur(temps);
             yEnnemi=listeEnnemis[i]->getYCentreFutur(temps);

@@ -1,7 +1,7 @@
 #include "TourPoison.h"
 
 TourPoison::TourPoison(int x, int y, int priorite):
-    Tour(x, y, ::textureTourPoisonBase, NULL, 30, priorite, 10, 25, 5, 3),
+    Tour(x, y, ::textureTourPoisonBase, NULL, 30, priorite, 10, 25, 5, 3, true, false),
     duree(10)
 {
 	Case::type="TourPoison";
@@ -14,15 +14,17 @@ TourPoison::~TourPoison(){
 
 int TourPoison::action(){
     for(int i=listeEnnemis.size()-1, xEnnemi, yEnnemi; i>=0;i--){
-        xEnnemi = listeEnnemis[i]->getXCentre();
-        yEnnemi = listeEnnemis[i]->getYCentre();
+        if(!listeEnnemis[i]->getAerien() && peutToucherTerrestre){
+            xEnnemi = listeEnnemis[i]->getXCentre();
+            yEnnemi = listeEnnemis[i]->getYCentre();
 
-        //on calcul la distance entre le centre de l'ennemi et celui de la tour...
-        double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
+            //on calcul la distance entre le centre de l'ennemi et celui de la tour...
+            double distance = distanceDepuisCentre(xEnnemi, yEnnemi);
 
-        //...pour savoir s'il est a portee
-        if(distance<portee){
-            listeEnnemis[i]->appliquerEffet(EFFET_POISON, degat, duree);
+            //...pour savoir s'il est a portee
+            if(distance<portee){
+                listeEnnemis[i]->appliquerEffet(EFFET_POISON, degat, duree);
+            }
         }
     }
     return 1;

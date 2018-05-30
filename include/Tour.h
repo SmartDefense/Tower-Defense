@@ -6,7 +6,7 @@
 class Tour : public Case
 {
     public:
-        Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourCanon, int rechargement, int priorite, int degat, int vitesseTir, int vitesseCanon, double portee);
+        Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourCanon, int rechargement, int priorite, int degat, int vitesseTir, int vitesseCanon, double portee, bool peutToucherTerrestre, bool peutToucherAerien);
         virtual ~Tour();
         virtual void affiche();
         void affichePortee();
@@ -23,6 +23,8 @@ class Tour : public Case
             vitesseTir,
             vitesseCanon,
             angleCanon;
+        bool peutToucherAerien,
+             peutToucherTerrestre;
         SDL_Texture *textureTourBase,
                      *textureTourCanon;
         double portee;

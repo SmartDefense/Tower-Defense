@@ -13,7 +13,7 @@ class Ennemi;
 class Ennemi
 {
     public:
-        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague);
+        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estVolant);
         virtual ~Ennemi();
         void affiche();
         void action();
@@ -25,6 +25,7 @@ class Ennemi
         int getYCentreFutur(int images);
         int getPrediction();
         int getType();
+        bool getAerien();
         void ajouteCaseParcours();
 
 
@@ -43,6 +44,7 @@ class Ennemi
             vieMax;
         SDL_Rect destVie,
                  destVieFond;
+        bool estAerien;
 
         SDL_Texture* textureEnnemi;
         SDL_Rect dest;
