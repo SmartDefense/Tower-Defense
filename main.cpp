@@ -88,7 +88,9 @@ int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
 int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vague
 int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
-int rafraichissement=30;
+int rafraichissement=30,
+    xChateau=0,
+    yChateau=0;
 
 int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
     yVague=-1;
@@ -802,7 +804,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
         Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
         Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
 
-        if (listeCases[13][16]->action()==1){                               // Si le chateau n'a plus de vie
+        if (listeCases[yChateau][xChateau]->action()==1){                               // Si le chateau n'a plus de vie
             compteurImage=0;
 
             while (compteurImage<150){                                      // Affichage du fond Game Over pendant 5s
@@ -894,6 +896,8 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
             else if(ligne.at(x)=='3')
             {
                 listeCases[y][x]=new Chateau(x, y, 100);
+                xChateau=x;
+                yChateau=y;
             }
             else if(ligne.at(x)=='4')
             {
