@@ -22,16 +22,11 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
 
     if(estAerien){
         double distance = sqrt(pow(listeCases[yChateau][xChateau]->getXcentre()-getXCentre(),2)+pow(listeCases[yChateau][xChateau]->getYcentre()-getYCentre(),2));
-<<<<<<< HEAD
         Case chateau=*listeCases[yChateau][xChateau];
         dX=((chateau.getXcentre()-getXCentre())*vitesse)/distance;
         dY=((chateau.getYcentre()-getYCentre())*vitesse)/distance;
         angle=atan2((chateau.getYcentre()-y), (chateau.getXcentre()-x)) *180/M_PI;
         cout<<angle<<endl;
-=======
-        dX=((listeCases[yChateau][xChateau]->getXcentre()-getXCentre())*vitesse)/distance;
-        dY=((listeCases[yChateau][xChateau]->getYcentre()-getYCentre())*vitesse)/distance;
->>>>>>> fc327fcd942f6b72274b9c4abe6a4e1c12bdf461
     }
     //cout<<"Creation :\t Ennemi ("<<x<<","<<y<<")"<<endl;
 }
@@ -59,7 +54,6 @@ void Ennemi::affiche()
     destVieFond.x=destVie.x=x;
     destVieFond.y=destVie.y=y;
     SDL_Rect dest = {(int)(x+0.5), (int)(y+0.5), TAILLE_ENNEMI, TAILLE_ENNEMI};
-<<<<<<< HEAD
 
     if(estAerien){
 
@@ -69,9 +63,6 @@ void Ennemi::affiche()
         SDL_RenderCopy(renderer, textureEnnemi, NULL, &dest);
     }
 
-=======
-    SDL_RenderCopy(renderer, textureEnnemi, NULL, &dest);
->>>>>>> fc327fcd942f6b72274b9c4abe6a4e1c12bdf461
 
     //affiche la barre de vie
 
@@ -218,21 +209,12 @@ void Ennemi::avance()
         }*/
 
     }else{
-<<<<<<< HEAD
 
 
 
 
 
 
-=======
-
-
-
-
-
-
->>>>>>> fc327fcd942f6b72274b9c4abe6a4e1c12bdf461
         if((y + TAILLE_ENNEMI/2)-vitesse < listeCases[yCase][xCase]->getYcentre()
                 && listeCases[yCase][xCase]->getYcentre() < (y + TAILLE_ENNEMI/2)+vitesse
                 && (x + TAILLE_ENNEMI/2)-vitesse < listeCases[yCase][xCase]->getXcentre()
@@ -247,7 +229,6 @@ void Ennemi::avance()
                    dessous;
 
             if(xCase<TAILLE_X_PLATEAU && listeCases[yCase][xCase+1]!= NULL)
-<<<<<<< HEAD
             {
                 droite = listeCases[yCase][xCase+1]->getType();
             }
@@ -259,19 +240,6 @@ void Ennemi::avance()
             {
                 gauche = listeCases[yCase][xCase-1]->getType();
             }
-=======
-            {
-                droite = listeCases[yCase][xCase+1]->getType();
-            }
-            else
-            {
-                droite = "Vide";
-            }
-            if(xCase>0 && listeCases[yCase][xCase-1]!= NULL )
-            {
-                gauche = listeCases[yCase][xCase-1]->getType();
-            }
->>>>>>> fc327fcd942f6b72274b9c4abe6a4e1c12bdf461
             else
             {
                 gauche = "Vide";

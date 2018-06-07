@@ -35,4 +35,5 @@ void TourClassique::amelioration(const int typeAmelioration)
         vitesseTir+=2;
         break;
     }
+    cout<<"amelioration TourClassique"<<endl;
 }
