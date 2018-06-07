@@ -17,10 +17,12 @@ extern SDL_Texture  *textureCase,
                     *textureEnnemiClassique,
                     *textureEnnemiRapide,
                     *textureEnnemiTank,
-                    *textureEnnemiVolant,
+                    *textureEnnemiVolantSimple,
 
                     *textureTirClassique,
                     *textureTirSniper,
+
+                    *textureEnnemiVolant[nbImageEnnemiVolant],
 
                     *textureExplosion[TEMPS_ANIM_TIR];
 

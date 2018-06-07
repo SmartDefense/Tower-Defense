@@ -17,7 +17,8 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     multiplicateurVitesse(multiplicateurVitesse),
     multiplicateurArgentMort(multiplicateurArgentMort),
     estAerien(estAerien),
-    textureEnnemi(textureEnnemi)
+    textureEnnemi(textureEnnemi),
+    numImage(0)
 {
 
     if(estAerien){
@@ -56,9 +57,18 @@ void Ennemi::affiche()
     SDL_Rect dest = {(int)(x+0.5), (int)(y+0.5), TAILLE_ENNEMI, TAILLE_ENNEMI};
 
     if(estAerien){
+        int limite=4;
+        if(numImage<limite){
+            SDL_RenderCopyEx(renderer, textureEnnemiVolant[0], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+            numImage++;
+        }else if(numImage<limite*2){
+            SDL_RenderCopyEx(renderer, textureEnnemiVolant[1], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+            numImage++;
+            if(numImage==8){
+                numImage=0;
+            }
+        }
 
-
-        SDL_RenderCopyEx(renderer, textureEnnemi, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
     }else{
         SDL_RenderCopy(renderer, textureEnnemi, NULL, &dest);
     }
