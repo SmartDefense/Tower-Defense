@@ -7,7 +7,7 @@
 class EnnemiVolant : public Ennemi
 {
     public:
-        EnnemiVolant(int x, int y, int vague,int xChateau,int yChateau);
+        EnnemiVolant(int x, int y, int vague);
 };
 
 #endif // ENNEMIVOLANT_H

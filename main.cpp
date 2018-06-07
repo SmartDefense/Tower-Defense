@@ -76,7 +76,7 @@ string nbParties="";                // Nombre de parties du joueur
 string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
 string pseudoCrypte="";
 string pseudoDecrypte="";
-int nbVagues=80;                    // Nombre de vague totale dans chaque partie
+int nbVagues=30;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
 int argent=200;                         // Argent du joueur
@@ -90,11 +90,9 @@ int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vag
 int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
 int rafraichissement=30;
 
-int xChateau=0,
-    yChateau=0;
-
 int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
     yVague=-1;
+
 
 void quitListeCase()                // Fonction de suppression de la listeCases à la fin de la partie
 {
@@ -381,24 +379,18 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 if (vague[numeroEnnemi]==0){
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
                                                             listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
-                                                            itterations,
-                                                            xChateau,
-                                                            yChateau));
+                                                            itterations));
                 }
                 else if (vague[numeroEnnemi]==1){
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
                                                                listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
-                                                               itterations,
-                                                               xChateau,
-                                                               yChateau));
+                                                               itterations));
 
                 }
                 else if (vague[numeroEnnemi]==2){
                     listeEnnemis.push_back(new EnnemiTank(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[1][1]->getYcentre()-TAILLE_ENNEMI/2,
-                                                          itterations,
-                                                          xChateau,
-                                                          yChateau));
+                                                          itterations));
 
                 }
                 numeroEnnemi++;
@@ -444,25 +436,19 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 {
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
-                                           itterations,
-                                           xChateau,
-                                           yChateau));
+                                           itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_E)
                 {
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                             listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
-                                                            itterations,
-                                                            xChateau,
-                                                            yChateau));
+                                                            itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_Y)
                 {
-                    listeEnnemis.push_back(new EnnemiVolant(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
+                    listeEnnemis.push_back(new EnnemiTank(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
-                                                          itterations,
-                                                          xChateau,
-                                                          yChateau));
+                                                          itterations));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_1)
                 {
@@ -532,8 +518,6 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                     else if(events.key.keysym.scancode==SDL_SCANCODE_KP_3)
                     {
                         listeCases[yCase][xCase]=new Chateau(xCase, yCase, 100);
-                        xChateau=xCase;
-                        yChateau=yCase;
                     }
                 }
                 break;
@@ -818,7 +802,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
         Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
         Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
 
-        if (listeCases[yChateau][xChateau]->action()==1){                               // Si le chateau n'a plus de vie
+        if (listeCases[13][16]->action()==1){                               // Si le chateau n'a plus de vie
             compteurImage=0;
 
             while (compteurImage<150){                                      // Affichage du fond Game Over pendant 5s
@@ -910,8 +894,6 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
             else if(ligne.at(x)=='3')
             {
                 listeCases[y][x]=new Chateau(x, y, 100);
-                xChateau=x;
-                yChateau=y;
             }
             else if(ligne.at(x)=='4')
             {
@@ -1375,10 +1357,6 @@ int initSDL()
 
     surface=IMG_Load((CHEMIN_IMAGES+"ennemiTank.png").c_str());
     textureEnnemiTank= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant.png").c_str());
-    textureEnnemiVolant= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"tirClassique.png").c_str());

@@ -7,7 +7,7 @@
 class EnnemiTank : public Ennemi
 {
     public:
-        EnnemiTank(int x, int y, int vague,int xChateau,int yChateau);
+        EnnemiTank(int x, int y, int vague);
 };
 
 #endif // ENNEMITANK_H

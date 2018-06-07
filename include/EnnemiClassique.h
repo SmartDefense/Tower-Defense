@@ -7,7 +7,7 @@
 class EnnemiClassique : public Ennemi
 {
     public:
-        EnnemiClassique(int x, int y, int vague,int xChateau,int yChateau);
+        EnnemiClassique(int x, int y, int vague);
 };
 
 #endif // ENNEMICLASSIQUE_H
