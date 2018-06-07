@@ -69,16 +69,20 @@ TTF_Font *font;
 
 #include "Variables.h"
 #include "VariablesSDL.h"
+#include "Utilitaires.h"
+#include "Infos.h"
+#include "Menus.h"
 
 vector<int> vague;                  // Tableau permettant d'ajouter le type d'ennemi et de l'afficher pendant la vague
 Case*** listeCases;
 vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
 
-string nbParties="";                // Nombre de parties du joueur
-string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
-string pseudoCrypte="";
-string pseudoDecrypte="";
+int nbParties;                      // Nombre de parties du joueur
+string pseudoHighscore ="";                  // Variable contenant le pseudo entré par le joueur
+int highscore;
+
+string pseudo="";
 int nbVagues=80;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
@@ -98,6 +102,23 @@ int xChateau=0,
 
 int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
     yVague=-1;
+
+
+void initListeCase()  // Initialisation des cases vides
+{
+    listeCases = new Case**[TAILLE_Y_PLATEAU];
+    for(int y=0; y<TAILLE_Y_PLATEAU; y++)
+    {
+        listeCases[y]=new Case*[TAILLE_X_PLATEAU];
+    }
+    for(int y=0; y<TAILLE_Y_PLATEAU; y++)
+    {
+        for(int x=0; x<TAILLE_X_PLATEAU; x++)
+        {
+            listeCases[y][x]=NULL;
+        }
+    }
+}
 
 void quitListeCase()                // Fonction de suppression de la listeCases à la fin de la partie
 {
@@ -123,249 +144,72 @@ void remplissageVague()                 // Fonction remplissant le tableau vague
     depart=1;                           // Affichage de la vague à la prochaine condition
 }
 
-char cryptNombres(int nombre)  // Fonction de cryptage du nb de parties avec le code ASCII
+
+void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres du fichier level.txt
 {
-return (char(nombre));
-}
+    quitListeCase();
 
-int decryptNombres(char lettre) // Fonction de décryptage du nb de parties
-{
-return (int(lettre));
-}
+    // On ouvre le fichier level.txt
+    string nomLvl= CHEMIN_LEVELS + "level" + to_string(numLevel) + ".txt";
+    ifstream level(nomLvl.c_str(), ios::in);
+    string ligne;
+    int y=0;
 
-string cryptShadok(int nombre)             // Fonction de cryptage du nb de parties
-{
-    string shadokCrypte="";
-    string nbShadok="";
-    int n=0;
-    int diviseur=4;
+    // On récupère la taille du plateau
+    getline(level, ligne);
+    TAILLE_X_PLATEAU=stoi(ligne);
+    getline(level, ligne);
+    TAILLE_Y_PLATEAU=stoi(ligne);
+    initListeCase();
 
-    while (nombre!=0){                       // Tant qu'il extiste un reste dans la division du nombre par 4
+    // La taille de la fenêtre est adaptée à la taille du plateau
+    SDL_SetWindowSize(fenetre,TAILLE_X_PLATEAU*TAILLE_CASE + MARGE_GAUCHE, TAILLE_Y_PLATEAU*TAILLE_CASE + MARGE_HAUT);
 
-        n = nombre%4;                   // On stocke le reste de la division euclidienne par 4 dans n
-        nbShadok+=to_string(n);
-        nombre=nombre/diviseur;         // On effectue le quotient du nombre par 4
-    }
-
-    for (int i=(nbShadok.size())-1; i>=0; i--){         // Les chiffres sont remplacés par les lettres correspondantes
-
-        if (nbShadok.at(i)=='0'){
-            shadokCrypte+="GA";
-        }
-        else if (nbShadok.at(i)=='1'){
-            shadokCrypte+="BU";
-        }
-        else if (nbShadok.at(i)=='2'){
-            shadokCrypte+="ZO";
-        }
-        else {
-            shadokCrypte+="MEU";
-        }
-    }
-    return shadokCrypte;               // Le message est renvoyé
-}
-
-int decryptShadok(string shadok)          //Fonction de décryptage du nb de parties
-{
-
-    int a=0;
-    int nombre=0;
-    int longueurChaine=0;
-    vector<int> tableau;
-    for (int i=0; i<shadok.size(); i++){   // On remplace chaque mot par le chiffre correspondant
-
-        if (shadok.at(i)=='G'){
-            tableau.push_back(0);
-            longueurChaine++;
-        }
-        else if (shadok.at(i)=='B'){
-            tableau.push_back(1);
-            longueurChaine++;
-        }
-        else if (shadok.at(i)=='Z'){
-            tableau.push_back(2);
-            longueurChaine++;
-        }
-        else if (shadok.at(i)=='M'){
-            tableau.push_back(3);
-            longueurChaine++;
-        }
-    }
-
-
-    for (int i=longueurChaine-1; i>=0; i--){      // Pour chaque nombre du dernier au premier, on le multiplie par 4**a avec a un entier initialisé à 0 et incrémenté à chaque tour de boucle
-
-         nombre+=(tableau[i]*pow(4,a));
-         a++;
-    }
-    return (nombre);
-}
-
-void infos()                            // Fonction d'enregistrement des données liées au joueur (argent, pseudo crypté, nb de parties ...)
-{
-    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
-    if (fichier)                                       // Si le fichier existe ...
+    // Chaque case est crée en fonction de son type
+    while(getline(level, ligne))
     {
-        fichier>>nbParties;
-        fichier.close();
-        fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
-        //récupere le nombre de parties
-
-        int nbPartiesDecrypte=decryptShadok(nbParties);
-        ++nbPartiesDecrypte;
-        string nbPartiesCrypte=cryptShadok(nbPartiesDecrypte);
-        string argentCrypte=cryptShadok(argent);
-
-        //incrémente puis écrit dans le fichier (automatiquement converti en string)
-        fichier<<(nbPartiesCrypte);
-        fichier<<("\n");            // Saut de ligne
-        fichier<<(pseudoCrypte);    // Ajout du pseudo crypté
-        fichier<<("\n");
-        fichier<<(argentCrypte);          // Ajout de la somme d'argent
-        fichier<<("\n");
-    }
-}
-
-void Ecrire(string police, int taille, string texte, int r, int v, int b, int x, int y) // Fonction d'écriture
-{
-    font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille);                  // Ouverture de la police
-    SDL_Color color = { r, v, b };                                                      // Couleur de police envoyée à la fonction type r,g,b
-    SDL_Surface * surface = TTF_RenderText_Blended(font,texte.c_str(), color);          // Rendu de la police sur le fond
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);            // Création de la texture à partir du fond
-
-    int texW = 0;                                                                       // Largeur de la texture en pixels
-    int texH = 200;                                                                     // Hauteur de la texture en pixels
-    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);                                // Appel de la texture
-    SDL_Rect dstrect = { x, y, texW, texH };                                            // Position de la zone d'écriture à partir de x et y, position du premier caractère
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);                                  // Copie de la texture dans le renderer
-
-    SDL_DestroyTexture(texture);                                                        // Suppression de la texture
-    TTF_CloseFont(font);                                                                // Fermeture de la police
-}
-
-void EcrireArgent()                 // Fonction d'écriture paramétrée pour afficher l'argent
-{
-    font = TTF_OpenFont("fonts/CollegiateFLF.ttf", 40);
-    SDL_Color color = { 0,0,0 };
-    SDL_Surface * surface = TTF_RenderText_Blended(font,(to_string(argent)+"$").c_str(), color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    int texW = 0;
-    int texH = 200;
-    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { 1000-texW, 35, texW, texH };
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-
-    SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
-}
-
-void affichageTexture(SDL_Texture* texture, int x, int y)                               // Fonction d'affichage de chaque texture à la position x,y
-{
-    SDL_Rect position;
-    position.x = x;
-    position.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
-    SDL_RenderCopy(renderer,texture,NULL,&position);
-}
-
-void cryptAffineLettres()  // Fonction de cryptage du pseudo
-{
-    std::string majuscule = pseudo;
-    std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper); // On met le string en majuscules
-    pseudo=majuscule;
-    int nblettres=pseudo.size();                                                      // La variable nblettres contient le nb de lettres du pseudo
-    int a=3;
-    int b=7;
-    // Coeffs a et b de la fct affine du type y=ax+b
-
-    vector<int> tableau;                                                             // On crée un tableau vide
-
-    for (int i=0; i<nblettres; i++){
-        tableau.push_back(int (pseudo.at(i))-65);                                   // On ajoute le nombre relatif au caractère ASCII avec a=0 jusqu'à z=25
-        tableau[i]=((tableau[i]*a+b)%26);                                           // On applique la fct affine au nombre que l'on met modulo 26 pour obtenir un nombre correspondant à un caractère de l'alphabet
-        pseudoCrypte+=char(tableau[i]+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
-    }
-}
-
-void decryptAffineLettres() // Fonction de décryptage du pseudo
-{
-int nblettres=pseudoCrypte.size();
-vector<int> tableau;
-
-for (int i=0; i<nblettres; i++){
-    tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
-    tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
-    pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en char
-    }
-}
-
-void inputPseudo()                                                                  // Fonction de saisie du pseudo
-{
-    SDL_StartTextInput();
-    SDL_Event events;
-    int continuerPseudo=1;
-    bool changement=true;
-    while(continuerPseudo==1 && continuer==1)                                       // Tant que l'on ne quitte pas ou clique sur retour
-    {
-
-        while(SDL_PollEvent(&events))                                               // Récupération des évènements
+        for(int x=0; x<ligne.length(); x++)
         {
-            switch(events.type)
+            if(ligne.at(x)=='1')
             {
-            case SDL_QUIT :                                                         // Fermeture de la fenêtre
-                continuer=0;
-                break;
-            case SDL_TEXTINPUT :                                                    // Saisie du texte dans la variable pseudo
-                pseudo += events.text.text;
-                changement=true;
-                break;
-            case SDL_KEYDOWN:
-                if(events.key.keysym.scancode==SDL_SCANCODE_BACKSPACE && pseudo.length() > 0)   // Suppression du dernier caractère
-                {
-                    pseudo.pop_back();
-                    changement=true;
-                }
-                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN && pseudo.length() > 0)                             // Validation par la touche entrée
-                {
-                    continuerPseudo=0;
-                }
-                break;
-            case SDL_MOUSEBUTTONUP:
-                int x = events.button.x;
-                int y = events.button.y;
-                if (x>437 && x<591 && y>370 && y<410 && pseudo.length()>2)                  // Si le pseudo contient 3 caractères ou plus, on peut valider
-                {
-                    continuerPseudo=0;
-                }
-                break;
+                listeCases[y][x]=new Case(x, y, 0 );
+            }
+            else if(ligne.at(x)=='2')
+            {
+                listeCases[y][x]=new Chemin(x, y, 0);
+
+            }
+            else if(ligne.at(x)=='7')
+            {
+                listeCases[y][x]=new Chemin(x, y, 1);
+
+            }
+            else if(ligne.at(x)=='3')
+            {
+                listeCases[y][x]=new Chateau(x, y, 100);
+                xChateau=x;
+                yChateau=y;
+            }
+            else if(ligne.at(x)=='4')
+            {
+                listeCases[y][x]=new TourClassique(x, y, 100);
+            }
+            else if(ligne.at(x)=='5')
+            {
+                listeCases[y][x]=new TourSniper(x, y, 100);
+            }
+            else if(ligne.at(x)=='6')
+            {
+                listeCases[y][x]=new TourPoison(x, y, 100);
             }
         }
-        while (pseudo.length()>=17)                                                        // Si le pseudo contient plus de 16 caractères, on efface le 17ème saisi
-        {
-            //Ecrire("CollegiateInsideFLF",42,"Trop de caracteres",255,255,255,300,500);
-            pseudo.pop_back();
-
-        }
-        if(changement)                                                                    // S'il y a changement, on l'écrit et l'affiche
-        {
-            SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-            SDL_RenderClear(renderer);
-            affichageTexture(textureLogo,200,12);
-            Ecrire("CollegiateInsideFLF",42,"Entrez un pseudo :",255,255,255,320,150);
-            Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-            int longueurPseudo=pseudo.length()+1;
-            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*11)),250); // Placement du pseudo de manière centrée en fonction de sa longueur
-            changement=false;
-        }
-        SDL_RenderPresent(renderer);        // On rafraichit
+        y++;
     }
-cryptAffineLettres();
 }
 
-int jeu()  // Fonction de gestion et d'affichage de la partie
+void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 {
+    initLevel(numlevel);
     SDL_Event events;
     bool terminer = false;
 
@@ -851,399 +695,6 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
     for(int i=listeTirs.size()-1; i>=0; i--)
     {
         delete listeTirs[i];
-    }
-
-    return 0;
-
-}
-
-void initListeCase()  // Initialisation des cases vides
-{
-    listeCases = new Case**[TAILLE_Y_PLATEAU];
-    for(int y=0; y<TAILLE_Y_PLATEAU; y++)
-    {
-        listeCases[y]=new Case*[TAILLE_X_PLATEAU];
-    }
-    for(int y=0; y<TAILLE_Y_PLATEAU; y++)
-    {
-        for(int x=0; x<TAILLE_X_PLATEAU; x++)
-        {
-            listeCases[y][x]=NULL;
-        }
-    }
-}
-
-void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres du fichier level.txt
-{
-    quitListeCase();
-
-    // On ouvre le fichier level.txt
-    string nomLvl= CHEMIN_LEVELS + "level" + to_string(numLevel) + ".txt";
-    ifstream level(nomLvl.c_str(), ios::in);
-    string ligne;
-    int y=0;
-
-    // On récupère la taille du plateau
-    getline(level, ligne);
-    TAILLE_X_PLATEAU=stoi(ligne);
-    getline(level, ligne);
-    TAILLE_Y_PLATEAU=stoi(ligne);
-    initListeCase();
-
-    // La taille de la fenêtre est adaptée à la taille du plateau
-    SDL_SetWindowSize(fenetre,TAILLE_X_PLATEAU*TAILLE_CASE + MARGE_GAUCHE, TAILLE_Y_PLATEAU*TAILLE_CASE + MARGE_HAUT);
-
-    // Chaque case est crée en fonction de son type
-    while(getline(level, ligne))
-    {
-        for(int x=0; x<ligne.length(); x++)
-        {
-            if(ligne.at(x)=='1')
-            {
-                listeCases[y][x]=new Case(x, y, 0 );
-            }
-            else if(ligne.at(x)=='2')
-            {
-                listeCases[y][x]=new Chemin(x, y, 0);
-
-            }
-            else if(ligne.at(x)=='7')
-            {
-                listeCases[y][x]=new Chemin(x, y, 1);
-
-            }
-            else if(ligne.at(x)=='3')
-            {
-                listeCases[y][x]=new Chateau(x, y, 100);
-                xChateau=x;
-                yChateau=y;
-            }
-            else if(ligne.at(x)=='4')
-            {
-                listeCases[y][x]=new TourClassique(x, y, 100);
-            }
-            else if(ligne.at(x)=='5')
-            {
-                listeCases[y][x]=new TourSniper(x, y, 100);
-            }
-            else if(ligne.at(x)=='6')
-            {
-                listeCases[y][x]=new TourPoison(x, y, 100);
-            }
-        }
-        y++;
-    }
-    jeu(); // Le jeu débute
-}
-
-void choixLevel() // Fonction de choix du niveau
-{
-    // Affichage des éléments graphiques sur la fenêtre
-    numLevel=1;
-    SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-    SDL_RenderClear(renderer);
-    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-    Ecrire("Arial",65,"+",255,255,255,640,232);
-    Ecrire("Arial",65,"-",255,255,255,610,226);
-    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-    Ecrire("CollegiateInsideFLF",45,"NIVEAU 1",255,255,255,350,250);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    SDL_RenderPresent(renderer);
-
-    SDL_Event events;
-    int continuerLevel=1;
-    while(continuerLevel==1 && continuer==1)
-    {
-
-        while(SDL_PollEvent(&events))  // Récupération des évènements
-        {
-            switch(events.type)
-            {
-
-            case SDL_MOUSEMOTION:
-            case SDL_MOUSEBUTTONDOWN:
-                continue;
-                break;
-            case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)   // Revenir en arrière avec le bp Echap
-                {
-                    continuerLevel=0;
-                }
-                break;
-
-            case SDL_QUIT :                                          // Quitter le jeu
-                continuer=0;
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-
-                // Récupération du clic
-                int x = events.button.x;
-                int y = events.button.y;
-                //std::cout << x << SDL_GetError() << std::endl;
-                //std::cout << y << SDL_GetError() << std::endl;
-
-
-                // Si le joueur sélectionne le niveau suivant
-                if (x>638 && x<678 && y>250 && y<285)
-                {
-					numLevel++;
-					ifstream fichier(CHEMIN_LEVELS+"level"+to_string(numLevel)+".txt");
-					if(!fichier.is_open()){
-						numLevel--;
-					}
-                    SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-                    SDL_RenderClear(renderer);
-
-                    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-                    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-                    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-                    Ecrire("Arial",65,"+",255,255,255,640,232);
-                    Ecrire("Arial",65,"-",255,255,255,610,226);
-                    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
-                    SDL_RenderPresent(renderer);
-                }
-
-                // Si le joueur sélectionne le niveau précédent
-                if (numLevel>1 && x>607 && x<633 && y>260 && y<278)
-                {
-                    numLevel--;
-                    SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-                    SDL_RenderClear(renderer);
-
-                    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-                    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-                    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-                    Ecrire("Arial",65,"+",255,255,255,640,232);
-                    Ecrire("Arial",65,"-",255,255,255,610,226);
-                    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
-                    SDL_RenderPresent(renderer);
-                }
-
-                // Validation du choix
-                else if (x>437 && x<585 && y>370 && y<410)
-                {
-                    continuerLevel=0;
-                    initLevel(numLevel);
-                }
-
-                // Clic sur le bp retour
-                else if (x>24 && x<124 && y>21 && y<87)
-                {
-                    continuerLevel=0;
-                }
-                break;
-            }
-        }
-    }
-}
-
-void aide()
-{
-    // Affichage des éléments graphiques
-    SDL_Event events;
-    int continuerAide=1;
-    SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-    SDL_RenderClear(renderer);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",50,"AIDE",255,255,255,450,50);
-    SDL_RenderPresent(renderer);
-
-    string nomfichier= "regles.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier regles
-    string ligne;
-    int saut=0;
-    if (fichier)                                       // Si le fichier existe ...
-    {
-
-    while(getline(fichier, ligne))                      // Affichage des règles du jeu
-    {
-     Ecrire("BKANT",28,ligne,255,255,255,50,(137+saut));
-     saut+=30;
-    }
-
-    SDL_RenderPresent(renderer);
-    fichier.close();
-    }
-
-    while (continuerAide==1 && continuer==1)
-    {
-        while(SDL_PollEvent(&events))
-        {
-            switch(events.type)
-            {
-
-            case SDL_MOUSEMOTION:
-            case SDL_MOUSEBUTTONDOWN:
-                continue;
-                break;
-
-            case SDL_QUIT :
-                continuer=0;
-                break;
-
-            case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
-                {
-                    continuerAide=0;
-                }
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                int x = events.button.x;
-                int y = events.button.y;
-
-                if (x>24 && x<124 && y>21 && y<87)
-                {
-                    continuerAide=0;
-                }
-                break;
-            }
-        }
-    }
-}
-
-void menu()
-{
-    SDL_Event events;
-    int continuerMenu=1;
-    SDL_SetRenderDrawColor(renderer, 0,127,127,255);
-    SDL_RenderClear(renderer);
-    // Récupération du nombre de parties dans le fichier infos.txt
-    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
-    int nbPartiesDecrypte=0;
-    int argentDecrypte=0;
-    string ligne;
-    string argentCrypte="";
-    if (fichier)                                       // Si le fichier existe ...
-    {
-        fichier>>nbParties;
-        nbPartiesDecrypte=decryptShadok(nbParties);
-        fichier>>ligne;
-        fichier>>argentCrypte;
-        argentDecrypte=decryptShadok(argentCrypte);
-        fichier.close();
-    }
-
-    // Affichage des éléments graphiques
-    Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
-    Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbPartiesDecrypte),255,255,255,30,150);
-    Ecrire("CollegiateInsideFLF",25,"Argent : " + to_string(argentDecrypte)+" $",255,255,255,30,250);
-    SDL_RenderPresent(renderer);
-
-    while (continuerMenu==1 && continuer==1)
-    {
-        while(SDL_PollEvent(&events))
-        {
-            switch(events.type)
-            {
-
-            case SDL_MOUSEMOTION:
-            case SDL_MOUSEBUTTONDOWN:
-                continue;
-                break;
-
-            case SDL_QUIT :
-                continuer=0;
-                break;
-
-            case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
-                {
-                    continuerMenu=0;
-                }
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                int x = events.button.x;
-                int y = events.button.y;
-
-                // Clic sur le bp retour
-                if (x>24 && x<124 && y>21 && y<87)
-                {
-                    continuerMenu=0;
-                }
-                break;
-            }
-        }
-    }
-}
-
-void debut() // Affichage de l'écran initial
-{
-    inputPseudo();  // Saisie du pseudo
-    int longueurPseudo=pseudo.length()+8;
-    affichageTexture(textureAccueil,0,0); // Affichage de l'image d'accueil
-    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0); // Affichage du pseudo du joueur
-    SDL_RenderPresent(renderer);
-    SDL_Event events;
-    int continuerDebut=1;
-
-    while(continuerDebut==1 && continuer==1)
-    {
-        while(SDL_PollEvent(&events))
-        {
-            switch(events.type)
-            {
-
-            case SDL_MOUSEMOTION:
-            case SDL_MOUSEBUTTONDOWN:
-                continue;
-                break;
-
-            case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
-                {
-                    continuerDebut=0;
-                }
-                break;
-
-            case SDL_QUIT :
-                continuer=0;
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-
-                // Récupération des clics et affichage du menu suivant en conséquence //
-                int x = events.button.x;
-                int y = events.button.y;
-
-                if (x>507 && x<726 && y>669 && y<763)
-                {
-                    // MENU //
-                    menu();
-                    affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
-                    SDL_RenderPresent(renderer);
-                }
-                else if (x>45 && x<428 && y>670 && y<763)
-                {
-                    // COMMENCER //
-                    choixLevel();
-                    SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
-                    affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
-                    SDL_RenderPresent(renderer);
-                }
-                else if (x>807 && x<990 && y>669 && y<763)
-                {
-                    // AIDE //
-                    aide();
-                    affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
-                    SDL_RenderPresent(renderer);
-                }
-                break;
-            }
-        }
     }
 }
 

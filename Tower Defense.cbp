@@ -59,6 +59,8 @@
 		<Unit filename="include/EnnemiRapide.h" />
 		<Unit filename="include/EnnemiTank.h" />
 		<Unit filename="include/EnnemiVolant.h" />
+		<Unit filename="include/Infos.h" />
+		<Unit filename="include/Menus.h" />
 		<Unit filename="include/Tir.h" />
 		<Unit filename="include/TirClassique.h" />
 		<Unit filename="include/TirSniper.h" />
@@ -67,6 +69,7 @@
 		<Unit filename="include/TourClassique.h" />
 		<Unit filename="include/TourPoison.h" />
 		<Unit filename="include/TourSniper.h" />
+		<Unit filename="include/Utilitaires.h" />
 		<Unit filename="include/Variables.h" />
 		<Unit filename="include/VariablesSDL.h" />
 		<Unit filename="main.cpp" />
