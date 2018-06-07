@@ -45,12 +45,14 @@ class Ennemi
             vitesse,
             poison,
             angle,
-            intensitePoison;
+            intensitePoison,
+            numImage;
         SDL_Rect destVie,
                  destVieFond;
         double multiplicateurVitesse,
             multiplicateurArgentMort;
         bool estAerien;
+
         int xChateau;
         int yChateau;
         double x;

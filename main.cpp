@@ -29,12 +29,14 @@ SDL_Texture  *textureCase,
              *textureEnnemiClassique,
              *textureEnnemiRapide,
              *textureEnnemiTank,
-             *textureEnnemiVolant,
+             *textureEnnemiVolantSimple,
 
              *textureTirClassique,
              *textureTirSniper,
 
              *textureExplosion[TEMPS_ANIM_TIR],
+
+             *textureEnnemiVolant[nbImageEnnemiVolant],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -1382,7 +1384,7 @@ int initSDL()
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant.png").c_str());
-    textureEnnemiVolant= SDL_CreateTextureFromSurface(renderer, surface);
+    textureEnnemiVolantSimple= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"tirClassique.png").c_str());
@@ -1392,6 +1394,13 @@ int initSDL()
     surface=IMG_Load((CHEMIN_IMAGES+"tirSniper.png").c_str());
     textureTirSniper= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+
+    for(int i=0;i<2;i++){
+        cout<<CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png"<<endl;
+        surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png").c_str());
+        textureEnnemiVolant[i]= SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+    }
 
     for(int i=0;i<TEMPS_ANIM_TIR;i++){
         surface=IMG_Load((CHEMIN_IMAGES+"explosion"+to_string(i)+".png").c_str());
