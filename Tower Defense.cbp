@@ -59,10 +59,11 @@
 		<Unit filename="include/EnnemiRapide.h" />
 		<Unit filename="include/EnnemiTank.h" />
 		<Unit filename="include/EnnemiVolant.h" />
-		<Unit filename="include/Tour.h" />
 		<Unit filename="include/Tir.h" />
 		<Unit filename="include/TirClassique.h" />
 		<Unit filename="include/TirSniper.h" />
+		<Unit filename="include/Tour.h" />
+		<Unit filename="include/TourAerien.h" />
 		<Unit filename="include/TourClassique.h" />
 		<Unit filename="include/TourPoison.h" />
 		<Unit filename="include/TourSniper.h" />
@@ -80,10 +81,11 @@
 		<Unit filename="src/EnnemiRapide.cpp" />
 		<Unit filename="src/EnnemiTank.cpp" />
 		<Unit filename="src/EnnemiVolant.cpp" />
-		<Unit filename="src/Tour.cpp" />
 		<Unit filename="src/Tir.cpp" />
 		<Unit filename="src/TirClassique.cpp" />
 		<Unit filename="src/TirSniper.cpp" />
+		<Unit filename="src/Tour.cpp" />
+		<Unit filename="src/TourAerien.cpp" />
 		<Unit filename="src/TourClassique.cpp" />
 		<Unit filename="src/TourPoison.cpp" />
 		<Unit filename="src/TourSniper.cpp" />
