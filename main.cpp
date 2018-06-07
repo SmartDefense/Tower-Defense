@@ -55,6 +55,7 @@ TTF_Font *font;
 #include "TourClassique.h"
 #include "TourSniper.h"
 #include "TourPoison.h"
+#include "TourAerien.h"
 #include "Chemin.h"
 #include "Chateau.h"
 #include "EnnemiTank.h"
@@ -440,7 +441,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 yCase = (ySouris-MARGE_HAUT)/ TAILLE_CASE;
 
                 // Création manuelle des 3 types d'ennemis pour le débogage
-                if(events.key.keysym.scancode==SDL_SCANCODE_T)
+                if(events.key.keysym.scancode==SDL_SCANCODE_Q)
                 {
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
@@ -448,7 +449,7 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                                            xChateau,
                                            yChateau));
                 }
-                else if(events.key.keysym.scancode==SDL_SCANCODE_E)
+                else if(events.key.keysym.scancode==SDL_SCANCODE_W)
                 {
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                             listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
@@ -456,13 +457,21 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                                                             xChateau,
                                                             yChateau));
                 }
-                else if(events.key.keysym.scancode==SDL_SCANCODE_Y)
+                else if(events.key.keysym.scancode==SDL_SCANCODE_E)
                 {
-                    listeEnnemis.push_back(new EnnemiVolant(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
+                    listeEnnemis.push_back(new EnnemiTank(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
                                                           itterations,
                                                           xChateau,
                                                           yChateau));
+                }
+                else if(events.key.keysym.scancode==SDL_SCANCODE_R)
+                {
+                    listeEnnemis.push_back(new EnnemiVolant(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
+                                                            listeCases[yCase][xCase]->getYcentre()-TAILLE_ENNEMI/2,
+                                                            itterations,
+                                                            xChateau,
+                                                            yChateau));
                 }
                 else if(events.key.keysym.scancode==SDL_SCANCODE_1)
                 {
@@ -480,15 +489,9 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                 {
                     listeCases[yCase][xCase]->amelioration(AMELIORATION_VITESSE_TIR);
                 }
-                /*
-                else if(events.key.keysym.scancode==SDL_SCANCODE_V)
-                {
-                    xVague=xCase;
-                    yVague=yCase;
-                }*/
 
                 // Suppression manuelle de tous les ennemis
-                else if(events.key.keysym.scancode==SDL_SCANCODE_R)
+                else if(events.key.keysym.scancode==SDL_SCANCODE_RETURN)
                 {
                     for(int i=0; i<listeEnnemis.size(); i++)
                     {
@@ -502,38 +505,39 @@ int jeu()  // Fonction de gestion et d'affichage de la partie
                     terminer=true;
                 }
                 // Création manuelle des cases / tours pour le débogage
-                else if(SDL_SCANCODE_KP_1<=events.key.keysym.scancode && events.key.keysym.scancode<=SDL_SCANCODE_KP_9)
-                {
+                else if(SDL_SCANCODE_A<=events.key.keysym.scancode && events.key.keysym.scancode<=SDL_SCANCODE_Z){
                     if(listeCases[yCase][xCase]!=NULL)
                     {
                         delete listeCases[yCase][xCase];
                         listeCases[yCase][xCase]=NULL;
                     }
-                    if(events.key.keysym.scancode==SDL_SCANCODE_KP_1)
+                    if(events.key.keysym.scancode==SDL_SCANCODE_Z)
                     {
                         listeCases[yCase][xCase]=new Case(xCase, yCase, 0);
                     }
-                    else if(events.key.keysym.scancode==SDL_SCANCODE_KP_2)
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_X)
                     {
                         listeCases[yCase][xCase]=new Chemin(xCase, yCase,0);
                     }
-                    else if(events.key.keysym.scancode==SDL_SCANCODE_KP_4)
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_C)
+                    {
+                        listeCases[yCase][xCase]=new Chateau(xCase, yCase, 100);
+                    }
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_A)
                     {
                         listeCases[yCase][xCase]=new TourClassique(xCase, yCase,-1);
                     }
-                    else if(events.key.keysym.scancode==SDL_SCANCODE_KP_5)
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_S)
                     {
                         listeCases[yCase][xCase]=new TourSniper(xCase, yCase, -1);
                     }
-                    else if(events.key.keysym.scancode==SDL_SCANCODE_KP_6)
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_D)
                     {
                         listeCases[yCase][xCase]=new TourPoison(xCase, yCase, -1);
                     }
-                    else if(events.key.keysym.scancode==SDL_SCANCODE_KP_3)
+                    else if(events.key.keysym.scancode==SDL_SCANCODE_F)
                     {
-                        listeCases[yCase][xCase]=new Chateau(xCase, yCase, 100);
-                        xChateau=xCase;
-                        yChateau=yCase;
+                        listeCases[yCase][xCase]=new TourAerien(xCase, yCase, -1);
                     }
                 }
                 break;
