@@ -13,7 +13,7 @@ class Ennemi;
 class Ennemi
 {
     public:
-        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estVolant);
+        Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estVolant,int xChateau,int yChateau);
         virtual ~Ennemi();
         void affiche();
         void action();
@@ -50,8 +50,13 @@ class Ennemi
         double multiplicateurVitesse,
             multiplicateurArgentMort;
         bool estAerien;
+        int xChateau;
+        int yChateau;
+        double x;
+        double y,
+            dX,
+            dY;
         SDL_Texture* textureEnnemi;
-        SDL_Rect dest;
         vector<pair<int,int>> listePoss;
 
 

@@ -1,25 +1,25 @@
-#include "TourClassique.h"
+#include "TourAerien.h"
 
-TourClassique::TourClassique(int x, int y, int priorite):
-    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 30, priorite, 50, 12, 6, 3, true, false)
+TourAerien::TourAerien(int x, int y, int priorite):
+    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 5, priorite, 10, 6, 12, 3, false, true)
 {
-	Case::type="TourClassique";
+	Case::type="TourAerien";
     //cout<<"Creation :\t TourClassique ("<<x<<","<<y<<")"<<endl;
 }
 
-TourClassique::~TourClassique()
+TourAerien::~TourAerien()
 {
     argent+=0.5*ARGENT_TOUR*multiplicateurCout;
-    //cout<<"Destruction :\t TourClassique ("<<x<<","<<y<<")"<<endl;
+    //cout<<"Destruction :\t TourAerien ("<<x<<","<<y<<")"<<endl;
 }
 
-void TourClassique::tir(double dX, double dY, double angle)
+void TourAerien::tir(double dX, double dY, double angle)
 {
     listeTirs.push_back(new TirClassique(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat));
     compteurRechargement=rechargement;
 }
 
-void TourClassique::amelioration(const int typeAmelioration)
+void TourAerien::amelioration(const int typeAmelioration)
 {
     switch(typeAmelioration){
     case AMELIORATION_CADENCE:
