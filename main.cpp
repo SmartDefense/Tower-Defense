@@ -307,7 +307,6 @@ void inputPseudo()                                                              
     SDL_Event events;
     int continuerPseudo=1;
     bool changement=true;
-
     while(continuerPseudo==1 && continuer==1)                                       // Tant que l'on ne quitte pas ou clique sur retour
     {
 
@@ -954,7 +953,6 @@ void choixLevel() // Fonction de choix du niveau
 
     SDL_Event events;
     int continuerLevel=1;
-
     while(continuerLevel==1 && continuer==1)
     {
 

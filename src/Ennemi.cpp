@@ -151,7 +151,7 @@ int Ennemi::getYCentre()
 int Ennemi::getXCentreFutur(int images)
 {
     if(estAerien){
-        return getXCentre()+images*cos(angle);
+        return getXCentre()+images*dX;
     }
     switch(direction){
     case 0: return getXCentre()+ images*vitesse;
@@ -166,7 +166,7 @@ int Ennemi::getXCentreFutur(int images)
 int Ennemi::getYCentreFutur(int images)
 {
     if(estAerien){
-        return getYCentre()+images*sin(angle);
+        return getYCentre()+images*dY;
     }
 
     switch(direction){

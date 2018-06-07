@@ -1,7 +1,7 @@
 #include "TourAerien.h"
 
 TourAerien::TourAerien(int x, int y, int priorite):
-    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 5, priorite, 10, 6, 12, 3, false, true)
+    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 5, priorite, 10, 12, 12, 5, false, true)
 {
 	Case::type="TourAerien";
     //cout<<"Creation :\t TourClassique ("<<x<<","<<y<<")"<<endl;
