@@ -73,10 +73,11 @@ Case*** listeCases;
 vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
 
-string nbParties="";                // Nombre de parties du joueur
-string pseudo ="";                  // Variable contenant le pseudo entré par le joueur
-string pseudoCrypte="";
-string pseudoDecrypte="";
+int nbParties;                      // Nombre de parties du joueur
+string pseudoHighscore ="";                  // Variable contenant le pseudo entré par le joueur
+int highscore;
+
+string pseudo="";
 int nbVagues=80;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
@@ -121,16 +122,6 @@ void remplissageVague()                 // Fonction remplissant le tableau vague
     depart=1;                           // Affichage de la vague à la prochaine condition
 }
 
-char cryptNombres(int nombre)  // Fonction de cryptage du nb de parties avec le code ASCII
-{
-return (char(nombre));
-}
-
-int decryptNombres(char lettre) // Fonction de décryptage du nb de parties
-{
-return (int(lettre));
-}
-
 string cryptShadok(int nombre)             // Fonction de cryptage du nb de parties
 {
     string shadokCrypte="";
@@ -165,7 +156,6 @@ string cryptShadok(int nombre)             // Fonction de cryptage du nb de part
 
 int decryptShadok(string shadok)          //Fonction de décryptage du nb de parties
 {
-
     int a=0;
     int nombre=0;
     int longueurChaine=0;
@@ -199,29 +189,79 @@ int decryptShadok(string shadok)          //Fonction de décryptage du nb de part
     return (nombre);
 }
 
+string cryptAffinePseudo(string pseudoTemp)  // Fonction de cryptage du pseudo
+{
+    string pseudoCrypte="";
+    transform(pseudoTemp.begin(), pseudoTemp.end(), pseudoTemp.begin(), ::toupper); // On met le string en majuscules
+    int nblettres=pseudoTemp.size();                                                      // La variable nblettres contient le nb de lettres du pseudo
+    int a=3;
+    int b=7;
+    // Coeffs a et b de la fct affine du type y=ax+b
+
+    for (int i=0; i<nblettres; i++){
+        /*tableau.push_back(int (majuscule.at(i))-65);                                   // On ajoute le nombre relatif au caractère ASCII avec a=0 jusqu'à z=25
+        tableau[i]=((tableau[i]*a+b)%26);                                           // On applique la fct affine au nombre que l'on met modulo 26 pour obtenir un nombre correspondant à un caractère de l'alphabet*/
+        pseudoCrypte+=char((((int(pseudoTemp.at(i))-65)*a+b)%26)+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
+    }
+    return pseudoCrypte;
+}
+
+string decryptAffineLettres(string pseudoCrypte) // Fonction de décryptage du pseudo
+{
+    int nblettres=pseudoCrypte.size();
+    string pseudoDecrypte="";
+    vector<int> tableau;
+
+    for (int i=0; i<nblettres; i++){
+        tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
+        tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
+        pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en char
+    }
+    return pseudoDecrypte;
+}
+
 void infos()                            // Fonction d'enregistrement des données liées au joueur (argent, pseudo crypté, nb de parties ...)
 {
-    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
+    string nbPartiesCrypte;
+    fstream fichier("infos.txt", ios::in);      // Ouverture du fichier info
     if (fichier)                                       // Si le fichier existe ...
     {
-        fichier>>nbParties;
+        fichier>>nbPartiesCrypte;
         fichier.close();
-        fichier.open(nomfichier.c_str(),ios::out | ios::trunc);
+        fichier.open("infos.txt",ios::out | ios::trunc);
         //récupere le nombre de parties
 
-        int nbPartiesDecrypte=decryptShadok(nbParties);
+        int nbPartiesDecrypte=decryptShadok(nbPartiesCrypte);
         ++nbPartiesDecrypte;
+        cout<<argent<<endl;
         string nbPartiesCrypte=cryptShadok(nbPartiesDecrypte);
         string argentCrypte=cryptShadok(argent);
 
         //incrémente puis écrit dans le fichier (automatiquement converti en string)
         fichier<<(nbPartiesCrypte);
         fichier<<("\n");            // Saut de ligne
-        fichier<<(pseudoCrypte);    // Ajout du pseudo crypté
+        fichier<<(cryptAffinePseudo(pseudo));    // Ajout du pseudo crypté
         fichier<<("\n");
         fichier<<(argentCrypte);          // Ajout de la somme d'argent
         fichier<<("\n");
+    }
+}
+
+void recupInfos(){
+    // Récupération du nombre de parties dans le fichier infos.txt
+    fstream fichier("infos.txt", ios::in);      // Ouverture du fichier info
+    string nbPartiesCrypte;
+    string pseudoHighscoreCrypte;
+    string highscoreCrypte;
+    if (fichier)                                       // Si le fichier existe ...
+    {
+        fichier>>nbPartiesCrypte;
+        fichier>>pseudoHighscoreCrypte;
+        fichier>>highscoreCrypte;
+        fichier.close();
+        nbParties=decryptShadok(nbPartiesCrypte);
+        pseudoHighscore=decryptShadok(pseudoHighscoreCrypte);
+        highscore=decryptShadok(highscoreCrypte);
     }
 }
 
@@ -268,36 +308,18 @@ void affichageTexture(SDL_Texture* texture, int x, int y)                       
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
-void cryptAffineLettres()  // Fonction de cryptage du pseudo
-{
-    std::string majuscule = pseudo;
-    std::transform(majuscule.begin(), majuscule.end(), majuscule.begin(), ::toupper); // On met le string en majuscules
-    pseudo=majuscule;
-    int nblettres=pseudo.size();                                                      // La variable nblettres contient le nb de lettres du pseudo
-    int a=3;
-    int b=7;
-    // Coeffs a et b de la fct affine du type y=ax+b
 
-    vector<int> tableau;                                                             // On crée un tableau vide
+/*void decryptAffineLettres() // Fonction de décryptage du pseudo
+{
+    int nblettres=pseudoCrypte.size();
+    vector<int> tableau;
 
     for (int i=0; i<nblettres; i++){
-        tableau.push_back(int (pseudo.at(i))-65);                                   // On ajoute le nombre relatif au caractère ASCII avec a=0 jusqu'à z=25
-        tableau[i]=((tableau[i]*a+b)%26);                                           // On applique la fct affine au nombre que l'on met modulo 26 pour obtenir un nombre correspondant à un caractère de l'alphabet
-        pseudoCrypte+=char(tableau[i]+65);                                          // Le nombre est converti en caractère ASCII et ajouté au string pseudoCrypte
+        tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
+        tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
+        pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en char
     }
-}
-
-void decryptAffineLettres() // Fonction de décryptage du pseudo
-{
-int nblettres=pseudoCrypte.size();
-vector<int> tableau;
-
-for (int i=0; i<nblettres; i++){
-    tableau.push_back(int (pseudoCrypte.at(i))-65);                                 // La lettre est castée en int
-    tableau[i]=(tableau[i]*9+15)%26;                                                // On remonte à la valeur de x grâce à l'image y de la fonction affine (cf dossier congruences)
-    pseudoDecrypte+=char(tableau[i]+65);                                            // L'antécédent x est casté en char
-    }
-}
+}*/
 
 void inputPseudo()                                                                  // Fonction de saisie du pseudo
 {
@@ -359,7 +381,6 @@ void inputPseudo()                                                              
         }
         SDL_RenderPresent(renderer);        // On rafraichit
     }
-cryptAffineLettres();
 }
 
 int jeu()  // Fonction de gestion et d'affichage de la partie
@@ -1111,30 +1132,14 @@ void menu()
     int continuerMenu=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-    // Récupération du nombre de parties dans le fichier infos.txt
-    string nomfichier= "infos.txt";                    // String contenant le nom du fichier et son extension
-    fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier info
-    int nbPartiesDecrypte=0;
-    int argentDecrypte=0;
-    string ligne;
-    string argentCrypte="";
-    if (fichier)                                       // Si le fichier existe ...
-    {
-        fichier>>nbParties;
-        nbPartiesDecrypte=decryptShadok(nbParties);
-        fichier>>ligne;
-        fichier>>argentCrypte;
-        argentDecrypte=decryptShadok(argentCrypte);
-        fichier.close();
-    }
 
     // Affichage des éléments graphiques
     Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
     Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
     Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
     Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbPartiesDecrypte),255,255,255,30,150);
-    Ecrire("CollegiateInsideFLF",25,"Argent : " + to_string(argentDecrypte)+" $",255,255,255,30,250);
+    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,30,150);
+    Ecrire("CollegiateInsideFLF",25,"Record : " + to_string(highscore)+" $",255,255,255,30,250);
     SDL_RenderPresent(renderer);
 
     while (continuerMenu==1 && continuer==1)
@@ -1177,6 +1182,7 @@ void menu()
 
 void debut() // Affichage de l'écran initial
 {
+    recupInfos();
     inputPseudo();  // Saisie du pseudo
     int longueurPseudo=pseudo.length()+8;
     affichageTexture(textureAccueil,0,0); // Affichage de l'image d'accueil
