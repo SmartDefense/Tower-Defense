@@ -26,7 +26,7 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
         dX=((chateau.getXcentre()-getXCentre())*vitesse)/distance;
         dY=((chateau.getYcentre()-getYCentre())*vitesse)/distance;
         angle=atan2((chateau.getYcentre()-y), (chateau.getXcentre()-x)) *180/M_PI;
-        cout<<angle<<endl;
+        //cout<<angle<<endl;
     }
     //cout<<"Creation :\t Ennemi ("<<x<<","<<y<<")"<<endl;
 }
@@ -141,7 +141,7 @@ int Ennemi::getYCentre()
 int Ennemi::getXCentreFutur(int images)
 {
     if(estAerien){
-        return getXCentre()+images*cos(angle)
+        return getXCentre()+images*cos(angle);
     }
     switch(direction){
     case 0: return getXCentre()+ images*vitesse;
@@ -156,7 +156,7 @@ int Ennemi::getXCentreFutur(int images)
 int Ennemi::getYCentreFutur(int images)
 {
     if(estAerien){
-        return getYCentre()+images*sin(angle)
+        return getYCentre()+images*sin(angle);
     }
 
     switch(direction){
