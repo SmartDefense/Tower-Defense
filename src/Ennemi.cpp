@@ -1,7 +1,7 @@
 #include "Ennemi.h"
 #include <math.h>
 
-Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estAerien,int xChateau,int yChateau):
+Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multiplicateurVitesse, double multiplicateurArgentMort, int vague, bool estAerien,int xChateau,int yChateau,int type):
     vie(vie+(vie*20*(vague+1)/100)),
     vieMax(this->vie),
     direction(0),
@@ -11,6 +11,7 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     poison(false),
     x(x),
     y(y),
+    type(type),
     intensitePoison(0),
     destVie({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
     destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
@@ -70,7 +71,41 @@ void Ennemi::affiche()
         }
 
     }else{
-        SDL_RenderCopy(renderer, textureEnnemi, NULL, &dest);
+        if(direction==0){
+            angle=0;
+        }else if(direction==1){
+            angle=-90;
+        }else if(direction==2){
+            angle=180;
+        }else if(direction==3){
+            angle=90;
+        }
+
+        if(type==1){
+            int limite =2;
+
+           if(numImage<limite){
+                SDL_RenderCopyEx(renderer, textureEnnemiRapide[0], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+                numImage++;
+
+            }else if(numImage<limite*2){
+                SDL_RenderCopyEx(renderer, textureEnnemiRapide[1], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+                numImage++;
+
+            }else if (numImage<limite*3){
+                SDL_RenderCopyEx(renderer, textureEnnemiRapide[2], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+                numImage++;
+            }else if(numImage<limite*4){
+                SDL_RenderCopyEx(renderer, textureEnnemiRapide[3], NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+                numImage++;
+                if(numImage==limite*4){
+                    numImage=0;
+                }
+            }
+
+        }else{
+            SDL_RenderCopy(renderer, textureEnnemi, NULL, &dest);
+        }
     }
 
 

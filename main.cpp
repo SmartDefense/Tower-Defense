@@ -27,7 +27,7 @@ SDL_Texture  *textureCase,
              *textureTourSniperCanon,
 
              *textureEnnemiClassique,
-             *textureEnnemiRapide,
+             *textureEnnemiRapideSimple,
              *textureEnnemiTank,
              *textureEnnemiVolantSimple,
 
@@ -37,6 +37,7 @@ SDL_Texture  *textureCase,
              *textureExplosion[TEMPS_ANIM_TIR],
 
              *textureEnnemiVolant[nbImageEnnemiVolant],
+             *textureEnnemiRapide[4],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -825,7 +826,7 @@ int initSDL()
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"ennemiRapide.png").c_str());
-    textureEnnemiRapide= SDL_CreateTextureFromSurface(renderer, surface);
+    textureEnnemiRapideSimple= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"ennemiTank.png").c_str());
@@ -848,6 +849,11 @@ int initSDL()
         cout<<CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png"<<endl;
         surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png").c_str());
         textureEnnemiVolant[i]= SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+    }
+    for(int i=0;i<4;i++){
+        surface=IMG_Load((CHEMIN_IMAGES+"ennemiRapide"+to_string(i)+".png").c_str());
+        textureEnnemiRapide[i]= SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
     }
 

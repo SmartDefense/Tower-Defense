@@ -15,7 +15,7 @@ extern SDL_Texture  *textureCase,
                     *textureTourSniperCanon,
 
                     *textureEnnemiClassique,
-                    *textureEnnemiRapide,
+                    *textureEnnemiRapideSimple,
                     *textureEnnemiTank,
                     *textureEnnemiVolantSimple,
 
@@ -23,6 +23,7 @@ extern SDL_Texture  *textureCase,
                     *textureTirSniper,
 
                     *textureEnnemiVolant[nbImageEnnemiVolant],
+                    *textureEnnemiRapide[4],
 
                     *textureExplosion[TEMPS_ANIM_TIR];
 
