@@ -6,7 +6,7 @@ Chemin::Chemin(int x, int y, int block):
     Case(x, y, block),
     vitesseDeplacement(1)
 {
-    Case::textureCaseSimple=::textureChemin;
+    Case::textureCaseFond=::textureChemin;
     Case::type="Chemin";
     //cout<<"Creation :\t Chemin ("<<x<<","<<y<<")"<<endl;
 }

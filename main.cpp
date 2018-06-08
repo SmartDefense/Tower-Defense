@@ -16,7 +16,7 @@
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
 SDL_Texture  *textureChemin,
-             *textureCaseSimple,
+             *textureCaseFond,
              *textureChateau,
 
              *textureTourClassiqueBase,
@@ -36,9 +36,9 @@ SDL_Texture  *textureChemin,
 
              *textureExplosion[TEMPS_ANIM_TIR],
 
-             *textureEnnemiVolant[nbImageEnnemiVolant],
+             *textureEnnemiVolant[NB_IMAGE_ENNEMI_VOLANT],
              *textureEnnemiRapide[4],
-             *textureCase[nbImageCase],
+             *textureCase[NB_IMAGE_CASE],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -791,7 +791,7 @@ int initSDL()
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"case0.png").c_str());
-    textureCaseSimple= SDL_CreateTextureFromSurface(renderer, surface);
+    textureCaseFond= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"chemin.png").c_str());
@@ -851,7 +851,7 @@ int initSDL()
         textureEnnemiVolant[i]= SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
     }
-    for(int i=0;i<nbImageCase;i++){
+    for(int i=0;i<NB_IMAGE_CASE;i++){
 
         surface=IMG_Load((CHEMIN_IMAGES+"case"+to_string(i)+".png").c_str());
         textureCase[i]= SDL_CreateTextureFromSurface(renderer, surface);

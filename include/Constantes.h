@@ -19,8 +19,8 @@ const int ARGENT_ENNEMI = 10;
 const int ARGENT_TOUR = 25;
 
 const int TEMPS_ANIM_TIR = 5;
-const int nbImageEnnemiVolant = 2;
-const int nbImageCase = 3;
+const int NB_IMAGE_ENNEMI_VOLANT = 2;
+const int NB_IMAGE_CASE = 3;
 
 const int AMELIORATION_VITESSE_TIR = 0;
 const int AMELIORATION_CADENCE = 1;

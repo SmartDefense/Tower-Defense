@@ -36,7 +36,7 @@ class Case
             nombreAleatoire;
         string type;
         SDL_Rect dest;
-        SDL_Texture* textureCaseSimple;
+        SDL_Texture* textureCaseFond;
 
 };
 
