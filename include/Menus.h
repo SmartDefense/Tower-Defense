@@ -98,6 +98,10 @@ void choixLevel() // Fonction de choix du niveau
                 {
                     continuerLevel=0;
                 }
+                else if (events.key.keysym.scancode==SDL_SCANCODE_RETURN){
+                    continuerLevel=0;
+                    jeu(numLevel);
+                }
                 break;
 
             case SDL_QUIT :                                          // Quitter le jeu
@@ -316,6 +320,15 @@ void debut() // Affichage de l'écran initial
                 if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)
                 {
                     continuerDebut=0;
+                }
+
+                else if(events.key.keysym.scancode==SDL_SCANCODE_SPACE){
+                    // COMMENCER //
+                    choixLevel();
+                    SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
+                    affichageTexture(textureAccueil,0,0);
+                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    SDL_RenderPresent(renderer);
                 }
                 break;
 

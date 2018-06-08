@@ -32,10 +32,9 @@ int Case::getNbPassage()
 
 void Case::affiche()
 {
+    SDL_RenderCopy(renderer, textureCaseFond, NULL, &dest);
     if(type=="Case"){
         SDL_RenderCopy(renderer, textureCase[nombreAleatoire], NULL, &dest);
-    }else{
-        SDL_RenderCopy(renderer, textureCaseFond, NULL, &dest);
     }
 
 

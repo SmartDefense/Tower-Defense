@@ -44,4 +44,11 @@ void affichageTexture(SDL_Texture* texture, int x, int y)                       
     SDL_RenderCopy(renderer,texture,NULL,&position);
 }
 
+SDL_Surface* surface;
+void chargeTexture(SDL_Texture* &dest, string nomImage){
+    surface=IMG_Load((CHEMIN_IMAGES+nomImage).c_str());
+    dest= SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+}
+
 #endif // UTILITAIRES_H_INCLUDED

@@ -81,28 +81,28 @@ vector<Ennemi*> listeEnnemis;
 vector<Tir*> listeTirs;
 
 int nbParties;                      // Nombre de parties du joueur
-string pseudoHighscore ="";                  // Variable contenant le pseudo entré par le joueur
+string pseudoHighscore ="";                  // Variable contenant le pseudo entrÃ© par le joueur
 int highscore;
 
 string pseudo="";
 int nbVagues=80;                    // Nombre de vague totale dans chaque partie
-int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
-int occurences=10;                  // Nombre d'ennemis dans la première vague
+int depart=0;                       // Variable d'Ã©tat pour commencer Ã  afficher la vague d'ennemis
+int occurences=10;                  // Nombre d'ennemis dans la premiÃ¨re vague
 int argent=200;                         // Argent du joueur
 int numLevel=1;                     // Numero du level
-int continuer=1;                    // Variable d'état pour quitter la boucle principale et fermer la fenêtre de jeu
+int continuer=1;                    // Variable d'Ã©tat pour quitter la boucle principale et fermer la fenÃªtre de jeu
 int affichageArgent=1;
 
 int TAILLE_X_PLATEAU = 20;
 int TAILLE_Y_PLATEAU = 15;
-int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplémentaires à chaque vague
-int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions à un temps donné dans une boucle while
+int nbEnnemisSupplementaires =4;    // Nb d'ennemis supplÃ©mentaires Ã  chaque vague
+int compteurImage=0;                // Compteur d'images permettant d'effectuer des actions Ã  un temps donnÃ© dans une boucle while
 int rafraichissement=30;
 
 int xChateau=0,
     yChateau=0;
 
-int xVague=-1,                      // Variables permettant de connaitre la position de la case de départ
+int xVague=-1,                      // Variables permettant de connaitre la position de la case de dÃ©part
     yVague=-1;
 
 
@@ -122,7 +122,7 @@ void initListeCase()  // Initialisation des cases vides
     }
 }
 
-void quitListeCase()                // Fonction de suppression de la listeCases à la fin de la partie
+void quitListeCase()                // Fonction de suppression de la listeCases Ã  la fin de la partie
 {
     for(int y=0; y<TAILLE_Y_PLATEAU; y++)
     {
@@ -141,9 +141,9 @@ void quitListeCase()                // Fonction de suppression de la listeCases 
 void remplissageVague()                 // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
 {
     for (int i=0; i<(occurences); i++){
-        vague.push_back(rand()%3);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
+        vague.push_back(rand()%3);      // Tirage alÃ©atoire du type d'ennemi (nombre entre 0 et 2)
     }
-    depart=1;                           // Affichage de la vague à la prochaine condition
+    depart=1;                           // Affichage de la vague Ã  la prochaine condition
 }
 
 
@@ -157,17 +157,17 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
     string ligne;
     int y=0;
 
-    // On récupère la taille du plateau
+    // On rÃ©cupÃ¨re la taille du plateau
     getline(level, ligne);
     TAILLE_X_PLATEAU=stoi(ligne);
     getline(level, ligne);
     TAILLE_Y_PLATEAU=stoi(ligne);
     initListeCase();
 
-    // La taille de la fenêtre est adaptée à la taille du plateau
+    // La taille de la fenÃªtre est adaptÃ©e Ã  la taille du plateau
     SDL_SetWindowSize(fenetre,TAILLE_X_PLATEAU*TAILLE_CASE + MARGE_GAUCHE, TAILLE_Y_PLATEAU*TAILLE_CASE + MARGE_HAUT);
 
-    // Chaque case est crée en fonction de son type
+    // Chaque case est crÃ©e en fonction de son type
     while(getline(level, ligne))
     {
         for(int x=0; x<ligne.length(); x++)
@@ -215,7 +215,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
     SDL_Event events;
     bool terminer = false;
 
-    int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquée
+    int xSouris, ySouris, xCase, yCase, xCaseTour=-1, yCaseTour=-1; // Variables contenant la position x,y de la souris, ainsi que de la case cliquÃ©e
     remplissageVague();
 
     int itterations=0;      // Variable permettant d'arreter l'affichage des vagues au bout du nombre de vagues voulu
@@ -250,16 +250,16 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
                 }
                 numeroEnnemi++;
-                creation=1;             // Variable de création du premier ennemi pour éviter de remplir à nouveau le tableau vague lorsque aucun ennemi n'est affiché
+                creation=1;             // Variable de crÃ©ation du premier ennemi pour Ã©viter de remplir Ã  nouveau le tableau vague lorsque aucun ennemi n'est affichÃ©
 
             }
 
-        if (numeroEnnemi==occurences){      // Si tous les ennemis sont affichés, on met à 0 la variable de départ
+        if (numeroEnnemi==occurences){      // Si tous les ennemis sont affichÃ©s, on met Ã  0 la variable de dÃ©part
             numeroEnnemi=0;
             depart=0;
         }
 
-         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){      // S'il n'y a plus d'ennemi dans la partie, on déchenche la vague suivante
+         if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){      // S'il n'y a plus d'ennemi dans la partie, on dÃ©chenche la vague suivante
          creation=0;
          vague.clear();
          occurences+=nbEnnemisSupplementaires*2*numLevel;             // La vague suivante contient 4 ennemis en plus
@@ -268,7 +268,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
          }
 
-        while(SDL_PollEvent(&events))       // Récupération des évènements
+        while(SDL_PollEvent(&events))       // RÃ©cupÃ©ration des Ã©vÃ¨nements
         {
             switch(events.type)
             {
@@ -283,11 +283,11 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 break;
 
             case SDL_KEYUP:
-                SDL_GetMouseState(&xSouris, &ySouris);         // Récupération de la position de la souris
-                xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;   // On définit la case sur laquelle se trouve la souris
+                SDL_GetMouseState(&xSouris, &ySouris);         // RÃ©cupÃ©ration de la position de la souris
+                xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;   // On dÃ©finit la case sur laquelle se trouve la souris
                 yCase = (ySouris-MARGE_HAUT)/ TAILLE_CASE;
 
-                // Création manuelle des 3 types d'ennemis pour le débogage
+                // CrÃ©ation manuelle des 3 types d'ennemis pour le dÃ©bogage
                 if(events.key.keysym.scancode==SDL_SCANCODE_Q)
                 {
                     listeEnnemis.push_back(new EnnemiClassique(listeCases[yCase][xCase]->getXcentre()-TAILLE_ENNEMI/2,
@@ -351,7 +351,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 {
                     terminer=true;
                 }
-                // Création manuelle des cases / tours pour le débogage
+                // CrÃ©ation manuelle des cases / tours pour le dÃ©bogage
                 else if(SDL_SCANCODE_A<=events.key.keysym.scancode && events.key.keysym.scancode<=SDL_SCANCODE_Z){
                     if(listeCases[yCase][xCase]!=NULL)
                     {
@@ -391,7 +391,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
             case SDL_MOUSEBUTTONUP:
 
-                // Récupération de la position de la souris
+                // RÃ©cupÃ©ration de la position de la souris
                 int x = events.button.x;
                 int y = events.button.y;
 
@@ -406,7 +406,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                                 || listeCases[yCase][xCase]->getType()=="TourSniper"
                                 || listeCases[yCase][xCase]->getType()=="TourPoison")
                         {
-                            // On enregistre la position de la case cliquée comme une tour
+                            // On enregistre la position de la case cliquÃ©e comme une tour
                             xCaseTour = xCase;
                             yCaseTour = yCase;
                         }
@@ -424,9 +424,9 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         //TOUR CLASSIQUE
                         if(listeCases[yCaseTour][xCaseTour]!=NULL)
                         {
-                            delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquée
+                            delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquÃ©e
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,-1);    // On crée la tour voulue
+                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,-1);    // On crÃ©e la tour voulue
                         argent-= ARGENT_TOUR*TourClassique::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;
@@ -457,7 +457,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>200 && x<280 && y>10 && y<90)                                            // Bp annuler pour pouvoir sélectionner une autre tour
+                    else if (x>200 && x<280 && y>10 && y<90)                                            // Bp annuler pour pouvoir sÃ©lectionner une autre tour
                     {
                         //ANNULER CASE
                         xCaseTour = -1;
@@ -521,7 +521,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             }
         }
 
-        // ACTIONS // Placement des tours en direction des ennemis et tirs pour les détruire
+        // ACTIONS // Placement des tours en direction des ennemis et tirs pour les dÃ©truire
         for(int y=0 ; y<TAILLE_Y_PLATEAU ; y++)
         {
             for(int x=0 ; x<TAILLE_X_PLATEAU ; x++)
@@ -547,7 +547,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         SDL_SetRenderDrawColor(renderer, 0,127,127,255);    // Couleur de fond du plateau
         SDL_RenderClear(renderer);
 
-        // Création de la zone contenant les boutons
+        // CrÃ©ation de la zone contenant les boutons
         SDL_SetRenderDrawColor(renderer, 0, 127, 147, 255);
         SDL_Rect rect = {150,5,860,90};
         SDL_RenderDrawRect(renderer, &rect);
@@ -588,7 +588,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
         SDL_GetMouseState(&xSouris, &ySouris);
 
-        // Affichage de la portée par un cercle lorsque le pointeur est sur une tour
+        // Affichage de la portÃ©e par un cercle lorsque le pointeur est sur une tour
         if (xSouris>MARGE_GAUCHE && ySouris > MARGE_HAUT)
         {
             xCase = (xSouris-MARGE_GAUCHE)/ TAILLE_CASE;
@@ -600,7 +600,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             }
         }
 
-        // Si l'on sélectionne une case, elle est encadrée en rouge
+        // Si l'on sÃ©lectionne une case, elle est encadrÃ©e en rouge
         if (xCaseTour!=-1)
         {
             SDL_SetRenderDrawColor(renderer, 255,0,0,100);
@@ -666,7 +666,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         }
 
         // Affichage du bp retour
-        Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
+        Ecrire("WingdingReview",40,"Ã±",255,255,255,50,50);
         Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
 
         if (listeCases[yChateau][xChateau]->action()==1){                               // Si le chateau n'a plus de vie
@@ -682,7 +682,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             }
             terminer=true;      // On quitte la partie
         }
-        // Rafraichissement de l'écran toutes les 30 ms
+        // Rafraichissement de l'Ã©cran toutes les 30 ms
         SDL_RenderPresent(renderer);
         SDL_Delay(rafraichissement);
         compteurImage++;
@@ -717,7 +717,7 @@ int initSDL()
         return -1;
     }
 
-    // Création de la fenêtre
+    // CrÃ©ation de la fenÃªtre
     fenetre = SDL_CreateWindow("Tower Defense SDL 2.0",
                                SDL_WINDOWPOS_CENTERED,
                                SDL_WINDOWPOS_CENTERED,
@@ -731,7 +731,7 @@ int initSDL()
         return -1;
     }
 
-    //Création du renderer
+    //CrÃ©ation du renderer
     renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_ACCELERATED);
     if(renderer==NULL)
     {
@@ -746,133 +746,49 @@ int initSDL()
     //Surface pour charger toutes les textures
     SDL_Surface* surface;
 
-    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationCadence.png").c_str());
-    textureCadence= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    chargeTexture(textureCadence, "bpAmeliorationCadence.png");
+    chargeTexture(textureDegatTir, "bpAmeliorationDegatTir.png");
+    chargeTexture(texturePorteeTour, "bpAmeliorationPorteeTour.png");
+    chargeTexture(textureVitesseTir, "bpAmeliorationVitesseTir.png");
+    chargeTexture(textureBpTourClassique, "bpTourClassique.png");
+    chargeTexture(textureBpTourSniper, "bpTourSniper.png");
+    chargeTexture(textureBpTourPoison, "bpTourPoison.png");
+    chargeTexture(textureBpEffacer, "bpEffacer.png");
+    chargeTexture(textureBpAnnuler, "bpAnnuler.png");
+    chargeTexture(textureLogo, "logo.png");
+    chargeTexture(textureAccueil, "towerDefense.png");
+    chargeTexture(textureCaseFond, "caseFond.png");
+    chargeTexture(textureChemin, "chemin.png");
+    chargeTexture(textureChateau, "chateau.png");
+    chargeTexture(textureTourClassiqueBase, "tourClassiqueBase.png");
+    chargeTexture(textureTourSniperBase, "tourSniperBase.png");
+    chargeTexture(textureTourPoisonBase, "tourPoisonBase.png");
+    chargeTexture(textureTourClassiqueCanon, "tourClassiqueCanon.png");
+    chargeTexture(textureTourSniperCanon, "tourSniperCanon.png");
+    chargeTexture(textureEnnemiClassique, "ennemiClassique.png");
+    chargeTexture(textureEnnemiRapideSimple, "ennemiRapide.png");
+    chargeTexture(textureEnnemiTank, "ennemiTank.png");
+    chargeTexture(textureEnnemiVolantSimple, "ennemiVolant.png");
+    chargeTexture(textureTirClassique, "tirClassique.png");
+    chargeTexture(textureTirSniper, "tirSniper.png");
 
-    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationDegatTir.png").c_str());
-    textureDegatTir= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationPorteeTour.png").c_str());
-    texturePorteeTour= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpAmeliorationVitesseTir.png").c_str());
-    textureVitesseTir= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpTourClassique.png").c_str());
-    textureBpTourClassique= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpTourSniper.png").c_str());
-    textureBpTourSniper= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpTourPoison.png").c_str());
-    textureBpTourPoison= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpEffacer.png").c_str());
-    textureBpEffacer= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"bpAnnuler.png").c_str());
-    textureBpAnnuler= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"logo.png").c_str());
-    textureLogo= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"towerDefense.png").c_str());
-    textureAccueil= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"case0.png").c_str());
-    textureCaseFond= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"chemin.png").c_str());
-    textureChemin= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"chateau.png").c_str());
-    textureChateau= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tourClassiqueBase.png").c_str());
-    textureTourClassiqueBase= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tourSniperBase.png").c_str());
-    textureTourSniperBase= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tourPoisonBase.png").c_str());
-    textureTourPoisonBase= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tourClassiqueCanon.png").c_str());
-    textureTourClassiqueCanon= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tourSniperCanon.png").c_str());
-    textureTourSniperCanon= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"ennemiClassique.png").c_str());
-    textureEnnemiClassique= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"ennemiRapide.png").c_str());
-    textureEnnemiRapideSimple= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"ennemiTank.png").c_str());
-    textureEnnemiTank= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant.png").c_str());
-    textureEnnemiVolantSimple= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tirClassique.png").c_str());
-    textureTirClassique= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    surface=IMG_Load((CHEMIN_IMAGES+"tirSniper.png").c_str());
-    textureTirSniper= SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    for(int i=0;i<2;i++){
-        surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png").c_str());
-        textureEnnemiVolant[i]= SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
-    }
     for(int i=0;i<NB_IMAGE_CASE;i++){
-
-        surface=IMG_Load((CHEMIN_IMAGES+"case"+to_string(i)+".png").c_str());
-        textureCase[i]= SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+        chargeTexture(textureCase[i], "case"+to_string(i)+".png");
     }
-    for(int i=0;i<4;i++){
-        surface=IMG_Load((CHEMIN_IMAGES+"ennemiRapide"+to_string(i)+".png").c_str());
-        textureEnnemiRapide[i]= SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+    for(int i=0;i<NB_IMAGE_ENNEMI_VOLANT;i++){
+        chargeTexture(textureEnnemiVolant[i], "ennemiVolant"+to_string(i)+".png");
     }
-
+    for(int i=0;i<NB_IMAGE_ENNEMI_RAPIDE;i++){
+        chargeTexture(textureEnnemiRapide[i], "ennemiRapide"+to_string(i)+".png");
+    }
     for(int i=0;i<TEMPS_ANIM_TIR;i++){
-        surface=IMG_Load((CHEMIN_IMAGES+"explosion"+to_string(i)+".png").c_str());
-        textureExplosion[i]= SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+        chargeTexture(textureExplosion[i], "explosion"+to_string(i)+".png");
     }
 
     return 1;
 }
 
-int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'à la fermeture du jeu
+int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'Ã  la fermeture du jeu
 {
     initSDL();
     initListeCase();
