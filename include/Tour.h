@@ -22,7 +22,9 @@ class Tour : public Case
             degat,
             vitesseTir,
             vitesseCanon,
-            angleCanon;
+            angleCanon,
+            fondTourAleatoire,
+            directionFondAleatoire;
         double portee;
         bool peutToucherAerien,
              peutToucherTerrestre;

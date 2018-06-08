@@ -33,7 +33,9 @@ class Case
             nbPassage,
             xCentre,
             yCentre,
-            nombreAleatoire;
+            caseAleatoire,
+            directionCaseAleatoire,
+            directionFondAleatoire;
         string type;
         SDL_Rect dest;
         SDL_Texture* textureCaseFond;

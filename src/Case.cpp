@@ -10,7 +10,9 @@ Case::Case(int x, int y, int block):
     xCentre(x*TAILLE_CASE + TAILLE_CASE/2 + MARGE_GAUCHE),
     yCentre(y*TAILLE_CASE + TAILLE_CASE/2 + MARGE_HAUT),
     type("Case"),
-    nombreAleatoire(rand()%NB_IMAGE_CASE),
+    caseAleatoire(rand()%NB_CASE_FOND),
+    directionCaseAleatoire(rand()%360),
+    directionFondAleatoire(rand()%4*90),
     dest({x*TAILLE_CASE+MARGE_GAUCHE, y*TAILLE_CASE+MARGE_HAUT, TAILLE_CASE, TAILLE_CASE}),
     textureCaseFond(::textureCaseFond)
 {
@@ -32,9 +34,9 @@ int Case::getNbPassage()
 
 void Case::affiche()
 {
-    SDL_RenderCopy(renderer, textureCaseFond, NULL, &dest);
+    SDL_RenderCopyEx(renderer, textureCaseFond, NULL, &dest, directionFondAleatoire, NULL, SDL_FLIP_NONE);
     if(type=="Case"){
-        SDL_RenderCopy(renderer, textureCase[nombreAleatoire], NULL, &dest);
+        SDL_RenderCopyEx(renderer, textureCase[caseAleatoire], NULL, &dest, directionCaseAleatoire, NULL, SDL_FLIP_NONE);
     }
 
 

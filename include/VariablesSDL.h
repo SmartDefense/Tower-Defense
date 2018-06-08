@@ -23,9 +23,9 @@ extern SDL_Texture  *textureChemin,
                     *textureTirSniper,
 
                     *textureEnnemiVolant[NB_IMAGE_ENNEMI_VOLANT],
-                    *textureEnnemiRapide[4],
-                    *textureCase[NB_IMAGE_CASE],
-
+                    *textureEnnemiRapide[NB_IMAGE_ENNEMI_RAPIDE],
+                    *textureCase[NB_CASE_FOND],
+                    *textureTourFond[NB_TOUR_FOND],
 
                     *textureExplosion[TEMPS_ANIM_TIR];
 

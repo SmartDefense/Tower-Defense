@@ -37,8 +37,9 @@ SDL_Texture  *textureChemin,
              *textureExplosion[TEMPS_ANIM_TIR],
 
              *textureEnnemiVolant[NB_IMAGE_ENNEMI_VOLANT],
-             *textureEnnemiRapide[4],
-             *textureCase[NB_IMAGE_CASE],
+             *textureEnnemiRapide[NB_IMAGE_ENNEMI_RAPIDE],
+             *textureCase[NB_CASE_FOND],
+             *textureTourFond[NB_TOUR_FOND],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -772,8 +773,11 @@ int initSDL()
     chargeTexture(textureTirClassique, "tirClassique.png");
     chargeTexture(textureTirSniper, "tirSniper.png");
 
-    for(int i=0;i<NB_IMAGE_CASE;i++){
+    for(int i=0;i<NB_CASE_FOND;i++){
         chargeTexture(textureCase[i], "case"+to_string(i)+".png");
+    }
+    for(int i=0;i<NB_TOUR_FOND;i++){
+        chargeTexture(textureTourFond[i], "tourFond"+to_string(i)+".png");
     }
     for(int i=0;i<NB_IMAGE_ENNEMI_VOLANT;i++){
         chargeTexture(textureEnnemiVolant[i], "ennemiVolant"+to_string(i)+".png");

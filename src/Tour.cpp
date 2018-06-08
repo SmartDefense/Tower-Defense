@@ -14,7 +14,9 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     peutToucherAerien(peutToucherAerien),
     peutToucherTerrestre(peutToucherTerrestre),
     textureTourBase(textureTourBase),
-    textureTourCanon(textureTourCanon)
+    textureTourCanon(textureTourCanon),
+    fondTourAleatoire(rand()%NB_TOUR_FOND),
+    directionFondAleatoire(rand()%360)
 {
     Case::type="Tour";
 }
@@ -28,7 +30,8 @@ Tour::moduloPositif(int nombre, int modulo){
 void Tour::affiche()
 {
     Case::affiche();
-    SDL_RenderCopy(renderer, textureTourBase, NULL, &dest);
+    SDL_RenderCopyEx(renderer, textureTourFond[fondTourAleatoire], NULL, &dest, directionFondAleatoire, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, textureTourBase, NULL, &dest, directionCaseAleatoire, NULL, SDL_FLIP_NONE);
     SDL_RenderCopyEx(renderer, textureTourCanon, NULL, &dest, angleCanon, NULL, SDL_FLIP_NONE);
 
     int tempsDepuisTir=abs(rechargement-compteurRechargement);
