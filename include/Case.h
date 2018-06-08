@@ -32,10 +32,11 @@ class Case
             block,
             nbPassage,
             xCentre,
-            yCentre;
+            yCentre,
+            nombreAleatoire;
         string type;
         SDL_Rect dest;
-        SDL_Texture* textureCase;
+        SDL_Texture* textureCaseSimple;
 
 };
 

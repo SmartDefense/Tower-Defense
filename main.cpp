@@ -15,8 +15,8 @@
 
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
-SDL_Texture  *textureCase,
-             *textureChemin,
+SDL_Texture  *textureChemin,
+             *textureCaseSimple,
              *textureChateau,
 
              *textureTourClassiqueBase,
@@ -38,6 +38,7 @@ SDL_Texture  *textureCase,
 
              *textureEnnemiVolant[nbImageEnnemiVolant],
              *textureEnnemiRapide[4],
+             *textureCase[nbImageCase],
 
              *textureBpTourSniper,
              *textureBpTourClassique,
@@ -789,8 +790,8 @@ int initSDL()
     textureAccueil= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
-    surface=IMG_Load((CHEMIN_IMAGES+"case.png").c_str());
-    textureCase= SDL_CreateTextureFromSurface(renderer, surface);
+    surface=IMG_Load((CHEMIN_IMAGES+"case0.png").c_str());
+    textureCaseSimple= SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     surface=IMG_Load((CHEMIN_IMAGES+"chemin.png").c_str());
@@ -846,9 +847,14 @@ int initSDL()
     SDL_FreeSurface(surface);
 
     for(int i=0;i<2;i++){
-        cout<<CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png"<<endl;
         surface=IMG_Load((CHEMIN_IMAGES+"ennemiVolant"+to_string(i)+".png").c_str());
         textureEnnemiVolant[i]= SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+    }
+    for(int i=0;i<nbImageCase;i++){
+
+        surface=IMG_Load((CHEMIN_IMAGES+"case"+to_string(i)+".png").c_str());
+        textureCase[i]= SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
     }
     for(int i=0;i<4;i++){

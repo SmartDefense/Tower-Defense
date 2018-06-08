@@ -3,8 +3,8 @@
 
 extern SDL_Window* fenetre;
 extern SDL_Renderer* renderer;
-extern SDL_Texture  *textureCase,
-                    *textureChemin,
+extern SDL_Texture  *textureChemin,
+                    *textureCaseSimple,
                     *textureChateau,
 
                     *textureTourClassiqueBase,
@@ -24,6 +24,8 @@ extern SDL_Texture  *textureCase,
 
                     *textureEnnemiVolant[nbImageEnnemiVolant],
                     *textureEnnemiRapide[4],
+                    *textureCase[nbImageCase],
+
 
                     *textureExplosion[TEMPS_ANIM_TIR];
 
