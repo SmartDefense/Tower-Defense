@@ -59,6 +59,8 @@ SDL_Texture  *textureChemin,
              *textureLogo;
 TTF_Font *font;
 
+#include "Bouton.h"
+
 #include "Case.h"
 #include "TourClassique.h"
 #include "TourSniper.h"

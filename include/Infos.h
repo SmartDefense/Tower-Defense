@@ -114,7 +114,6 @@ void infos()                            // Fonction d'enregistrement des données
 
         int nbPartiesDecrypte=decryptShadok(nbPartiesCrypte);
         ++nbPartiesDecrypte;
-        cout<<argent<<endl;
         string nbPartiesCrypte=cryptShadok(nbPartiesDecrypte);
         string argentCrypte=cryptShadok(argent);
 

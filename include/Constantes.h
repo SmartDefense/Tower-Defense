@@ -21,7 +21,7 @@ const int ARGENT_TOUR = 25;
 const int TEMPS_ANIM_TIR = 5;
 const int NB_IMAGE_ENNEMI_VOLANT = 2;
 const int NB_IMAGE_ENNEMI_RAPIDE = 4;
-const int NB_CASE_FOND = 3;
+const int NB_CASE_FOND = 10;
 const int NB_TOUR_FOND = 2;
 
 
