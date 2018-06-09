@@ -385,19 +385,19 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                     }
                     else if(events.key.keysym.scancode==SDL_SCANCODE_A)
                     {
-                        listeCases[yCase][xCase]=new TourClassique(xCase, yCase,-1);
+                        listeCases[yCase][xCase]=new TourClassique(xCase, yCase,PRIORITE_PREMIER);
                     }
                     else if(events.key.keysym.scancode==SDL_SCANCODE_S)
                     {
-                        listeCases[yCase][xCase]=new TourSniper(xCase, yCase, -1);
+                        listeCases[yCase][xCase]=new TourSniper(xCase, yCase,PRIORITE_PREMIER);
                     }
                     else if(events.key.keysym.scancode==SDL_SCANCODE_D)
                     {
-                        listeCases[yCase][xCase]=new TourPoison(xCase, yCase, -1);
+                        listeCases[yCase][xCase]=new TourPoison(xCase, yCase,PRIORITE_PREMIER);
                     }
                     else if(events.key.keysym.scancode==SDL_SCANCODE_F)
                     {
-                        listeCases[yCase][xCase]=new TourAerien(xCase, yCase, -1);
+                        listeCases[yCase][xCase]=new TourAerien(xCase, yCase,PRIORITE_PREMIER);
                     }
                 }
                 break;
@@ -417,7 +417,8 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         if(listeCases[yCase][xCase]->getType()=="Case"
                                 || listeCases[yCase][xCase]->getType()=="TourClassique"
                                 || listeCases[yCase][xCase]->getType()=="TourSniper"
-                                || listeCases[yCase][xCase]->getType()=="TourPoison")
+                                || listeCases[yCase][xCase]->getType()=="TourPoison"
+                                || listeCases[yCase][xCase]->getType()=="TourAerien")
                         {
                             // On enregistre la position de la case cliquée comme une tour
                             xCaseTour = xCase;
@@ -439,7 +440,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         {
                             delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquée
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,-1);    // On crée la tour voulue
+                        listeCases[yCaseTour][xCaseTour]=new TourClassique(xCaseTour, yCaseTour,PRIORITE_PREMIER);    // On crée la tour voulue
                         argent-= ARGENT_TOUR*TourClassique::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;
@@ -452,7 +453,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         {
                             delete listeCases[yCaseTour][xCaseTour];
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourSniper(xCaseTour, yCaseTour, -1);
+                        listeCases[yCaseTour][xCaseTour]=new TourSniper(xCaseTour, yCaseTour,PRIORITE_PREMIER);
                         argent-= ARGENT_TOUR*TourSniper::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;
@@ -465,7 +466,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         {
                             delete listeCases[yCaseTour][xCaseTour];
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourPoison(xCaseTour, yCaseTour, -1);
+                        listeCases[yCaseTour][xCaseTour]=new TourPoison(xCaseTour, yCaseTour,PRIORITE_PREMIER);
                         argent-= ARGENT_TOUR*TourPoison::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;
@@ -479,10 +480,11 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 }
 
 
-                // Si la case est l'une des 3 tours, on peut effectuer des actions sur ces tours
+                // Si la case est l'une des 4 tours, on peut effectuer des actions sur ces tours
                 else if(xCaseTour!=-1 && (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"
-                                          || listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"))
+                                          || listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"
+                                          || listeCases[yCaseTour][xCaseTour]->getType()=="TourAerien"))
                 {
 
                     if (x>500 && x<580 && y>10 && y<90)

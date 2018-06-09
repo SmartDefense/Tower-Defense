@@ -24,6 +24,7 @@ class Ennemi
         int getXCentreFutur(int images);
         int getYCentreFutur(int images);
         int getPrediction();
+        int getVie();
         bool getAerien();
         void ajouteCaseParcours();
 

@@ -212,6 +212,10 @@ int Ennemi::getYCentreFutur(int images)
     }
 }
 
+int Ennemi::getVie(){
+    return vie;
+}
+
 
 void Ennemi::remplissagePoss(int yCase,int xCase, int poss[][2])
 {

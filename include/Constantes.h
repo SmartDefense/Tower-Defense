@@ -31,6 +31,11 @@ const int AMELIORATION_DEGAT_TIR = 2;
 const int AMELIORATION_PORTEE_TOUR = 3;
 const int AMELIORATION_VITESSE_DEPLACEMENT = 4;
 
+const int PRIORITE_PREMIER = 0;
+const int PRIORITE_PLUS_PRES = 1;
+const int PRIORITE_PLUS_FAIBLE = 2;
+const int PRIORITE_PLUS_FORT = 3;
+
 const int EFFET_POISON = 1000;
 
 const string CHEMIN_IMAGES="images/";
