@@ -142,7 +142,7 @@ void quitListeCase()                // Fonction de suppression de la listeCases 
 void remplissageVague()                 // Fonction remplissant le tableau vague par le nombre d'ennemis voulu
 {
     for (int i=0; i<(occurences); i++){
-        vague.push_back(rand()%3);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
+        vague.push_back(rand()%4);      // Tirage aléatoire du type d'ennemi (nombre entre 0 et 2)
     }
     depart=1;                           // Affichage de la vague à la prochaine condition
 }
@@ -248,6 +248,18 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                                                           itterations,
                                                           xChateau,
                                                           yChateau));
+
+                }else if (vague[numeroEnnemi]==3){
+                    int nbAlea = rand()%15;
+                    for(int i=0;i<nbAlea;i++){
+                       int nbAlea2 = rand()%15;
+                       listeEnnemis.push_back(new EnnemiVolant(listeCases[nbAlea2][1]->getXcentre()-TAILLE_ENNEMI/2,
+                                                          listeCases[nbAlea2][1]->getYcentre()-TAILLE_ENNEMI/2,
+                                                          itterations,
+                                                          xChateau,
+                                                          yChateau));
+                    }
+
 
                 }
                 numeroEnnemi++;
