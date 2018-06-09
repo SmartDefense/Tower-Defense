@@ -1,6 +1,6 @@
 #include "Bouton.h"
 
-Bouton::Bouton(int x,int y, int w, int h, SDL_Texture* textureBouton):
+Bouton::Bouton(double x,double y, double w, double h, SDL_Texture* textureBouton):
     dest({x*TAILLE_CASE, y*TAILLE_CASE, w*TAILLE_CASE, h*TAILLE_CASE}),
     textureBouton(textureBouton)
 {

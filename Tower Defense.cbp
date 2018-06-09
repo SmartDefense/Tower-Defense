@@ -50,6 +50,7 @@
 			<Add directory="../SDL2-2.0.7/i686-w64-mingw32/lib" />
 			<Add directory="dll" />
 		</Linker>
+		<Unit filename="include/Bouton.h" />
 		<Unit filename="include/Case.h" />
 		<Unit filename="include/Chateau.h" />
 		<Unit filename="include/Chemin.h" />
@@ -62,6 +63,7 @@
 		<Unit filename="include/Infos.h" />
 		<Unit filename="include/Menus.h" />
 		<Unit filename="include/Tir.h" />
+		<Unit filename="include/TirAerien.h" />
 		<Unit filename="include/TirClassique.h" />
 		<Unit filename="include/TirSniper.h" />
 		<Unit filename="include/Tour.h" />
@@ -76,6 +78,7 @@
 		<Unit filename="ressources.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="src/Bouton.cpp" />
 		<Unit filename="src/Case.cpp" />
 		<Unit filename="src/Chateau.cpp" />
 		<Unit filename="src/Chemin.cpp" />
@@ -85,6 +88,7 @@
 		<Unit filename="src/EnnemiTank.cpp" />
 		<Unit filename="src/EnnemiVolant.cpp" />
 		<Unit filename="src/Tir.cpp" />
+		<Unit filename="src/TirAerien.cpp" />
 		<Unit filename="src/TirClassique.cpp" />
 		<Unit filename="src/TirSniper.cpp" />
 		<Unit filename="src/Tour.cpp" />

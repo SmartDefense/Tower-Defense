@@ -54,10 +54,15 @@ SDL_Texture  *textureChemin,
              *texturePorteeTour,
              *textureVitesseTir,
 
+             *textureBpCommencer,
+             *textureBpMenu,
+             *textureBpAide,
+
 
              *textureAccueil,
              *textureLogo;
-TTF_Font *font;
+TTF_Font *font,
+         *fontArgent;
 
 #include "Bouton.h"
 
@@ -227,6 +232,17 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
     int itterations=0;      // Variable permettant d'arreter l'affichage des vagues au bout du nombre de vagues voulu
     int creation=0;
     int numeroEnnemi=0;
+
+    //Bouton Retour(1, 13, 8, 2, ::textureBpRe);
+    Bouton bpTourClassique(6, 0.2, 1.6, 1.6, ::textureBpTourClassique);
+    Bouton bpTourSniper(10, 0.2, 1.6, 1.6, ::textureBpTourSniper);
+    Bouton bpTourPoison(14, 0.2, 1.6, 1.6, ::textureBpTourPoison);
+    /*Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);*/
 
     while(!terminer && continuer==1)
     {
@@ -437,7 +453,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 }
                 else if(xCaseTour!=-1 && listeCases[yCaseTour][xCaseTour]->getType()=="Case")
                 {
-                    if (x>303 && x<377 && y>10 && y<86                                                  // S'il on clique sur le bp Tour Classique
+                    if (bpTourClassique.clique(x, y)                                                  // S'il on clique sur le bp Tour Classique
                         && argent>=ARGENT_TOUR*TourClassique::multiplicateurCout)
                     {
                         //TOUR CLASSIQUE
@@ -450,7 +466,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>503 && x<577 && y>10 && y<86                                             // S'il on clique sur le bp Tour Sniper
+                    else if (bpTourSniper.clique(x, y)                                             // S'il on clique sur le bp Tour Sniper
                              && argent>=ARGENT_TOUR*TourSniper::multiplicateurCout)
                     {
                         //TOUR SNIPER
@@ -463,7 +479,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>703 && x<777 && y>10 && y<86                                             // S'il on clique sur le bp Tour Poison
+                    else if (bpTourPoison.clique(x, y)                                             // S'il on clique sur le bp Tour Poison
                              && argent>=ARGENT_TOUR*TourPoison::multiplicateurCout)
                     {
                         //TOUR POISON
@@ -648,12 +664,15 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             {
                 affichageArgent=1;
                 affichageTexture(textureBpAnnuler,200,10);
-                affichageTexture(textureBpTourClassique,300,10);
-                Ecrire("CollegiateInsideFLF",20,to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$",0,0,0,380,40);
-                affichageTexture(textureBpTourSniper,500,10);
-                Ecrire("CollegiateInsideFLF",20,to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$",0,0,0,580,40);
-                affichageTexture(textureBpTourPoison,700,10);
-                Ecrire("CollegiateInsideFLF",20,to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$",0,0,0,780,40);
+                //affichageTexture(textureBpTourClassique,300,10);
+                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$",0,0,0,7.6,0.8);
+                //affichageTexture(textureBpTourSniper,500,10);
+                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$",0,0,0,11.6,0.8);
+                //affichageTexture(textureBpTourPoison,700,10);
+                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$",0,0,0,15.6,0.8);
+                bpTourClassique.affiche();
+                bpTourSniper.affiche();
+                bpTourPoison.affiche();
             }
             else
             {
@@ -661,15 +680,15 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
                 // Affichage du nom de la tour
                 if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
-                    Ecrire("CollegiateInsideFLF",25,"Tour Classique :",0,0,0,180,15);
+                    Ecrire("CollegiateInsideFLF",0.5,"Tour Classique :",0,0,0,3.6,0.3);
                 }
 
                 else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"){
-                    Ecrire("CollegiateInsideFLF",25,"Tour Sniper :",0,0,0,180,15);
+                    Ecrire("CollegiateInsideFLF",0.5,"Tour Sniper :",0,0,0,3.6,0.3);
                 }
 
                 else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"){
-                    Ecrire("CollegiateInsideFLF",25,"Tour Poison :",0,0,0,180,15);
+                    Ecrire("CollegiateInsideFLF",0.5,"Tour Poison :",0,0,0,180,0.3);
                 }
 
                 affichageTexture(textureBpEffacer,400,10);
@@ -686,8 +705,8 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         }
 
         // Affichage du bp retour
-        Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-        Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
+        Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+        Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
 
         if (listeCases[yChateau][xChateau]->action()==1){                               // Si le chateau n'a plus de vie
             compteurImage=0;
@@ -695,7 +714,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             while (compteurImage<150){                                      // Affichage du fond Game Over pendant 5s
                 SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                 SDL_RenderClear(renderer);
-                Ecrire("CollegiateBlackFLF",42,"GAME OVER",255,255,255,440,300);
+                Ecrire("CollegiateBlackFLF",0.84,"GAME OVER",255,255,255,8.8,6);
                 SDL_RenderPresent(renderer);
                 SDL_Delay(30);
                 compteurImage++;
@@ -763,6 +782,9 @@ int initSDL()
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
 
 
+    fontArgent =  TTF_OpenFont("fonts/CollegiateFLF.ttf", 0.8*TAILLE_CASE);
+
+
     chargeTexture(textureCadence, "bpAmeliorationCadence.png");
     chargeTexture(textureDegatTir, "bpAmeliorationDegatTir.png");
     chargeTexture(texturePorteeTour, "bpAmeliorationPorteeTour.png");
@@ -791,6 +813,9 @@ int initSDL()
     chargeTexture(textureTirClassique, "tirClassique.png");
     chargeTexture(textureTirSniper, "tirSniper.png");
     chargeTexture(textureTirAerien, "tirAerien.png");
+    chargeTexture(textureBpCommencer, "bpCommencer.png");
+    chargeTexture(textureBpMenu, "bpMenu.png");
+    chargeTexture(textureBpAide, "bpAide.png");
 
     for(int i=0;i<NB_CASE_FOND;i++){
         chargeTexture(textureCase[i], "case"+to_string(i)+".png");
@@ -819,6 +844,7 @@ int main(int argc, char **argv) // Boucle principale avec appel de chaque foncti
     quitListeCase();
     infos();
     SDL_DestroyWindow(fenetre);
+    TTF_CloseFont(fontArgent);
     TTF_Quit();
     SDL_Quit();
     return 0;

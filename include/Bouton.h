@@ -8,7 +8,7 @@
 class Bouton
 {
     public:
-        Bouton(int x,int y, int w, int h, SDL_Texture* textureBouton);
+        Bouton(double x,double y, double w, double h, SDL_Texture* textureBouton);
         bool clique(int xMouse, int yMouse);
         void affiche();
 

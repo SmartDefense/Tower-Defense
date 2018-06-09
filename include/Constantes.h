@@ -10,7 +10,7 @@ const int FREQUENCE_EFFET = 30;
 
 const int MARGE_GAUCHE=30;
 const int MARGE_HAUT=100;
-const int TAILLE_CASE = 50;
+const int TAILLE_CASE = 20;
 const int TAILLE_ENNEMI = 30;
 const int TAILLE_X_TIR = 30;
 const int TAILLE_Y_TIR = 6;

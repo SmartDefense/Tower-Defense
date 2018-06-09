@@ -11,11 +11,11 @@ void inputPseudo()                                                              
     while(continuerPseudo==1 && continuer==1)                                       // Tant que l'on ne quitte pas ou clique sur retour
     {
 
-        while(SDL_PollEvent(&events))                                               // Récupération des évènements
+        while(SDL_PollEvent(&events))                                               // RÃ©cupÃ©ration des Ã©vÃ¨nements
         {
             switch(events.type)
             {
-            case SDL_QUIT :                                                         // Fermeture de la fenêtre
+            case SDL_QUIT :                                                         // Fermeture de la fenÃªtre
                 continuer=0;
                 break;
             case SDL_TEXTINPUT :                                                    // Saisie du texte dans la variable pseudo
@@ -23,12 +23,12 @@ void inputPseudo()                                                              
                 changement=true;
                 break;
             case SDL_KEYDOWN:
-                if(events.key.keysym.scancode==SDL_SCANCODE_BACKSPACE && pseudo.length() > 0)   // Suppression du dernier caractère
+                if(events.key.keysym.scancode==SDL_SCANCODE_BACKSPACE && pseudo.length() > 0)   // Suppression du dernier caractÃ¨re
                 {
                     pseudo.pop_back();
                     changement=true;
                 }
-                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN && pseudo.length() > 0)                             // Validation par la touche entrée
+                if(events.key.keysym.scancode==SDL_SCANCODE_RETURN && pseudo.length() > 0)                             // Validation par la touche entrÃ©e
                 {
                     continuerPseudo=0;
                 }
@@ -36,28 +36,28 @@ void inputPseudo()                                                              
             case SDL_MOUSEBUTTONUP:
                 int x = events.button.x;
                 int y = events.button.y;
-                if (x>437 && x<591 && y>370 && y<410 && pseudo.length()>2)                  // Si le pseudo contient 3 caractères ou plus, on peut valider
+                if (x>437 && x<591 && y>370 && y<410 && pseudo.length()>2)                  // Si le pseudo contient 3 caractÃ¨res ou plus, on peut valider
                 {
                     continuerPseudo=0;
                 }
                 break;
             }
         }
-        while (pseudo.length()>=17)                                                        // Si le pseudo contient plus de 16 caractères, on efface le 17ème saisi
+        while (pseudo.length()>=17)                                                        // Si le pseudo contient plus de 16 caractÃ¨res, on efface le 17Ã¨me saisi
         {
-            //Ecrire("CollegiateInsideFLF",42,"Trop de caracteres",255,255,255,300,500);
+            //Ecrire("CollegiateInsideFLF",0.84,"Trop de caracteres",255,255,255,6,10);
             pseudo.pop_back();
 
         }
-        if(changement)                                                                    // S'il y a changement, on l'écrit et l'affiche
+        if(changement)                                                                    // S'il y a changement, on l'Ã©crit et l'affiche
         {
             SDL_SetRenderDrawColor(renderer, 0,127,127,255);
             SDL_RenderClear(renderer);
             affichageTexture(textureLogo,200,12);
-            Ecrire("CollegiateInsideFLF",42,"Entrez un pseudo :",255,255,255,320,150);
-            Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-            int longueurPseudo=pseudo.length()+1;
-            Ecrire("CollegiateOutlineFLF",42,pseudo,255,255,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*11)),250); // Placement du pseudo de manière centrée en fonction de sa longueur
+            Ecrire("CollegiateInsideFLF",0.84,"Entrez un pseudo :",255,255,255,6.4,3);
+            Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.8,7.4);
+            int longueurPseudo=pseudo.length();
+            Ecrire("CollegiateOutlineFLF",0.84,pseudo,255,255,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE/TAILLE_CASE)/2-(longueurPseudo*0.22)),5); // Placement du pseudo de maniÃ¨re centrÃ©e en fonction de sa longueur
             changement=false;
         }
         SDL_RenderPresent(renderer);        // On rafraichit
@@ -66,17 +66,17 @@ void inputPseudo()                                                              
 
 void choixLevel() // Fonction de choix du niveau
 {
-    // Affichage des éléments graphiques sur la fenêtre
+    // Affichage des Ã©lÃ©ments graphiques sur la fenÃªtre
     numLevel=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-    Ecrire("Arial",65,"+",255,255,255,640,232);
-    Ecrire("Arial",65,"-",255,255,255,610,226);
-    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-    Ecrire("CollegiateInsideFLF",45,"NIVEAU 1",255,255,255,350,250);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
+    Ecrire("WingdingReview",0.8,"Ã±",255,255,255,1,1);
+    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+    Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,5.5,1);
+    Ecrire("Arial",1.3,"+",255,255,255,12.8,4.6);
+    Ecrire("Arial",1.3,"-",255,255,255,12.2,4.5);
+    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.8,7.4);
+    Ecrire("CollegiateInsideFLF",0.9,"NIVEAU 1",255,255,255,7,5);
     SDL_RenderPresent(renderer);
 
     SDL_Event events;
@@ -84,7 +84,7 @@ void choixLevel() // Fonction de choix du niveau
     while(continuerLevel==1 && continuer==1)
     {
 
-        while(SDL_PollEvent(&events))  // Récupération des évènements
+        while(SDL_PollEvent(&events))  // RÃ©cupÃ©ration des Ã©vÃ¨nements
         {
             switch(events.type)
             {
@@ -94,7 +94,7 @@ void choixLevel() // Fonction de choix du niveau
                 continue;
                 break;
             case SDL_KEYUP:
-                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)   // Revenir en arrière avec le bp Echap
+                if(events.key.keysym.scancode==SDL_SCANCODE_ESCAPE)   // Revenir en arriÃ¨re avec le bp Echap
                 {
                     continuerLevel=0;
                 }
@@ -110,14 +110,14 @@ void choixLevel() // Fonction de choix du niveau
 
             case SDL_MOUSEBUTTONUP:
 
-                // Récupération du clic
+                // RÃ©cupÃ©ration du clic
                 int x = events.button.x;
                 int y = events.button.y;
                 //std::cout << x << SDL_GetError() << std::endl;
                 //std::cout << y << SDL_GetError() << std::endl;
 
 
-                // Si le joueur sélectionne le niveau suivant
+                // Si le joueur sÃ©lectionne le niveau suivant
                 if (x>638 && x<678 && y>250 && y<285)
                 {
 					numLevel++;
@@ -128,30 +128,31 @@ void choixLevel() // Fonction de choix du niveau
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
 
-                    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-                    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-                    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-                    Ecrire("Arial",65,"+",255,255,255,640,232);
-                    Ecrire("Arial",65,"-",255,255,255,610,226);
-                    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
+                    Ecrire("WingdingReview",0.8,"Ã±",255,255,255,1,1);
+                    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+                    Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,7,5);
+                    Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,5.5,1);
+                    Ecrire("Arial",1.3,"+",255,255,255,12.8,4.6);
+                    Ecrire("Arial",1.3,"-",255,255,255,12.2,4.5);
+                    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.8,7.4);
+
                     SDL_RenderPresent(renderer);
                 }
 
-                // Si le joueur sélectionne le niveau précédent
+                // Si le joueur sÃ©lectionne le niveau prÃ©cÃ©dent
                 if (numLevel>1 && x>607 && x<633 && y>260 && y<278)
                 {
                     numLevel--;
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
 
-                    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-                    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-                    Ecrire("CollegiateInsideFLF",50,"CHOIX DU NIVEAU",255,255,255,275,50);
-                    Ecrire("Arial",65,"+",255,255,255,640,232);
-                    Ecrire("Arial",65,"-",255,255,255,610,226);
-                    Ecrire("CollegiateBlackFLF",37,"Valider",255,255,255,440,370);
-                    Ecrire("CollegiateInsideFLF",45,"NIVEAU " + to_string(numLevel),255,255,255,350,250);
+                    Ecrire("WingdingReview",0.8,"Ã±",255,255,255,1,1);
+                    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+                    Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,7,5);
+                    Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,5.5,1);
+                    Ecrire("Arial",1.3,"+",255,255,255,12.8,4.6);
+                    Ecrire("Arial",1.3,"-",255,255,255,12.2,4.5);
+                    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.8,7.4);
                     SDL_RenderPresent(renderer);
                 }
 
@@ -180,13 +181,13 @@ void menu()
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
 
-    // Affichage des éléments graphiques
-    Ecrire("CollegiateInsideFLF",25,"Pseudo : " + pseudo,255,255,255,30,200);
-    Ecrire("CollegiateInsideFLF",50,"MENU",255,255,255,450,50);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",25,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,30,150);
-    Ecrire("CollegiateInsideFLF",25,"Record : " + to_string(highscore)+" $",255,255,255,30,250);
+    // Affichage des Ã©lÃ©ments graphiques
+    Ecrire("CollegiateInsideFLF",0.5,"Pseudo : " + pseudo,255,255,255,0.6,4);
+    Ecrire("CollegiateInsideFLF",1,"MENU",255,255,255,9,1);
+    Ecrire("WingdingReview",0.8,"Ã±",255,255,255,1,1);
+    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+    Ecrire("CollegiateInsideFLF",0.5,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,0.6,3);
+    Ecrire("CollegiateInsideFLF",0.5,"Record : " + to_string(highscore)+" $",255,255,255,0.6,5);
     SDL_RenderPresent(renderer);
 
     while (continuerMenu==1 && continuer==1)
@@ -229,27 +230,27 @@ void menu()
 
 void aide()
 {
-    // Affichage des éléments graphiques
+    // Affichage des Ã©lÃ©ments graphiques
     SDL_Event events;
     int continuerAide=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-    Ecrire("WingdingReview",40,"ñ",255,255,255,50,50);
-    Ecrire("CollegiateInsideFLF",25,"Retour",255,255,255,30,25);
-    Ecrire("CollegiateInsideFLF",50,"AIDE",255,255,255,450,50);
+    Ecrire("WingdingReview",0.8,"Ã±",255,255,255,1,1);
+    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+    Ecrire("CollegiateInsideFLF",1,"AIDE",255,255,255,9,1);
     SDL_RenderPresent(renderer);
 
     string nomfichier= "regles.txt";                    // String contenant le nom du fichier et son extension
     fstream fichier(nomfichier.c_str(), ios::in);      // Ouverture du fichier regles
     string ligne;
-    int saut=0;
+    double saut=0;
     if (fichier)                                       // Si le fichier existe ...
     {
 
-    while(getline(fichier, ligne))                      // Affichage des règles du jeu
+    while(getline(fichier, ligne))                      // Affichage des rÃ¨gles du jeu
     {
-     Ecrire("BKANT",28,ligne,255,255,255,50,(137+saut));
-     saut+=30;
+     Ecrire("BKANT",0.56,ligne,255,255,255,1,(2.7+saut));
+     saut+=0.6;
     }
 
     SDL_RenderPresent(renderer);
@@ -293,16 +294,19 @@ void aide()
     }
 }
 
-void debut() // Affichage de l'écran initial
+void debut() // Affichage de l'Ã©cran initial
 {
     recupInfos();
     inputPseudo();  // Saisie du pseudo
     int longueurPseudo=pseudo.length()+8;
     affichageTexture(textureAccueil,0,0); // Affichage de l'image d'accueil
-    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0); // Affichage du pseudo du joueur
-    SDL_RenderPresent(renderer);
+    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0); // Affichage du pseudo du joueur
     SDL_Event events;
     int continuerDebut=1;
+
+    Bouton Commencer(1, 13, 8, 2, ::textureBpCommencer);
+    Bouton Menu(10, 13, 5, 2, ::textureBpMenu);
+    Bouton Aide(16, 13, 4, 2, ::textureBpAide);
 
     while(continuerDebut==1 && continuer==1)
     {
@@ -327,7 +331,7 @@ void debut() // Affichage de l'écran initial
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
                 break;
@@ -338,38 +342,43 @@ void debut() // Affichage de l'écran initial
 
             case SDL_MOUSEBUTTONUP:
 
-                // Récupération des clics et affichage du menu suivant en conséquence //
+                // RÃ©cupÃ©ration des clics et affichage du menu suivant en consÃ©quence //
                 int x = events.button.x;
                 int y = events.button.y;
 
-                if (x>507 && x<726 && y>669 && y<763)
+
+                if (Menu.clique(x, y))
                 {
                     // MENU //
                     menu();
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
-                else if (x>45 && x<428 && y>670 && y<763)
+                else if (Commencer.clique(x, y))
                 {
                     // COMMENCER //
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
-                else if (x>807 && x<990 && y>669 && y<763)
+                else if (Aide.clique(x, y))
                 {
                     // AIDE //
                     aide();
                     affichageTexture(textureAccueil,0,0);
-                    Ecrire("CollegiateInsideFLF",42,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU*TAILLE_CASE+MARGE_GAUCHE)/2-(longueurPseudo*12)),0);
+                    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
                 break;
             }
         }
+        Commencer.affiche();
+        Menu.affiche();
+        Aide.affiche();
+        SDL_RenderPresent(renderer);
     }
 }
 
