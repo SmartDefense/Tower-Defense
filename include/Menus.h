@@ -8,6 +8,8 @@ void inputPseudo()                                                              
     SDL_Event events;
     int continuerPseudo=1;
     bool changement=true;
+
+    Bouton Logo((double)MARGE_GAUCHE/TAILLE_CASE/2, 0.24, TAILLE_X_PLATEAU,TAILLE_Y_PLATEAU/6, ::textureLogo);
     while(continuerPseudo==1 && continuer==1)                                       // Tant que l'on ne quitte pas ou clique sur retour
     {
 
@@ -53,7 +55,8 @@ void inputPseudo()                                                              
         {
             SDL_SetRenderDrawColor(renderer, 0,127,127,255);
             SDL_RenderClear(renderer);
-            affichageTexture(textureLogo,200,12);
+            //affichageTexture(textureLogo,200,12);
+            Logo.affiche();
             Ecrire("CollegiateInsideFLF",0.84,"Entrez un pseudo :",255,255,255,6.4,3);
             Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.8,7.4);
             int longueurPseudo=pseudo.length();
@@ -299,7 +302,10 @@ void debut() // Affichage de l'écran initial
     recupInfos();
     inputPseudo();  // Saisie du pseudo
     int longueurPseudo=pseudo.length()+8;
-    affichageTexture(textureAccueil,0,0); // Affichage de l'image d'accueil
+    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+    SDL_RenderClear(renderer);
+    Bouton Accueil((double)MARGE_GAUCHE/TAILLE_CASE/2,(double)MARGE_HAUT/TAILLE_CASE/2, TAILLE_X_PLATEAU, TAILLE_Y_PLATEAU, ::textureAccueil);
+    Accueil.affiche();
     Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0); // Affichage du pseudo du joueur
     SDL_Event events;
     int continuerDebut=1;
@@ -330,7 +336,9 @@ void debut() // Affichage de l'écran initial
                     // COMMENCER //
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
-                    affichageTexture(textureAccueil,0,0);
+                    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+                    SDL_RenderClear(renderer);
+                    Accueil.affiche();
                     Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
@@ -351,7 +359,9 @@ void debut() // Affichage de l'écran initial
                 {
                     // MENU //
                     menu();
-                    affichageTexture(textureAccueil,0,0);
+                    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+                    SDL_RenderClear(renderer);
+                    Accueil.affiche();
                     Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
@@ -360,7 +370,9 @@ void debut() // Affichage de l'écran initial
                     // COMMENCER //
                     choixLevel();
                     SDL_SetWindowSize(fenetre,20*TAILLE_CASE + MARGE_GAUCHE, 15*TAILLE_CASE + MARGE_HAUT);
-                    affichageTexture(textureAccueil,0,0);
+                    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+                    SDL_RenderClear(renderer);
+                    Accueil.affiche();
                     Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }
@@ -368,7 +380,9 @@ void debut() // Affichage de l'écran initial
                 {
                     // AIDE //
                     aide();
-                    affichageTexture(textureAccueil,0,0);
+                    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+                    SDL_RenderClear(renderer);
+                    Accueil.affiche();
                     Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,((TAILLE_X_PLATEAU+MARGE_GAUCHE*TAILLE_CASE)/2-(longueurPseudo*0.24)),0);
                     SDL_RenderPresent(renderer);
                 }

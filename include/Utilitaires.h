@@ -14,8 +14,19 @@ void Ecrire(string police, double taille, string texte, Uint8 r, Uint8 v, Uint8 
     SDL_Rect dstrect = { x*TAILLE_CASE, y*TAILLE_CASE, texW, texH };                                            // Position de la zone d'écriture à partir de x et y, position du premier caractère
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);                                  // Copie de la texture dans le renderer
 
+    SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);                                                        // Suppression de la texture
     TTF_CloseFont(font);                                                                // Fermeture de la police
+}
+
+SDL_Texture* EcrireTexture(string police, double taille, string texte, Uint8 r, Uint8 v, Uint8 b, double x, double y) // Fonction d'écriture
+{
+    font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille*TAILLE_CASE);                  // Ouverture de la police
+    SDL_Color color = { r, v, b };                                                      // Couleur de police envoyée à la fonction type r,g,b
+    SDL_Surface * surface = TTF_RenderUTF8_Blended(font,texte.c_str(), color);          // Rendu de la police sur le fond
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);            // Création de la texture à partir du fond
+    SDL_FreeSurface(surface);
+    return  texture;
 }
 
 void EcrireArgent()                 // Fonction d'écriture paramétrée pour afficher l'argent
@@ -30,6 +41,7 @@ void EcrireArgent()                 // Fonction d'écriture paramétrée pour affic
     SDL_Rect dstrect = { 1000-texW, 35, texW, texH };
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
 
+    SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
 }
 
