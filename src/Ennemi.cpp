@@ -5,21 +5,21 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     vie(vie+(vie*20*(vague+1)/100)),
     vieMax(this->vie),
     direction(0),
-    xChateau(xChateau),
-    yChateau(yChateau),
     vitesse(VITESSEBASEENNEMI * multiplicateurVitesse),
     poison(false),
-    x(x),
-    y(y),
-    type(type),
     intensitePoison(0),
-    destVie({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
-    destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
+    numImage(0),
+    type(type),
+    xChateau(xChateau),
+    yChateau(yChateau),
     multiplicateurVitesse(multiplicateurVitesse),
     multiplicateurArgentMort(multiplicateurArgentMort),
+    x(x),
+    y(y),
     estAerien(estAerien),
-    textureEnnemi(textureEnnemi),
-    numImage(0)
+    destVie({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
+    destVieFond({x, y, 3*TAILLE_CASE/4, TAILLE_CASE/6}),
+    textureEnnemi(textureEnnemi)
 {
 
     if(estAerien){
@@ -37,7 +37,7 @@ Ennemi::~Ennemi()
 {
     ajouteArgent();
     //cout<<"Destruction :\t Ennemi ("<<x<<","<<y<<")"<<endl;
-    for(int i=0; i<listeEnnemis.size(); i++)
+    for(unsigned int i=0; i<listeEnnemis.size(); i++)
     {
         if(listeEnnemis[i]==this)
         {
@@ -159,7 +159,7 @@ void Ennemi::prendDegat(int degat)
 }
 void Ennemi::ajouteCaseParcours()
 {
-    for(int i=0;i<listePoss.size();i++){
+    for(unsigned int i=0;i<listePoss.size();i++){
         listeCases[listePoss[i].second][listePoss[i].first]->ajouteNbPassage();
     }
 }
@@ -193,6 +193,7 @@ int Ennemi::getXCentreFutur(int images)
     case 1: return getXCentre();
     case 2: return getXCentre()- images*vitesse;
     case 3: return getXCentre();
+    default: return -1;
     }
 
 
@@ -209,6 +210,7 @@ int Ennemi::getYCentreFutur(int images)
     case 1: return getYCentre()- images*vitesse;
     case 2: return getYCentre();
     case 3: return getYCentre()+ images*vitesse;
+    default: return -1;
     }
 }
 

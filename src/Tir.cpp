@@ -8,16 +8,17 @@ Tir::Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle,
     dY(dY),
     degat(degat),
     angle(angle),
-    textureTir(textureTir),
     peutToucherTerrestre(peutToucherTerrestre),
-    peutToucherAerien(peutToucherAerien)
+    peutToucherAerien(peutToucherAerien),
+    textureTir(textureTir)
+
 {
     //cout<<"Creation :\t Tir ("<<x<<","<<y<<")"<<endl;
 }
 
 Tir::~Tir(){
     //cout<<"Destruction :\t Tir ("<<x<<","<<y<<")"<<endl;
-    for(int i=0;i<listeTirs.size();i++){
+    for(unsigned int i=0;i<listeTirs.size();i++){
         if(listeTirs[i]==this){
             listeTirs.erase(listeTirs.begin()+i);
         }
@@ -34,7 +35,7 @@ void Tir::action()
 {
     x+=dX;
     y+=dY;
-    for(int i=0; i<listeEnnemis.size();i++){
+    for(unsigned int i=0; i<listeEnnemis.size();i++){
         int xEnnemi=listeEnnemis[i]->getXCentre();
         int yEnnemi=listeEnnemis[i]->getYCentre();
         if((    (!listeEnnemis[i]->getAerien() && peutToucherTerrestre)

@@ -32,7 +32,7 @@ void Chateau::affiche()
 
 int Chateau::action()
 {
-    for(int i=0;i<listeEnnemis.size();i++){
+    for(unsigned int i=0;i<listeEnnemis.size();i++){
         if(distanceDepuisCentre(listeEnnemis[i]->getXCentre(), listeEnnemis[i]->getYCentre())<TAILLE_CASE/4){
             listeEnnemis.erase(listeEnnemis.begin()+i);
             vie--;

@@ -48,19 +48,18 @@ class Ennemi
             angle,
             intensitePoison,
             numImage,
-            type;
-        SDL_Rect destVie,
-                 destVieFond;
+            type,
+            xChateau,
+            yChateau;
         double multiplicateurVitesse,
-            multiplicateurArgentMort;
-        bool estAerien;
-
-        int xChateau;
-        int yChateau;
-        double x;
-        double y,
+            multiplicateurArgentMort,
+            x,
+            y,
             dX,
             dY;
+        bool estAerien;
+        SDL_Rect destVie,
+                 destVieFond;
         SDL_Texture* textureEnnemi;
         vector<pair<int,int>> listePoss;
 

@@ -174,7 +174,7 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
     // Chaque case est crée en fonction de son type
     while(getline(level, ligne))
     {
-        for(int x=0; x<ligne.length(); x++)
+        for(unsigned int x=0; x<ligne.length(); x++)
         {
             if(ligne.at(x)=='1')
             {
@@ -356,7 +356,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 // Suppression manuelle de tous les ennemis
                 else if(events.key.keysym.scancode==SDL_SCANCODE_RETURN)
                 {
-                    for(int i=0; i<listeEnnemis.size(); i++)
+                    for(unsigned int i=0; i<listeEnnemis.size(); i++)
                     {
                         delete listeEnnemis[i];
                     }
@@ -551,11 +551,11 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             }
         }
 
-        for(int i=0; i<listeEnnemis.size(); i++)
+        for(unsigned int i=0; i<listeEnnemis.size(); i++)
         {
             listeEnnemis[i]->action();
         }
-        for(int i=0; i<listeTirs.size(); i++)
+        for(unsigned int i=0; i<listeTirs.size(); i++)
         {
             listeTirs[i]->action();
         }
@@ -592,11 +592,11 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         }
 
         // Affichage des ennemis et des tirs
-        for(int i=0; i<listeEnnemis.size(); i++)
+        for(unsigned int i=0; i<listeEnnemis.size(); i++)
         {
             listeEnnemis[i]->affiche();
         }
-        for(int i=0; i<listeTirs.size(); i++)
+        for(unsigned int i=0; i<listeTirs.size(); i++)
         {
             listeTirs[i]->affiche();
         }
@@ -760,9 +760,6 @@ int initSDL()
     }
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
 
-
-    //Surface pour charger toutes les textures
-    SDL_Surface* surface;
 
     chargeTexture(textureCadence, "bpAmeliorationCadence.png");
     chargeTexture(textureDegatTir, "bpAmeliorationDegatTir.png");

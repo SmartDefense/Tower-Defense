@@ -15,7 +15,7 @@ Chemin::~Chemin(){
     //cout<<"Destruction :\t Chemin ("<<x<<","<<y<<")"<<endl;
 }
 TTF_Font *font2;
-void Ecrire2(string police, int taille, string texte, int r, int v, int b, int x, int y)
+void Ecrire2(string police, int taille, string texte, Uint8 r, Uint8 v, Uint8 b, int x, int y)
 {
     font2 = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille);
     SDL_Color color = { r, v, b };

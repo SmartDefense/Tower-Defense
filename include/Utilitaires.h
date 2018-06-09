@@ -1,7 +1,7 @@
 #ifndef UTILITAIRES_H_INCLUDED
 #define UTILITAIRES_H_INCLUDED
 
-void Ecrire(string police, int taille, string texte, int r, int v, int b, int x, int y) // Fonction d'écriture
+void Ecrire(string police, int taille, string texte, Uint8 r, Uint8 v, Uint8 b, int x, int y) // Fonction d'écriture
 {
     font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille);                  // Ouverture de la police
     SDL_Color color = { r, v, b };                                                      // Couleur de police envoyée à la fonction type r,g,b

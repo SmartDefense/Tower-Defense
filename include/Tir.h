@@ -26,8 +26,8 @@ class Tir
             dY;
         int degat,
             angle;
-        bool peutToucherAerien,
-             peutToucherTerrestre;
+        bool peutToucherTerrestre,
+             peutToucherAerien;
         SDL_Texture* textureTir;
 };
 

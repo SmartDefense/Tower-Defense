@@ -10,13 +10,13 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     vitesseTir(vitesseTir),
     vitesseCanon(vitesseCanon),
     angleCanon(0),
+    fondTourAleatoire(rand()%NB_TOUR_FOND),
+    directionFondAleatoire(rand()%360),
     portee(portee*TAILLE_CASE),
     peutToucherAerien(peutToucherAerien),
     peutToucherTerrestre(peutToucherTerrestre),
     textureTourBase(textureTourBase),
-    textureTourCanon(textureTourCanon),
-    fondTourAleatoire(rand()%NB_TOUR_FOND),
-    directionFondAleatoire(rand()%360)
+    textureTourCanon(textureTourCanon)
 {
     Case::type="Tour";
 }
@@ -97,7 +97,7 @@ int Tour::action()
 {
     if(priorite==PRIORITE_PREMIER){
         //on parcours la liste d'ennemis ...
-        for(int i=0; i<listeEnnemis.size();i++){
+        for(unsigned int i=0; i<listeEnnemis.size();i++){
             //on calcul la distance entre le centre de l'ennemi et celui de la tour...
             double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
                                                    listeEnnemis[i]->getYCentre());
@@ -107,10 +107,10 @@ int Tour::action()
             }
         }
     }else if(priorite==PRIORITE_PLUS_PRES){
-        int distanceMin=10000000000;
+        int distanceMin=1000000000;
         int idMin=-1;
         //on parcours la liste d'ennemis ...
-        for(int i=0; i<listeEnnemis.size();i++){
+        for(unsigned int i=0; i<listeEnnemis.size();i++){
             //on calcul la distance entre le centre de l'ennemi et celui de la tour...
             double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
                                                    listeEnnemis[i]->getYCentre());
@@ -121,11 +121,11 @@ int Tour::action()
         }
         if(idMin!=-1) viseeEnnemi(idMin, distanceMin);
     }else if(priorite==PRIORITE_PLUS_FAIBLE){
-        int vieMin=10000000000;
+        int vieMin=1000000000;
         int distanceVieMin=-1;
         int idMin=-1;
         //on parcours la liste d'ennemis ...
-        for(int i=0; i<listeEnnemis.size();i++){
+        for(unsigned int i=0; i<listeEnnemis.size();i++){
             //on calcul la distance entre le centre de l'ennemi et celui de la tour...
             double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
                                                    listeEnnemis[i]->getYCentre());
@@ -142,7 +142,7 @@ int Tour::action()
         int distanceVieMax=-1;
         int idMax=-1;
         //on parcours la liste d'ennemis ...
-        for(int i=0; i<listeEnnemis.size();i++){
+        for(unsigned int i=0; i<listeEnnemis.size();i++){
             //on calcul la distance entre le centre de l'ennemi et celui de la tour...
             double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
                                                    listeEnnemis[i]->getYCentre());

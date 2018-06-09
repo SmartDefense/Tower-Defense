@@ -9,10 +9,10 @@ Case::Case(int x, int y, int block):
     nbPassage(1),
     xCentre(x*TAILLE_CASE + TAILLE_CASE/2 + MARGE_GAUCHE),
     yCentre(y*TAILLE_CASE + TAILLE_CASE/2 + MARGE_HAUT),
-    type("Case"),
     caseAleatoire(rand()%NB_CASE_FOND),
     directionCaseAleatoire(rand()%360),
     directionFondAleatoire(rand()%4*90),
+    type("Case"),
     dest({x*TAILLE_CASE+MARGE_GAUCHE, y*TAILLE_CASE+MARGE_HAUT, TAILLE_CASE, TAILLE_CASE}),
     textureCaseFond(::textureCaseFond)
 {

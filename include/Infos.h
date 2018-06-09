@@ -41,7 +41,7 @@ int decryptShadok(string shadok)          //Fonction de décryptage du nb de part
     int nombre=0;
     int longueurChaine=0;
     vector<int> tableau;
-    for (int i=0; i<shadok.size(); i++){   // On remplace chaque mot par le chiffre correspondant
+    for (unsigned int i=0; i<shadok.size(); i++){   // On remplace chaque mot par le chiffre correspondant
 
         if (shadok.at(i)=='G'){
             tableau.push_back(0);
