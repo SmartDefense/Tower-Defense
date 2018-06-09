@@ -15,7 +15,7 @@ TourClassique::~TourClassique()
 
 void TourClassique::tir(double dX, double dY, double angle)
 {
-    listeTirs.push_back(new TirClassique(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat));
+    listeTirs.push_back(new TirClassique(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat, peutToucherTerrestre, peutToucherAerien));
     compteurRechargement=rechargement;
 }
 

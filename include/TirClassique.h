@@ -7,7 +7,7 @@
 class TirClassique : public Tir
 {
     public:
-        TirClassique(int x, int y, double dX, double dY, int angle, int degat);
+        TirClassique(int x, int y, double dX, double dY, int angle, int degat, bool peutToucherTerrestre, bool peutToucherAerien);
 };
 
 #endif // TIRCLASSIQUE_H

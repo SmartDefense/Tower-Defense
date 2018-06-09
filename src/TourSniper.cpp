@@ -16,7 +16,7 @@ TourSniper::~TourSniper()
 
 void TourSniper::tir(double dX, double dY, double angle)
 {
-    listeTirs.push_back(new TirSniper(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat));
+    listeTirs.push_back(new TirSniper(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat, peutToucherTerrestre, peutToucherAerien));
     compteurRechargement=rechargement;
 }
 

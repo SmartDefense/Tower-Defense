@@ -1,7 +1,7 @@
 #include "TourAerien.h"
 
 TourAerien::TourAerien(int x, int y, int priorite):
-    Tour(x, y, ::textureTourClassiqueBase, ::textureTourClassiqueCanon, 5, priorite, 10, 12, 12, 5, false, true)
+    Tour(x, y, ::textureTourAerienBase, ::textureTourAerienCanon, 5, priorite, 10, 12, 12, 5, false, true)
 {
 	Case::type="TourAerien";
     //cout<<"Creation :\t TourClassique ("<<x<<","<<y<<")"<<endl;
@@ -15,7 +15,7 @@ TourAerien::~TourAerien()
 
 void TourAerien::tir(double dX, double dY, double angle)
 {
-    listeTirs.push_back(new TirClassique(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat));
+    listeTirs.push_back(new TirAerien(xCentre-TAILLE_X_TIR/2, yCentre-TAILLE_Y_TIR/2, dX, dY, angle, degat, peutToucherTerrestre, peutToucherAerien));
     compteurRechargement=rechargement;
 }
 

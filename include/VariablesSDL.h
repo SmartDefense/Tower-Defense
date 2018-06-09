@@ -10,9 +10,11 @@ extern SDL_Texture  *textureChemin,
                     *textureTourClassiqueBase,
                     *textureTourPoisonBase,
                     *textureTourSniperBase,
+                    *textureTourAerienBase,
 
                     *textureTourClassiqueCanon,
                     *textureTourSniperCanon,
+                    *textureTourAerienCanon,
 
                     *textureEnnemiClassique,
                     *textureEnnemiRapideSimple,
@@ -21,6 +23,7 @@ extern SDL_Texture  *textureChemin,
 
                     *textureTirClassique,
                     *textureTirSniper,
+                    *textureTirAerien,
 
                     *textureEnnemiVolant[NB_IMAGE_ENNEMI_VOLANT],
                     *textureEnnemiRapide[NB_IMAGE_ENNEMI_RAPIDE],

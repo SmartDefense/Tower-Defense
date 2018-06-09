@@ -1,14 +1,16 @@
 #include "Tir.h"
 #include "math.h"
 
-Tir::Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle, int degat):
+Tir::Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle, int degat, bool peutToucherTerrestre, bool peutToucherAerien):
     x(x),
     y(y),
     dX(dX),
     dY(dY),
     degat(degat),
     angle(angle),
-    textureTir(textureTir)
+    textureTir(textureTir),
+    peutToucherTerrestre(peutToucherTerrestre),
+    peutToucherAerien(peutToucherAerien)
 {
     //cout<<"Creation :\t Tir ("<<x<<","<<y<<")"<<endl;
 }
@@ -35,7 +37,9 @@ void Tir::action()
     for(int i=0; i<listeEnnemis.size();i++){
         int xEnnemi=listeEnnemis[i]->getXCentre();
         int yEnnemi=listeEnnemis[i]->getYCentre();
-        if(sqrt(pow(y+TAILLE_Y_TIR/2-yEnnemi,2)+pow(x+TAILLE_X_TIR/2-xEnnemi,2))<TAILLE_ENNEMI/2){
+        if((    (!listeEnnemis[i]->getAerien() && peutToucherTerrestre)
+                || (listeEnnemis[i]->getAerien() && peutToucherAerien))
+           && sqrt(pow(y+TAILLE_Y_TIR/2-yEnnemi,2)+pow(x+TAILLE_X_TIR/2-xEnnemi,2))<TAILLE_ENNEMI/2){
             degatEnnemi(i);
             break;
         }

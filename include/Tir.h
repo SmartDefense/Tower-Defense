@@ -12,7 +12,7 @@ class Tir;
 class Tir
 {
     public:
-        Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle, int degat);
+        Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle, int degat, bool peutToucherTerrestre, bool peutToucherAerien);
         virtual ~Tir();
         void affiche();
         void action();
@@ -26,6 +26,8 @@ class Tir
             dY;
         int degat,
             angle;
+        bool peutToucherAerien,
+             peutToucherTerrestre;
         SDL_Texture* textureTir;
 };
 

@@ -2,7 +2,7 @@
 #define TOURAERIEN_H
 
 #include <Tour.h>
-#include <TirClassique.h>
+#include <TirAerien.h>
 
 class TourAerien : public Tour
 {

@@ -22,9 +22,11 @@ SDL_Texture  *textureChemin,
              *textureTourClassiqueBase,
              *textureTourPoisonBase,
              *textureTourSniperBase,
+             *textureTourAerienBase,
 
              *textureTourClassiqueCanon,
              *textureTourSniperCanon,
+             *textureTourAerienCanon,
 
              *textureEnnemiClassique,
              *textureEnnemiRapideSimple,
@@ -33,6 +35,7 @@ SDL_Texture  *textureChemin,
 
              *textureTirClassique,
              *textureTirSniper,
+             *textureTirAerien,
 
              *textureExplosion[TEMPS_ANIM_TIR],
 
@@ -776,16 +779,19 @@ int initSDL()
     chargeTexture(textureChemin, "chemin.png");
     chargeTexture(textureChateau, "chateau.png");
     chargeTexture(textureTourClassiqueBase, "tourClassiqueBase.png");
-    chargeTexture(textureTourSniperBase, "tourSniperBase.png");
     chargeTexture(textureTourPoisonBase, "tourPoisonBase.png");
+    chargeTexture(textureTourSniperBase, "tourSniperBase.png");
+    chargeTexture(textureTourAerienBase, "tourAerienBase.png");
     chargeTexture(textureTourClassiqueCanon, "tourClassiqueCanon.png");
     chargeTexture(textureTourSniperCanon, "tourSniperCanon.png");
+    chargeTexture(textureTourAerienCanon, "tourAerienCanon.png");
     chargeTexture(textureEnnemiClassique, "ennemiClassique.png");
     chargeTexture(textureEnnemiRapideSimple, "ennemiRapide.png");
     chargeTexture(textureEnnemiTank, "ennemiTank.png");
     chargeTexture(textureEnnemiVolantSimple, "ennemiVolant.png");
     chargeTexture(textureTirClassique, "tirClassique.png");
     chargeTexture(textureTirSniper, "tirSniper.png");
+    chargeTexture(textureTirAerien, "tirAerien.png");
 
     for(int i=0;i<NB_CASE_FOND;i++){
         chargeTexture(textureCase[i], "case"+to_string(i)+".png");
