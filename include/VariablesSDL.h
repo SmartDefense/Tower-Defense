@@ -2,6 +2,7 @@
 #define VARIABLES2_H
 
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 extern SDL_Window* fenetre;
 extern SDL_Renderer* renderer;
@@ -39,6 +40,8 @@ extern SDL_Texture  *textureChemin,
                     *textureBpTourPoison,
                     *textureBpEffacer,
                     *textureBpAnnuler,
+                    *textureBpRetour,
+                    *textureBpValider,
                     *textureCadence,
                     *textureDegatTir,
                     *texturePorteeTour,
@@ -50,6 +53,7 @@ extern SDL_Texture  *textureChemin,
 
                     *textureAccueil,
                     *textureLogo;
-extern TTF_Font* fontArgent;
+extern TTF_Font *fontArgent,
+                *font;
 
 #endif // VARIABLES2_H

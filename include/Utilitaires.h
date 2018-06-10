@@ -19,16 +19,6 @@ void Ecrire(string police, double taille, string texte, Uint8 r, Uint8 v, Uint8 
     TTF_CloseFont(font);                                                                // Fermeture de la police
 }
 
-SDL_Texture* EcrireTexture(string police, double taille, string texte, Uint8 r, Uint8 v, Uint8 b, double x, double y) // Fonction d'écriture
-{
-    font = TTF_OpenFont(("fonts/" + police + ".ttf").c_str(), taille*TAILLE_CASE);                  // Ouverture de la police
-    SDL_Color color = { r, v, b };                                                      // Couleur de police envoyée à la fonction type r,g,b
-    SDL_Surface * surface = TTF_RenderUTF8_Blended(font,texte.c_str(), color);          // Rendu de la police sur le fond
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);            // Création de la texture à partir du fond
-    SDL_FreeSurface(surface);
-    return  texture;
-}
-
 void EcrireArgent()                 // Fonction d'écriture paramétrée pour afficher l'argent
 {
     SDL_Color color = { 0,0,0 };

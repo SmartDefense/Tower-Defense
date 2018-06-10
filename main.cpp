@@ -49,6 +49,8 @@ SDL_Texture  *textureChemin,
              *textureBpTourPoison,
              *textureBpEffacer,
              *textureBpAnnuler,
+             *textureBpRetour,
+             *textureBpValider,
              *textureCadence,
              *textureDegatTir,
              *texturePorteeTour,
@@ -65,6 +67,7 @@ TTF_Font *font,
          *fontArgent;
 
 #include "Bouton.h"
+#include "BoutonTexte.h"
 
 #include "Case.h"
 #include "TourClassique.h"
@@ -85,6 +88,7 @@ TTF_Font *font,
 #include "Utilitaires.h"
 #include "Infos.h"
 #include "Menus.h"
+
 
 vector<int> vague;                  // Tableau permettant d'ajouter le type d'ennemi et de l'afficher pendant la vague
 Case*** listeCases;
@@ -573,8 +577,10 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         {
             listeEnnemis[i]->action();
         }
+        int taille = listeTirs.size();
         for(unsigned int i=0; i<listeTirs.size(); i++)
         {
+            cout<<listeTirs[i]<<endl;
             listeTirs[i]->action();
         }
 
@@ -760,8 +766,8 @@ int initSDL()
     fenetre = SDL_CreateWindow("Tower Defense SDL 2.0",
                                SDL_WINDOWPOS_CENTERED,
                                SDL_WINDOWPOS_CENTERED,
-                               TAILLE_X_PLATEAU*TAILLE_CASE + MARGE_GAUCHE,
-                               TAILLE_Y_PLATEAU*TAILLE_CASE + MARGE_HAUT,
+                               TAILLE_X_PLATEAU*TAILLE_CASE,
+                               TAILLE_Y_PLATEAU*TAILLE_CASE,
                                SDL_WINDOW_SHOWN);
     if(fenetre == 0)
     {
@@ -794,6 +800,8 @@ int initSDL()
     chargeTexture(textureBpTourPoison, "bpTourPoison.png");
     chargeTexture(textureBpEffacer, "bpEffacer.png");
     chargeTexture(textureBpAnnuler, "bpAnnuler.png");
+    chargeTexture(textureBpRetour, "bpRetour.png");
+    chargeTexture(textureBpValider, "bpValider.png");
     chargeTexture(textureLogo, "logo.png");
     chargeTexture(textureAccueil, "towerDefense.png");
     chargeTexture(textureCaseFond, "caseFond.png");
@@ -836,16 +844,71 @@ int initSDL()
     return 1;
 }
 
+void quitSDL(){
+    SDL_DestroyTexture(textureChemin);
+    SDL_DestroyTexture(textureCaseFond);
+    SDL_DestroyTexture(textureChateau);
+    SDL_DestroyTexture(textureTourClassiqueBase);
+    SDL_DestroyTexture(textureTourPoisonBase);
+    SDL_DestroyTexture(textureTourSniperBase);
+    SDL_DestroyTexture(textureTourAerienBase);
+    SDL_DestroyTexture(textureTourClassiqueCanon);
+    SDL_DestroyTexture(textureTourSniperCanon);
+    SDL_DestroyTexture(textureTourAerienCanon);
+    SDL_DestroyTexture(textureEnnemiClassique);
+    SDL_DestroyTexture(textureEnnemiRapideSimple);
+    SDL_DestroyTexture(textureEnnemiTank);
+    SDL_DestroyTexture(textureEnnemiVolantSimple);
+    SDL_DestroyTexture(textureTirClassique);
+    SDL_DestroyTexture(textureTirSniper);
+    SDL_DestroyTexture(textureTirAerien);
+    for(int i=0;i<NB_CASE_FOND;i++){
+        SDL_DestroyTexture(textureCase[i]);
+    }
+    for(int i=0;i<NB_TOUR_FOND;i++){
+        SDL_DestroyTexture(textureTourFond[i]);
+    }
+    for(int i=0;i<NB_IMAGE_ENNEMI_VOLANT;i++){
+        SDL_DestroyTexture(textureEnnemiVolant[i]);
+    }
+    for(int i=0;i<NB_IMAGE_ENNEMI_RAPIDE;i++){
+        SDL_DestroyTexture(textureEnnemiRapide[i]);
+    }
+    for(int i=0;i<TEMPS_ANIM_TIR;i++){
+        SDL_DestroyTexture(textureExplosion[i]);
+    }
+    SDL_DestroyTexture(textureBpTourSniper);
+    SDL_DestroyTexture(textureBpTourClassique);
+    SDL_DestroyTexture(textureBpTourPoison);
+    SDL_DestroyTexture(textureBpEffacer);
+    SDL_DestroyTexture(textureBpAnnuler);
+    SDL_DestroyTexture(textureBpRetour);
+    SDL_DestroyTexture(textureBpValider);
+    SDL_DestroyTexture(textureCadence);
+    SDL_DestroyTexture(textureDegatTir);
+    SDL_DestroyTexture(texturePorteeTour);
+    SDL_DestroyTexture(textureVitesseTir);
+    SDL_DestroyTexture(textureBpCommencer);
+    SDL_DestroyTexture(textureBpMenu);
+    SDL_DestroyTexture(textureBpAide);
+    SDL_DestroyTexture(textureAccueil);
+    SDL_DestroyTexture(textureLogo);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(fenetre);
+    TTF_CloseFont(font);
+    TTF_CloseFont(fontArgent);
+    TTF_Quit();
+    SDL_Quit();
+}
+
 int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'à la fermeture du jeu
 {
     initSDL();
     initListeCase();
     debut();
+
     quitListeCase();
     infos();
-    SDL_DestroyWindow(fenetre);
-    TTF_CloseFont(fontArgent);
-    TTF_Quit();
-    SDL_Quit();
+    quitSDL();
     return 0;
 }

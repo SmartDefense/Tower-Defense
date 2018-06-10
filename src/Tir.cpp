@@ -10,6 +10,7 @@ Tir::Tir(int x, int y, double dX, double dY, SDL_Texture* textureTir, int angle,
     angle(angle),
     peutToucherTerrestre(peutToucherTerrestre),
     peutToucherAerien(peutToucherAerien),
+    mort(false),
     textureTir(textureTir)
 
 {
@@ -49,8 +50,9 @@ void Tir::action()
        || x>MARGE_GAUCHE+TAILLE_CASE*TAILLE_X_PLATEAU
        || y<MARGE_HAUT
        || y>MARGE_HAUT+TAILLE_CASE*TAILLE_Y_PLATEAU){
-        delete this;
+        mort=true;
     }
+    if(mort) delete this;
 }
 
 void Tir::avance()
@@ -61,6 +63,6 @@ void Tir::avance()
 void Tir::degatEnnemi(int idEnnemi)
 {
     listeEnnemis[idEnnemi]->prendDegat(degat);
-    delete this;
+    mort=true;
 }
 

@@ -27,7 +27,8 @@ class Tir
         int degat,
             angle;
         bool peutToucherTerrestre,
-             peutToucherAerien;
+             peutToucherAerien,
+             mort;
         SDL_Texture* textureTir;
 };
 
