@@ -43,7 +43,6 @@ class Ennemi
         int vie,
             vieMax,
             direction,
-            vitesse,
             poison,
             angle,
             intensitePoison,
@@ -55,6 +54,7 @@ class Ennemi
             multiplicateurArgentMort,
             x,
             y,
+            vitesse,
             dX,
             dY;
         bool estAerien;

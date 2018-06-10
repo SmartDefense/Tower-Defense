@@ -10,6 +10,7 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
+#include <map>
 
 #include "Constantes.h"
 #include "Bouton.h"
@@ -102,7 +103,7 @@ string pseudoHighscore ="";                  // Variable contenant le pseudo ent
 int highscore;
 
 string pseudo="";
-int nbVagues=80;                    // Nombre de vague totale dans chaque partie
+int nbVagues=0;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
 int argent=200;                         // Argent du joueur
@@ -239,16 +240,30 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
     int creation=0;
     int numeroEnnemi=0;
 
-    //Bouton Retour(1, 13, 8, 2, ::textureBpRe);
+    //achat tour
+    Bouton bpAnnulerAchat (4,0.2,1.6,1.6,::textureBpAnnuler);
     Bouton bpTourClassique(6, 0.2, 1.6, 1.6, ::textureBpTourClassique);
     Bouton bpTourSniper(10, 0.2, 1.6, 1.6, ::textureBpTourSniper);
     Bouton bpTourPoison(14, 0.2, 1.6, 1.6, ::textureBpTourPoison);
-    /*Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
-    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
-    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
-    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
-    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);
-    Bouton bpTourClassique(1, 13, 8, 2, ::textureBpCommencer);*/
+    BoutonTexte PrixTourClassique(7.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$", 0.4, 0,0,0);
+    BoutonTexte PrixTourSniper(11.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$", 0.4, 0,0,0);
+    BoutonTexte PrixTourPoison(15.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$", 0.4, 0,0,0);
+
+    //modif tour
+    map<string,BoutonTexte> nomTour;
+    nomTour["TourClassique"]= BoutonTexte(3.6, 0.3, "CollegiateInsideFLF", "Tour Classique :", 0.5, 0,0,0);
+    nomTour["TourSniper"]= BoutonTexte(3.6, 0.3, "CollegiateInsideFLF", "Tour Sniper :", 0.5, 0,0,0);
+    nomTour["TourPoison"]= BoutonTexte(3.6, 0.3, "CollegiateInsideFLF", "Tour Poison :", 0.5, 0,0,0);
+    nomTour["TourAerien"]= BoutonTexte(3.6, 0.3, "CollegiateInsideFLF", "Tour Aerien :", 0.5, 0,0,0);
+    Bouton bpAnnulerAmelioration(8,0.2,1.6,1.6,::textureBpAnnuler);
+    Bouton bpEffacer (10,0.2,1.6,1.6,::textureBpEffacer);
+    Bouton bpCadence (12,0.2,1.6,1.6,::textureCadence);
+    Bouton bpDegatTir (14,0.2,1.6,1.6,::textureDegatTir);
+    Bouton bpPorteeTour (16,0.2,1.6,1.6,::texturePorteeTour);
+    Bouton bpVitesseTir (18,0.2,1.6,1.6,::textureVitesseTir);
+
+    Bouton Logo(2.3,0.2,15,1.7,::textureLogo);
+
 
     while(!terminer && continuer==1)
     {
@@ -453,7 +468,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         }
                     }
                 }
-                else if (x>24 && x<124 && y>21 && y<87)         // On quitte la partie avec le bp retour
+                else if (Retour1.clique(x, y) || Retour2.clique(x, y))         // On quitte la partie avec le bp retour
                 {
                     terminer=true;
                 }
@@ -498,7 +513,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
-                    else if (x>200 && x<280 && y>10 && y<90)                                            // Bp annuler pour pouvoir sélectionner une autre tour
+                    else if (bpAnnulerAchat.clique(x, y))                                            // Bp annuler pour pouvoir sélectionner une autre tour
                     {
                         //ANNULER CASE
                         xCaseTour = -1;
@@ -514,14 +529,14 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                                           || listeCases[yCaseTour][xCaseTour]->getType()=="TourAerien"))
                 {
 
-                    if (x>500 && x<580 && y>10 && y<90)
+                    if (bpAnnulerAmelioration.clique(x, y))
                     {
                         //ANNULER TOUR
                         xCaseTour = -1;
                         yCaseTour = -1;
                         affichageArgent=1;
                     }
-                    else if (x>400 && x<480 && y>10 && y<90)
+                    else if (bpEffacer.clique(x, y))
                     {
                         //EFFACER TOUR
                         delete listeCases[yCaseTour][xCaseTour];
@@ -531,28 +546,28 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         affichageArgent=1;
                     }
                     ///// AMELIORATIONS /////
-                    else if(x>600 && x<680 && y>10 && y<90)
+                    else if(bpCadence.clique(x, y))
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_CADENCE);
                         xCaseTour = -1;
                         yCaseTour = -1;
                         affichageArgent=1;
                     }
-                    else if(x>700 && x<780 && y>10 && y<90)
+                    else if(bpDegatTir.clique(x, y))
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_DEGAT_TIR);
                         xCaseTour = -1;
                         yCaseTour = -1;
                         affichageArgent=1;
                     }
-                    else if(x>800 && x<880 && y>10 && y<90)
+                    else if(bpPorteeTour.clique(x, y))
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_PORTEE_TOUR);
                         xCaseTour = -1;
                         yCaseTour = -1;
                         affichageArgent=1;
                     }
-                    else if(x>900 && x<980 && y>10 && y<90)
+                    else if(bpVitesseTir.clique(x, y))
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_VITESSE_TIR);
                         xCaseTour = -1;
@@ -591,16 +606,16 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
         // Création de la zone contenant les boutons
         SDL_SetRenderDrawColor(renderer, 0, 127, 147, 255);
-        SDL_Rect rect = {150,5,860,90};
+        SDL_Rect rect = {3*TAILLE_CASE,int(0.1*TAILLE_CASE),int(17.2*TAILLE_CASE),int(1.8*TAILLE_CASE)};
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
 
         // On trace le rectangle
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderDrawLine(renderer,150,5,1010,5);
-        SDL_RenderDrawLine(renderer,150,95,1010,95);
-        SDL_RenderDrawLine(renderer,150,5,150,95);
-        SDL_RenderDrawLine(renderer,1010,5,1010,95);
+        SDL_RenderDrawLine(renderer,3*TAILLE_CASE,0.1*TAILLE_CASE,21*TAILLE_CASE,0.1*TAILLE_CASE);
+        SDL_RenderDrawLine(renderer,3*TAILLE_CASE,1.9*TAILLE_CASE,21*TAILLE_CASE,1.9*TAILLE_CASE);
+        SDL_RenderDrawLine(renderer,3*TAILLE_CASE,0.1*TAILLE_CASE,3*TAILLE_CASE,1.9*TAILLE_CASE);
+        SDL_RenderDrawLine(renderer,21*TAILLE_CASE,0.1*TAILLE_CASE,21*TAILLE_CASE,1.9*TAILLE_CASE);
 
 
         // Affichage des cases (tours, chemin, chateau ...)
@@ -669,45 +684,31 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
             if(listeCases[yCaseTour][xCaseTour]->getType()=="Case")
             {
                 affichageArgent=1;
-                affichageTexture(textureBpAnnuler,200,10);
-                //affichageTexture(textureBpTourClassique,300,10);
-                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$",0,0,0,7.6,0.8);
-                //affichageTexture(textureBpTourSniper,500,10);
-                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$",0,0,0,11.6,0.8);
-                //affichageTexture(textureBpTourPoison,700,10);
-                Ecrire("CollegiateInsideFLF",0.4,to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$",0,0,0,15.6,0.8);
+                bpAnnulerAchat.affiche();
                 bpTourClassique.affiche();
                 bpTourSniper.affiche();
                 bpTourPoison.affiche();
+                PrixTourClassique.affiche();
+                PrixTourSniper.affiche();
+                PrixTourPoison.affiche();
             }
             else
             {
                 affichageArgent=0;
 
                 // Affichage du nom de la tour
-                if (listeCases[yCaseTour][xCaseTour]->getType()=="TourClassique"){
-                    Ecrire("CollegiateInsideFLF",0.5,"Tour Classique :",0,0,0,3.6,0.3);
-                }
-
-                else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourSniper"){
-                    Ecrire("CollegiateInsideFLF",0.5,"Tour Sniper :",0,0,0,3.6,0.3);
-                }
-
-                else if (listeCases[yCaseTour][xCaseTour]->getType()=="TourPoison"){
-                    Ecrire("CollegiateInsideFLF",0.5,"Tour Poison :",0,0,0,180,0.3);
-                }
-
-                affichageTexture(textureBpEffacer,400,10);
-                affichageTexture(textureBpAnnuler,500,10);
-                affichageTexture(textureCadence,600,10);
-                affichageTexture(textureDegatTir,700,10);
-                affichageTexture(texturePorteeTour,800,10);
-                affichageTexture(textureVitesseTir,900,10);
+                nomTour[listeCases[yCaseTour][xCaseTour]->getType()].affiche();
+                bpAnnulerAmelioration.affiche();
+                bpEffacer.affiche();
+                bpCadence.affiche();
+                bpDegatTir.affiche();
+                bpPorteeTour.affiche();
+                bpVitesseTir.affiche();
             }
         }
         else
         {
-            affichageTexture(textureLogo,250,12); // Affichage du logo Tower Defense
+            Logo.affiche();
         }
 
         // Affichage du bp retour

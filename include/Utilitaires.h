@@ -28,7 +28,7 @@ void EcrireArgent()                 // Fonction d'écriture paramétrée pour affic
     int texW = 0;
     int texH = 200;
     SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { 1000-texW, 35, texW, texH };
+    SDL_Rect dstrect = { 20*TAILLE_CASE-texW, int(0.7*TAILLE_CASE), texW, texH };
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
 
     SDL_FreeSurface(surface);

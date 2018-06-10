@@ -5,7 +5,7 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     vie(vie+(vie*20*(vague+1)/100)),
     vieMax(this->vie),
     direction(0),
-    vitesse(VITESSEBASEENNEMI * multiplicateurVitesse),
+    vitesse(TAILLE_CASE * VITESSEBASEENNEMI * multiplicateurVitesse),
     poison(false),
     intensitePoison(0),
     numImage(0),
