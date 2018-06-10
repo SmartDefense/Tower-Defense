@@ -266,10 +266,10 @@ void Ennemi::avance()
 
 
 
-        if((y + TAILLE_ENNEMI/2)-vitesse < listeCases[yCase][xCase]->getYcentre()
-                && listeCases[yCase][xCase]->getYcentre() < (y + TAILLE_ENNEMI/2)+vitesse
-                && (x + TAILLE_ENNEMI/2)-vitesse < listeCases[yCase][xCase]->getXcentre()
-                && listeCases[yCase][xCase]->getXcentre() < (x + TAILLE_ENNEMI/2)+vitesse)
+        if((y + TAILLE_ENNEMI/2.)-vitesse+0.03*TAILLE_CASE < listeCases[yCase][xCase]->getYcentre()
+                && listeCases[yCase][xCase]->getYcentre() < (y + TAILLE_ENNEMI/2.)+vitesse-0.03*TAILLE_CASE
+                && (x + TAILLE_ENNEMI/2.)-vitesse+0.03*TAILLE_CASE < listeCases[yCase][xCase]->getXcentre()
+                && listeCases[yCase][xCase]->getXcentre() < (x + TAILLE_ENNEMI/2.)+vitesse-0.03*TAILLE_CASE)
         {
             //std::cout <<x + TAILLE_ENNEMI/2 << SDL_GetError() << std::endl;
             // std::cout <<listeCases[yCase][xCase]->getXcentre()<< SDL_GetError() << std::endl;

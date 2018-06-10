@@ -103,7 +103,7 @@ string pseudoHighscore ="";                  // Variable contenant le pseudo ent
 int highscore;
 
 string pseudo="";
-int nbVagues=0;                    // Nombre de vague totale dans chaque partie
+int nbVagues=80;                    // Nombre de vague totale dans chaque partie
 int depart=0;                       // Variable d'état pour commencer à afficher la vague d'ennemis
 int occurences=10;                  // Nombre d'ennemis dans la première vague
 int argent=200;                         // Argent du joueur
@@ -267,7 +267,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
 
     while(!terminer && continuer==1)
     {
-            if(compteurImage%10==0 && depart==1 && compteurImage>150)               // Affichage des vagues en fct de la valeur du tableau vague
+            /*if(compteurImage%10==0 && depart==1 && compteurImage>150)               // Affichage des vagues en fct de la valeur du tableau vague
             {
                 if (vague[numeroEnnemi]==0){
                     listeEnnemis.push_back(new EnnemiRapide(listeCases[1][1]->getXcentre()-TAILLE_ENNEMI/2,
@@ -307,7 +307,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 numeroEnnemi++;
                 creation=1;             // Variable de création du premier ennemi pour éviter de remplir à nouveau le tableau vague lorsque aucun ennemi n'est affiché
 
-            }
+            }*/
 
         if (numeroEnnemi==occurences){      // Si tous les ennemis sont affichés, on met à 0 la variable de départ
             numeroEnnemi=0;
