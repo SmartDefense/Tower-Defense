@@ -72,8 +72,8 @@ void choixLevel() // Fonction de choix du niveau
     numLevel=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-    Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
-    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+    Retour1.affiche();
+    Retour2.affiche();
     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU 1",255,255,255,6.7,5);
     Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
@@ -130,7 +130,8 @@ void choixLevel() // Fonction de choix du niveau
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
 
-                    Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
+                    Retour1.affiche();
+                    Retour2.affiche();
                     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
                     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,6.7,5);
                     Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
@@ -146,8 +147,8 @@ void choixLevel() // Fonction de choix du niveau
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
                     SDL_RenderClear(renderer);
 
-                    Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
-                    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+                    Retour1.affiche();
+                    Retour2.affiche();
                     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
                     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,6.7,5);
                     Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
@@ -182,10 +183,10 @@ void menu()
     SDL_RenderClear(renderer);
 
     // Affichage des éléments graphiques
+    Retour1.affiche();
+    Retour2.affiche();
     Ecrire("CollegiateInsideFLF",0.5,"Pseudo : " + pseudo,255,255,255,0.6,4);
     Ecrire("CollegiateInsideFLF",1,"MENU",255,255,255,9,1);
-    Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
-    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
     Ecrire("CollegiateInsideFLF",0.5,"Nombre de parties jouees : " + to_string(nbParties),255,255,255,0.6,3);
     Ecrire("CollegiateInsideFLF",0.5,"Record : " + to_string(highscore)+" $",255,255,255,0.6,5);
     SDL_RenderPresent(renderer);
@@ -235,8 +236,8 @@ void aide()
     int continuerAide=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
-    Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
-    Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+    Retour1.affiche();
+    Retour2.affiche();
     Ecrire("CollegiateInsideFLF",1,"AIDE",255,255,255,TAILLE_X_PLATEAU/2-2*0.645, 1);
     SDL_RenderPresent(renderer);
 

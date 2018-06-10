@@ -12,6 +12,8 @@
 #include <cmath>
 
 #include "Constantes.h"
+#include "Bouton.h"
+#include "BoutonTexte.h"
 
 SDL_Window *fenetre;
 SDL_Renderer *renderer;
@@ -65,9 +67,9 @@ SDL_Texture  *textureChemin,
              *textureLogo;
 TTF_Font *font,
          *fontArgent;
+BoutonTexte Retour1,
+            Retour2;
 
-#include "Bouton.h"
-#include "BoutonTexte.h"
 
 #include "Case.h"
 #include "TourClassique.h"
@@ -711,8 +713,10 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         }
 
         // Affichage du bp retour
-        Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
-        Ecrire("WingdingReview",0.8,"ñ",255,255,255,1,1);
+        //Ecrire("CollegiateInsideFLF",0.5,"Retour",255,255,255,0.6,0.5);
+        Retour1.affiche();
+        Retour2.affiche();
+
 
         if (listeCases[yChateau][xChateau]->action()==1){                               // Si le chateau n'a plus de vie
             compteurImage=0;
@@ -790,6 +794,9 @@ int initSDL()
 
     fontArgent =  TTF_OpenFont("fonts/CollegiateFLF.ttf", 0.8*TAILLE_CASE);
 
+    Retour1 = BoutonTexte(0.6, 0.5, "CollegiateInsideFLF", "Retour", 0.5, 255,255,255);
+    Retour2 = BoutonTexte(1,1,"WingdingReview", "ñ", 0.8, 255,255,255);
+
 
     chargeTexture(textureCadence, "bpAmeliorationCadence.png");
     chargeTexture(textureDegatTir, "bpAmeliorationDegatTir.png");
@@ -845,6 +852,7 @@ int initSDL()
 }
 
 void quitSDL(){
+    cout<<"lol"<<endl;
     SDL_DestroyTexture(textureChemin);
     SDL_DestroyTexture(textureCaseFond);
     SDL_DestroyTexture(textureChateau);
@@ -877,6 +885,7 @@ void quitSDL(){
     for(int i=0;i<TEMPS_ANIM_TIR;i++){
         SDL_DestroyTexture(textureExplosion[i]);
     }
+    cout<<"lol1"<<endl;
     SDL_DestroyTexture(textureBpTourSniper);
     SDL_DestroyTexture(textureBpTourClassique);
     SDL_DestroyTexture(textureBpTourPoison);
@@ -895,10 +904,14 @@ void quitSDL(){
     SDL_DestroyTexture(textureLogo);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
-    TTF_CloseFont(font);
+    cout<<"lol2"<<endl;
+    cout<<"lol3"<<endl;
     TTF_CloseFont(fontArgent);
+    cout<<"lol4"<<endl;
     TTF_Quit();
+    cout<<"lol5"<<endl;
     SDL_Quit();
+    cout<<"lol6"<<endl;
 }
 
 int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'à la fermeture du jeu

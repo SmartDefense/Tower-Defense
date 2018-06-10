@@ -7,22 +7,7 @@
 #include "Ennemi.h"
 #include "Tir.h"
 #include "Constantes.h"
-
-/*extern Case*** listeCases;
-extern vector<Ennemi*> listeEnnemis;
-extern vector<Tir*> listeTirs;
-extern int argent;
-extern int numVague;
-
-extern int TAILLE_X_PLATEAU;
-extern int TAILLE_Y_PLATEAU;
-
-extern int nbParties;                      // Nombre de parties du joueur
-extern string pseudoHighscore;                  // Variable contenant le pseudo entré par le joueur
-extern int highscore;
-extern string pseudo;
-
-extern int continuer;*/
+#include "BoutonTexte.h"
 
 
 extern vector<int> vague;                  // Tableau permettant d'ajouter le type d'ennemi et de l'afficher pendant la vague
@@ -52,5 +37,8 @@ extern int rafraichissement;
 extern int xChateau, yChateau;
 
 extern int xVague, yVague;// Variables permettant de connaitre la position de la case de départ
+
+extern BoutonTexte Retour1,
+                   Retour2;
 
 #endif // VARIABLES_H
