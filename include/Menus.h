@@ -68,17 +68,21 @@ void inputPseudo()                                                              
 
 void choixLevel() // Fonction de choix du niveau
 {
+    BoutonTexte PlusNiveau(12.5,4.6,"Arial", "+", 1.3, 255,255,255);
+    BoutonTexte MoinsNiveau(11.9,4.5,"Arial", "-", 1.3, 255,255,255);
+    BoutonTexte Valider(8.5,7.4,"CollegiateBlackFLF", "Valider", 0.74, 255,255,255);
+
     // Affichage des éléments graphiques sur la fenêtre
     numLevel=1;
     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
     SDL_RenderClear(renderer);
     Retour1.affiche();
     Retour2.affiche();
+    PlusNiveau.affiche();
+    MoinsNiveau.affiche();
+    Valider.affiche();
     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU 1",255,255,255,6.7,5);
-    Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
-    Ecrire("Arial",1.3,"-",255,255,255,11.9,4.5);
-    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.5,7.4);
     SDL_RenderPresent(renderer);
 
     SDL_Event events;
@@ -120,7 +124,7 @@ void choixLevel() // Fonction de choix du niveau
 
 
                 // Si le joueur sélectionne le niveau suivant
-                if (x>638 && x<678 && y>250 && y<285)
+                if (PlusNiveau.clique(x, y))
                 {
 					numLevel++;
 					ifstream fichier(CHEMIN_LEVELS+"level"+to_string(numLevel)+".txt");
@@ -134,14 +138,14 @@ void choixLevel() // Fonction de choix du niveau
                     Retour2.affiche();
                     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
                     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,6.7,5);
-                    Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
-                    Ecrire("Arial",1.3,"-",255,255,255,11.9,4.5);
-                    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.5,7.4);
+                    PlusNiveau.affiche();
+                    MoinsNiveau.affiche();
+                    Valider.affiche();
                     SDL_RenderPresent(renderer);
                 }
 
                 // Si le joueur sélectionne le niveau précédent
-                if (numLevel>1 && x>607 && x<633 && y>260 && y<278)
+                if (numLevel>1 && MoinsNiveau.clique(x, y))
                 {
                     numLevel--;
                     SDL_SetRenderDrawColor(renderer, 0,127,127,255);
@@ -151,21 +155,21 @@ void choixLevel() // Fonction de choix du niveau
                     Retour2.affiche();
                     Ecrire("CollegiateInsideFLF",1,"CHOIX DU NIVEAU",255,255,255,TAILLE_X_PLATEAU/2-15*0.645/2,1);
                     Ecrire("CollegiateInsideFLF",0.9,"NIVEAU " + to_string(numLevel),255,255,255,6.7,5);
-                    Ecrire("Arial",1.3,"+",255,255,255,12.5,4.6);
-                    Ecrire("Arial",1.3,"-",255,255,255,11.9,4.5);
-                    Ecrire("CollegiateBlackFLF",0.74,"Valider",255,255,255,8.5,7.4);
+                    PlusNiveau.affiche();
+                    MoinsNiveau.affiche();
+                    Valider.affiche();
                     SDL_RenderPresent(renderer);
                 }
 
                 // Validation du choix
-                else if (x>437 && x<585 && y>370 && y<410)
+                else if (Valider.clique(x, y))
                 {
                     continuerLevel=0;
                     jeu(numLevel);
                 }
 
                 // Clic sur le bp retour
-                else if (x>24 && x<124 && y>21 && y<87)
+                else if (Retour1.clique(x, y) || Retour2.clique(x, y))
                 {
                     continuerLevel=0;
                 }
@@ -219,7 +223,7 @@ void menu()
                 int y = events.button.y;
 
                 // Clic sur le bp retour
-                if (x>24 && x<124 && y>21 && y<87)
+                if (Retour1.clique(x, y) || Retour2.clique(x, y))
                 {
                     continuerMenu=0;
                 }
@@ -285,7 +289,7 @@ void aide()
                 int x = events.button.x;
                 int y = events.button.y;
 
-                if (x>24 && x<124 && y>21 && y<87)
+                if (Retour1.clique(x, y) || Retour2.clique(x, y))
                 {
                     continuerAide=0;
                 }
@@ -297,20 +301,26 @@ void aide()
 
 void debut() // Affichage de l'écran initial
 {
-    recupInfos();
-    inputPseudo();  // Saisie du pseudo
-    int longueurPseudo=pseudo.length()+8;
-    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
-    SDL_RenderClear(renderer);
     Bouton Accueil(0,0, TAILLE_X_PLATEAU, TAILLE_Y_PLATEAU, ::textureAccueil);
-    Accueil.affiche();
-    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,(TAILLE_X_PLATEAU/2-(longueurPseudo*0.24)),0); // Affichage du pseudo du joueur
-    SDL_Event events;
-    int continuerDebut=1;
-
     Bouton Commencer(0.5, 11, 8, 2, ::textureBpCommencer);
     Bouton Menu(9.5, 11, 5, 2, ::textureBpMenu);
     Bouton Aide(15.5, 11, 4, 2, ::textureBpAide);
+
+
+    recupInfos();
+    inputPseudo();  // Saisie du pseudo
+
+    SDL_SetRenderDrawColor(renderer, 0,91,14,255);
+    SDL_RenderClear(renderer);
+
+    int longueurPseudo=pseudo.length()+8;
+    Ecrire("CollegiateInsideFLF",0.84,"Bonjour " + pseudo,106,143,255,(TAILLE_X_PLATEAU/2-(longueurPseudo*0.24)),0); // Affichage du pseudo du joueur
+    Accueil.affiche();
+
+    SDL_Event events;
+    int continuerDebut=1;
+
+
 
     while(continuerDebut==1 && continuer==1)
     {

@@ -579,10 +579,8 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
         {
             listeEnnemis[i]->action();
         }
-        int taille = listeTirs.size();
         for(unsigned int i=0; i<listeTirs.size(); i++)
         {
-            cout<<listeTirs[i]<<endl;
             listeTirs[i]->action();
         }
 
@@ -852,7 +850,6 @@ int initSDL()
 }
 
 void quitSDL(){
-    cout<<"lol"<<endl;
     SDL_DestroyTexture(textureChemin);
     SDL_DestroyTexture(textureCaseFond);
     SDL_DestroyTexture(textureChateau);
@@ -885,7 +882,6 @@ void quitSDL(){
     for(int i=0;i<TEMPS_ANIM_TIR;i++){
         SDL_DestroyTexture(textureExplosion[i]);
     }
-    cout<<"lol1"<<endl;
     SDL_DestroyTexture(textureBpTourSniper);
     SDL_DestroyTexture(textureBpTourClassique);
     SDL_DestroyTexture(textureBpTourPoison);
@@ -904,14 +900,9 @@ void quitSDL(){
     SDL_DestroyTexture(textureLogo);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
-    cout<<"lol2"<<endl;
-    cout<<"lol3"<<endl;
     TTF_CloseFont(fontArgent);
-    cout<<"lol4"<<endl;
     TTF_Quit();
-    cout<<"lol5"<<endl;
     SDL_Quit();
-    cout<<"lol6"<<endl;
 }
 
 int main(int argc, char **argv) // Boucle principale avec appel de chaque fonction jusqu'à la fermeture du jeu
