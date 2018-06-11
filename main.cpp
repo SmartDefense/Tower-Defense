@@ -50,6 +50,7 @@ SDL_Texture  *textureChemin,
              *textureBpTourSniper,
              *textureBpTourClassique,
              *textureBpTourPoison,
+             *textureBpTourAerien,
              *textureBpEffacer,
              *textureBpAnnuler,
              *textureBpRetour,
@@ -241,13 +242,15 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
     int numeroEnnemi=0;
 
     //achat tour
-    Bouton bpAnnulerAchat (4,0.2,1.6,1.6,::textureBpAnnuler);
-    Bouton bpTourClassique(6, 0.2, 1.6, 1.6, ::textureBpTourClassique);
-    Bouton bpTourSniper(10, 0.2, 1.6, 1.6, ::textureBpTourSniper);
-    Bouton bpTourPoison(14, 0.2, 1.6, 1.6, ::textureBpTourPoison);
-    BoutonTexte PrixTourClassique(7.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$", 0.4, 0,0,0);
-    BoutonTexte PrixTourSniper(11.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$", 0.4, 0,0,0);
-    BoutonTexte PrixTourPoison(15.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$", 0.4, 0,0,0);
+    Bouton bpAnnulerAchat (3.1,0.2,1.6,1.6,::textureBpAnnuler);
+    Bouton bpTourClassique(5, 0.2, 1.6, 1.6, ::textureBpTourClassique);
+    Bouton bpTourSniper(8, 0.2, 1.6, 1.6, ::textureBpTourSniper);
+    Bouton bpTourPoison(11, 0.2, 1.6, 1.6, ::textureBpTourPoison);
+    Bouton bpTourAerien(14, 0.2, 1.6, 1.6, ::textureBpTourAerien);
+    BoutonTexte PrixTourClassique(6.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourClassique::multiplicateurCout)+"$", 0.4, 0,0,0);
+    BoutonTexte PrixTourSniper(9.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourSniper::multiplicateurCout)+"$", 0.4, 0,0,0);
+    BoutonTexte PrixTourPoison(12.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourPoison::multiplicateurCout)+"$", 0.4, 0,0,0);
+    BoutonTexte PrixTourAerien(15.62, 0.8, "CollegiateInsideFLF", to_string(ARGENT_TOUR*TourAerien::multiplicateurCout)+"$", 0.4, 0,0,0);
 
     //modif tour
     map<string,BoutonTexte> nomTour;
@@ -513,6 +516,19 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         xCaseTour = -1;
                         yCaseTour = -1;
                     }
+                    if (bpTourAerien.clique(x, y)                                                  // S'il on clique sur le bp Tour Aerien
+                        && argent>=ARGENT_TOUR*TourAerien::multiplicateurCout)
+                    {
+                        //TOUR CLASSIQUE
+                        if(listeCases[yCaseTour][xCaseTour]!=NULL)
+                        {
+                            delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquée
+                        }
+                        listeCases[yCaseTour][xCaseTour]=new TourAerien(xCaseTour, yCaseTour,PRIORITE_PREMIER);    // On crée la tour voulue
+                        argent-= ARGENT_TOUR*TourAerien::multiplicateurCout;
+                        xCaseTour = -1;
+                        yCaseTour = -1;
+                    }
                     else if (bpAnnulerAchat.clique(x, y))                                            // Bp annuler pour pouvoir sélectionner une autre tour
                     {
                         //ANNULER CASE
@@ -688,9 +704,11 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                 bpTourClassique.affiche();
                 bpTourSniper.affiche();
                 bpTourPoison.affiche();
+                bpTourAerien.affiche();
                 PrixTourClassique.affiche();
                 PrixTourSniper.affiche();
                 PrixTourPoison.affiche();
+                PrixTourAerien.affiche();
             }
             else
             {
@@ -804,6 +822,7 @@ int initSDL()
     chargeTexture(textureBpTourClassique, "bpTourClassique.png");
     chargeTexture(textureBpTourSniper, "bpTourSniper.png");
     chargeTexture(textureBpTourPoison, "bpTourPoison.png");
+    chargeTexture(textureBpTourAerien, "bpTourAerien.png");
     chargeTexture(textureBpEffacer, "bpEffacer.png");
     chargeTexture(textureBpAnnuler, "bpAnnuler.png");
     chargeTexture(textureBpRetour, "bpRetour.png");
@@ -886,6 +905,7 @@ void quitSDL(){
     SDL_DestroyTexture(textureBpTourSniper);
     SDL_DestroyTexture(textureBpTourClassique);
     SDL_DestroyTexture(textureBpTourPoison);
+    SDL_DestroyTexture(textureBpTourAerien);
     SDL_DestroyTexture(textureBpEffacer);
     SDL_DestroyTexture(textureBpAnnuler);
     SDL_DestroyTexture(textureBpRetour);

@@ -1,7 +1,10 @@
 #include "Bouton.h"
 
 Bouton::Bouton(double x,double y, double w, double h, SDL_Texture* textureBouton):
-    dest({x*TAILLE_CASE, y*TAILLE_CASE, w*TAILLE_CASE, h*TAILLE_CASE}),
+    dest({int(x*TAILLE_CASE),
+         int(y*TAILLE_CASE),
+         int(w*TAILLE_CASE),
+         int(h*TAILLE_CASE)}),
     textureBouton(textureBouton)
 {
     //ctor

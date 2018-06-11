@@ -11,7 +11,7 @@ void Ecrire(string police, double taille, string texte, Uint8 r, Uint8 v, Uint8 
     int texW = 0;                                                                       // Largeur de la texture en pixels
     int texH = 200;                                                                     // Hauteur de la texture en pixels
     SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);                                // Appel de la texture
-    SDL_Rect dstrect = { x*TAILLE_CASE, y*TAILLE_CASE, texW, texH };                                            // Position de la zone d'écriture à partir de x et y, position du premier caractère
+    SDL_Rect dstrect = { int(x*TAILLE_CASE), int(y*TAILLE_CASE), texW, texH };                                            // Position de la zone d'écriture à partir de x et y, position du premier caractère
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);                                  // Copie de la texture dans le renderer
 
     SDL_FreeSurface(surface);
