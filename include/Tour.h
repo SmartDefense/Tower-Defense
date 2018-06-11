@@ -10,7 +10,7 @@ class Tour : public Case
         virtual ~Tour();
         virtual void affiche();
         void affichePortee();
-        void viseeEnnemi(int idEnnemi, double distance);
+        void viseeEnnemi(Ennemi* ennemi, double distance);
         int action();
         virtual void tir(double dX, double dY, double angle);
         virtual void amelioration(const int typeAmelioration);
@@ -31,6 +31,8 @@ class Tour : public Case
              peutToucherTerrestre;
         SDL_Texture *textureTourBase,
                      *textureTourCanon;
+        vector<int> idPossibilite;
+        Ennemi* choixAlea;
 
 };
 

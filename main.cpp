@@ -200,7 +200,7 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
                 listeCases[y][x]=new Chemin(x, y, 0);
 
             }
-            else if(ligne.at(x)=='7')
+            else if(ligne.at(x)=='8')
             {
                 listeCases[y][x]=new Chemin(x, y, 1);
 
@@ -213,15 +213,19 @@ void initLevel(int numLevel) // Remplissage des cases en fonction des chiffres d
             }
             else if(ligne.at(x)=='4')
             {
-                listeCases[y][x]=new TourClassique(x, y, 100);
+                listeCases[y][x]=new TourClassique(x, y, PRIORITE_PREMIER);
             }
             else if(ligne.at(x)=='5')
             {
-                listeCases[y][x]=new TourSniper(x, y, 100);
+                listeCases[y][x]=new TourSniper(x, y, PRIORITE_PREMIER);
             }
             else if(ligne.at(x)=='6')
             {
-                listeCases[y][x]=new TourPoison(x, y, 100);
+                listeCases[y][x]=new TourPoison(x, y, PRIORITE_PREMIER);
+            }
+            else if(ligne.at(x)=='7')
+            {
+                listeCases[y][x]=new TourAerien(x, y, PRIORITE_ALEATOIRE);
             }
         }
         y++;
@@ -442,7 +446,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                     }
                     else if(events.key.keysym.scancode==SDL_SCANCODE_F)
                     {
-                        listeCases[yCase][xCase]=new TourAerien(xCase, yCase,PRIORITE_PREMIER);
+                        listeCases[yCase][xCase]=new TourAerien(xCase, yCase,PRIORITE_ALEATOIRE);
                     }
                 }
                 break;
@@ -524,7 +528,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         {
                             delete listeCases[yCaseTour][xCaseTour];                                    // On supprime le contenu du tableau pour la case cliquée
                         }
-                        listeCases[yCaseTour][xCaseTour]=new TourAerien(xCaseTour, yCaseTour,PRIORITE_PREMIER);    // On crée la tour voulue
+                        listeCases[yCaseTour][xCaseTour]=new TourAerien(xCaseTour, yCaseTour,PRIORITE_ALEATOIRE);    // On crée la tour voulue
                         argent-= ARGENT_TOUR*TourAerien::multiplicateurCout;
                         xCaseTour = -1;
                         yCaseTour = -1;

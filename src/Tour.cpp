@@ -16,7 +16,8 @@ Tour::Tour(int x, int y, SDL_Texture* textureTourBase, SDL_Texture* textureTourC
     peutToucherAerien(peutToucherAerien),
     peutToucherTerrestre(peutToucherTerrestre),
     textureTourBase(textureTourBase),
-    textureTourCanon(textureTourCanon)
+    textureTourCanon(textureTourCanon),
+    choixAlea(NULL)
 {
     Case::type="Tour";
 }
@@ -62,17 +63,17 @@ void Tour::affichePortee(){
     }
 }
 
-void Tour::viseeEnnemi(int idEnnemi, double distance){
+void Tour::viseeEnnemi(Ennemi* ennemi, double distance){
     //...pour savoir s'il est a portee
     int temps=distance/vitesseTir;
-    int xEnnemi=listeEnnemis[idEnnemi]->getXCentreFutur(temps);
-    int yEnnemi=listeEnnemis[idEnnemi]->getYCentreFutur(temps);
+    int xEnnemi=ennemi->getXCentreFutur(temps);
+    int yEnnemi=ennemi->getYCentreFutur(temps);
 
     //calcul l'angle du tir sur [0;360[
     int angle = atan2((yEnnemi-yCentre), (xEnnemi-xCentre)) *180/M_PI;
     if(angle<0){angle+=360;}
 
-    //si l'angle du canon est diffÈrent de celui du tir, on tourne la tour
+    //si l'angle du canon est diff√©rent de celui du tir, on tourne la tour
     if(moduloPositif(angle-angleCanon, 360)<=180){
         angleCanon+=vitesseCanon;
         if(angleCanon>360) angleCanon-=360;
@@ -86,7 +87,7 @@ void Tour::viseeEnnemi(int idEnnemi, double distance){
 
     //si on est presque aligne et qu'on peut tirer ...
     if(compteurRechargement==0 && angle==angleCanon){
-        //on calcul les deplacements cartÈsiens du tir et on lance le tir
+        //on calcul les deplacements cart√©siens du tir et on lance le tir
         double dX=((xEnnemi-xCentre)*vitesseTir)/distance;
         double dY=((yEnnemi-yCentre)*vitesseTir)/distance;
         tir(dX,dY, angle);
@@ -102,7 +103,7 @@ int Tour::action()
             double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
                                                    listeEnnemis[i]->getYCentre());
             if(distance<portee && ((!listeEnnemis[i]->getAerien() && peutToucherTerrestre) || (listeEnnemis[i]->getAerien() && peutToucherAerien))){
-                viseeEnnemi(i, distance);
+                viseeEnnemi(listeEnnemis[i], distance);
                 break;
             }
         }
@@ -119,7 +120,7 @@ int Tour::action()
                 idMin=i;
             }
         }
-        if(idMin!=-1) viseeEnnemi(idMin, distanceMin);
+        if(idMin!=-1) viseeEnnemi(listeEnnemis[idMin], distanceMin);
     }else if(priorite==PRIORITE_PLUS_FAIBLE){
         int vieMin=1000000000;
         int distanceVieMin=-1;
@@ -136,7 +137,7 @@ int Tour::action()
                 idMin=i;
             }
         }
-        if(idMin!=-1) viseeEnnemi(idMin, distanceVieMin);
+        if(idMin!=-1) viseeEnnemi(listeEnnemis[idMin], distanceVieMin);
     }else if(priorite==PRIORITE_PLUS_FORT){
         int vieMax=0;
         int distanceVieMax=-1;
@@ -153,7 +154,44 @@ int Tour::action()
                 idMax=i;
             }
         }
-        if(idMax!=-1) viseeEnnemi(idMax, distanceVieMax);
+        if(idMax!=-1) viseeEnnemi(listeEnnemis[idMax], distanceVieMax);
+    }else if(priorite==PRIORITE_ALEATOIRE){
+        //On regarde si l'ennemi visee existe (on v√©rifie qu'il n'est pas mort et que c'est le bon)
+        bool choixEnVie=false;
+        for(unsigned int i=0; i<listeEnnemis.size();i++){
+            if(listeEnnemis[i]==choixAlea){
+                double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
+                                                       listeEnnemis[i]->getYCentre());
+                if(distance<portee && ((!listeEnnemis[i]->getAerien() && peutToucherTerrestre) || (listeEnnemis[i]->getAerien() && peutToucherAerien))){
+                    choixEnVie=true;
+                    break;
+                }
+            }
+        }
+        //Si il est mort, on en trouve un autre (un de ceux a portee)
+        if(!choixEnVie){
+            choixAlea=NULL;
+            idPossibilite.clear();
+            //on parcours la liste d'ennemis ...
+            for(unsigned int i=0; i<listeEnnemis.size();i++){
+                //on calcul la distance entre le centre de l'ennemi et celui de la tour...
+                double distance = distanceDepuisCentre(listeEnnemis[i]->getXCentre(),
+                                                       listeEnnemis[i]->getYCentre());
+                if(distance<portee && ((!listeEnnemis[i]->getAerien() && peutToucherTerrestre) || (listeEnnemis[i]->getAerien() && peutToucherAerien))){
+                    idPossibilite.push_back(i);
+                }
+            }
+            if(idPossibilite.size()!=0){
+                choixAlea=listeEnnemis[idPossibilite[rand()%idPossibilite.size()]];
+                choixEnVie=true;
+            }
+        }
+        if(choixEnVie){
+            double distance = distanceDepuisCentre(choixAlea->getXCentre(),
+                                                   choixAlea->getYCentre());
+            viseeEnnemi(choixAlea, distance);
+        }
+
     }
     if(compteurRechargement!=0) compteurRechargement--;
     return -1;

@@ -35,6 +35,7 @@ const int PRIORITE_PREMIER = 0;
 const int PRIORITE_PLUS_PRES = 1;
 const int PRIORITE_PLUS_FAIBLE = 2;
 const int PRIORITE_PLUS_FORT = 3;
+const int PRIORITE_ALEATOIRE = 4;
 
 const int EFFET_POISON = 1000;
 

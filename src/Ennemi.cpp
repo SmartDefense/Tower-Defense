@@ -5,7 +5,7 @@ Ennemi::Ennemi(int x, int y, SDL_Texture* textureEnnemi, int vie, double multipl
     vie(vie+(vie*20*(vague+1)/100)),
     vieMax(this->vie),
     direction(0),
-    poison(false),
+    compteurPoison(0),
     intensitePoison(0),
     numImage(0),
     type(type),
@@ -114,7 +114,7 @@ void Ennemi::affiche()
     SDL_SetRenderDrawColor(renderer, 255, 255,255, 255);
     SDL_RenderFillRect(renderer, &destVieFond);
 
-    if(poison)
+    if(compteurPoison)
     {
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     }
@@ -134,14 +134,11 @@ void Ennemi::action()
 {
 
     avance();
-    if(!poison)
-    {
-        intensitePoison=0;
-    }
-    else
-    {
-        poison--;
-        if(poison%FREQUENCE_EFFET==0) prendDegat(intensitePoison);
+    if(compteurImage%FREQUENCE_EFFET==0){
+        if(compteurPoison){
+            prendDegat(intensitePoison);
+            compteurPoison--;
+        }
     }
 }
 
@@ -168,7 +165,7 @@ void Ennemi::appliquerEffet(const int effet, int intensite, int duree)
 {
     if(effet==EFFET_POISON)
     {
-        poison=duree*FREQUENCE_EFFET;
+        compteurPoison=duree;
         intensitePoison=intensite;
     }
 }
