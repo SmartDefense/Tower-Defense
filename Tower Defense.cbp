@@ -51,6 +51,7 @@
 			<Add directory="dll" />
 		</Linker>
 		<Unit filename="include/Bouton.h" />
+		<Unit filename="include/BoutonTexte.h" />
 		<Unit filename="include/Case.h" />
 		<Unit filename="include/Chateau.h" />
 		<Unit filename="include/Chemin.h" />
@@ -79,6 +80,7 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="src/Bouton.cpp" />
+		<Unit filename="src/BoutonTexte.cpp" />
 		<Unit filename="src/Case.cpp" />
 		<Unit filename="src/Chateau.cpp" />
 		<Unit filename="src/Chemin.cpp" />
