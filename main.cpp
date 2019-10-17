@@ -299,16 +299,12 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                                                           yChateau));
 
                 }else if (vague[numeroEnnemi]==3){
-                    int nbAlea = rand()%15;
-                    for(int i=0;i<nbAlea;i++){
                        int nbAlea2 = rand()%15;
                        listeEnnemis.push_back(new EnnemiVolant(listeCases[nbAlea2][1]->getXcentre()-TAILLE_ENNEMI/2,
                                                           listeCases[nbAlea2][1]->getYcentre()-TAILLE_ENNEMI/2,
                                                           itterations,
                                                           xChateau,
                                                           yChateau));
-                    }
-
 
                 }
                 numeroEnnemi++;
@@ -324,7 +320,7 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
          if (listeEnnemis.size()==0 && creation==1 && itterations<nbVagues-1){      // S'il n'y a plus d'ennemi dans la partie, on déchenche la vague suivante
          creation=0;
          vague.clear();
-         occurences+=nbEnnemisSupplementaires*2*numLevel;             // La vague suivante contient 4 ennemis en plus
+         occurences+=nbEnnemisSupplementaires*numLevel;             // La vague suivante contient 4 ennemis en plus
          remplissageVague();
          itterations++;
 
@@ -566,33 +562,37 @@ void jeu(int numlevel)  // Fonction de gestion et d'affichage de la partie
                         affichageArgent=1;
                     }
                     ///// AMELIORATIONS /////
-                    else if(bpCadence.clique(x, y))
+                    else if(bpCadence.clique(x, y) && argent>=COUT_AMELIORATION)
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_CADENCE);
-                        xCaseTour = -1;
+                        /*xCaseTour = -1;
                         yCaseTour = -1;
-                        affichageArgent=1;
+                        affichageArgent=1;*/
+                        argent-=50;
                     }
-                    else if(bpDegatTir.clique(x, y))
+                    else if(bpDegatTir.clique(x, y) && argent>=COUT_AMELIORATION)
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_DEGAT_TIR);
-                        xCaseTour = -1;
+                        /*xCaseTour = -1;
                         yCaseTour = -1;
-                        affichageArgent=1;
+                        affichageArgent=1;*/
+                        argent-=50;
                     }
-                    else if(bpPorteeTour.clique(x, y))
+                    else if(bpPorteeTour.clique(x, y) && argent>=COUT_AMELIORATION)
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_PORTEE_TOUR);
-                        xCaseTour = -1;
+                        /*xCaseTour = -1;
                         yCaseTour = -1;
-                        affichageArgent=1;
+                        affichageArgent=1;*/
+                        argent-=50;
                     }
-                    else if(bpVitesseTir.clique(x, y))
+                    else if(bpVitesseTir.clique(x, y) && argent>=COUT_AMELIORATION)
                     {
                         listeCases[yCaseTour][xCaseTour]->amelioration(AMELIORATION_VITESSE_TIR);
-                        xCaseTour = -1;
+                        /*xCaseTour = -1;
                         yCaseTour = -1;
-                        affichageArgent=1;
+                        affichageArgent=1;*/
+                        argent-=50;
                     }
                 }
             }

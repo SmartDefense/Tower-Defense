@@ -20,7 +20,7 @@ void Bouton::affiche(){
         {dest.x, dest.y+dest.h},
         {dest.x, dest.y}
     };
-    SDL_RenderDrawLines(renderer, points, 5);
+    //SDL_RenderDrawLines(renderer, points, 5);
 
 }
 
